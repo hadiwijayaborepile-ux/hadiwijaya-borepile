@@ -1,6 +1,12 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
+const seo = {
+  title: "Jasa Bore Pile Mini Hydraulic | Kekuatan & Akses Fleksibel",
+  description: "Kontraktor bore pile mini hydraulic untuk kekuatan di lahan terbatas. Solusi ideal untuk gedung 3-5 lantai, hotel, dan proyek perkotaan yang membutuhkan daya dukung besar.",
+  keywords: ["jasa bore pile mini hydraulic", "harga bore pile mini hydraulic", "bore pile hidrolik kecil", "pondasi gedung 3 lantai", "pondasi 5 lantai", "bore pile perkotaan", "kontraktor pondasi efisien"]
+};
+
 const frontmatter = {
   title: 'Bore Pile Mini Hydraulic',
   subtitle: 'Kekuatan hidrolik dalam paket yang lebih ringkas dan gesit.',
@@ -43,7 +49,7 @@ const frontmatter = {
 };
 ---
 
-<ServicePageLayout frontmatter={frontmatter}>
+<ServicePageLayout {...seo} frontmatter={frontmatter}>
   <Fragment slot="description">
     <h2>Kekuatan Bertemu Kelincahan</h2>
     <p>Bore Pile Mini Hydraulic mengisi celah penting antara fleksibilitas mini crane dan kekuatan rig hidrolik skala penuh. Ini adalah solusi ideal ketika proyek Anda membutuhkan daya dukung pondasi yang signifikan, namun lokasi proyek memiliki keterbatasan ruang yang tidak memungkinkan masuknya alat-alat raksasa.</p>

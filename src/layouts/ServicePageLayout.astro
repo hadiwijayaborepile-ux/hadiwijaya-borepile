@@ -1,9 +1,9 @@
 ---
 import Layout from './Layout.astro';
-const { frontmatter } = Astro.props;
+const { frontmatter, title, description, keywords } = Astro.props;
 ---
 
-<Layout title={`${frontmatter.title} - Hadiwijaya Pondasi Persada`}>
+<Layout title={title} description={description} keywords={keywords}>
   <article class="service-page">
 
     <!-- 1. Hero Section -->

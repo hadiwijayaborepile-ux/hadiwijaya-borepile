@@ -1,6 +1,12 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
+const seo = {
+  title: "Jasa Bore Pile Hydraulic | Pondasi Gedung & Proyek Besar",
+  description: "Spesialis jasa bore pile hydraulic untuk proyek skala besar. Solusi pondasi kuat & dalam untuk gedung bertingkat, jembatan, dan infrastruktur. Didukung alat berat modern.",
+  keywords: ["jasa bore pile hydraulic", "harga bore pile hydraulic", "kontraktor bore pile alat berat", "pondasi gedung bertingkat", "pondasi jembatan", "bore pile untuk industri", "deep foundation", "pondasi skyscraper"]
+};
+
 const frontmatter = {
   title: 'Bore Pile Hydraulic',
   subtitle: 'Kekuatan dan kecepatan tak tertandingi untuk proyek paling ambisius.',
@@ -43,7 +49,7 @@ const frontmatter = {
 };
 ---
 
-<ServicePageLayout frontmatter={frontmatter}>
+<ServicePageLayout {...seo} frontmatter={frontmatter}>
   <Fragment slot="description">
     <h2>Solusi Utama untuk Proyek Skala Besar</h2>
     <p>Ketika proyek Anda menuntut kekuatan, kedalaman, dan kecepatan tanpa kompromi, Bore Pile Hydraulic adalah satu-satunya pilihan. Ini adalah metode andalan kami untuk infrastruktur vital dan bangunan bertingkat tinggi, di mana stabilitas dan keamanan adalah segalanya. Dengan menggunakan rig bor hidrolik tercanggih, kami dapat mengatasi kondisi tanah yang paling menantang sekalipun.</p>

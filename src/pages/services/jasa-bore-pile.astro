@@ -1,6 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+const title = "Jasa Bore Pile Profesional - Manual, Mini Crane & Hydraulic";
+const description = "Temukan solusi jasa bore pile yang tepat untuk proyek Anda. Kami menawarkan metode manual untuk akses sulit, mini crane untuk efisiensi, dan hydraulic untuk kekuatan maksimal.";
+const keywords = ["jasa bore pile", "jenis bore pile", "metode bore pile", "bore pile manual", "bore pile mini crane", "bore pile hydraulic", "perbandingan bore pile", "solusi pondasi"];
+
 const services = [
   {
     title: 'Bore Pile Manual',
@@ -29,7 +33,7 @@ const services = [
 ];
 ---
 
-<Layout title="Jasa Bore Pile Profesional untuk Semua Skala Proyek">
+<Layout title={title} description={description} keywords={keywords}>
   <div class="services-hub-page">
 
     <!-- 1. Hero Section -->

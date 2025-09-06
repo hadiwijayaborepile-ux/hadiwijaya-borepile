@@ -1,6 +1,12 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
+const seo = {
+  title: "Jasa Bore Pile Manual & Strauss Pile | Solusi Akses Sulit",
+  description: "Melayani jasa bore pile manual (strauss pile) profesional untuk lokasi dengan akses terbatas. Solusi pondasi kuat, minim getaran, dan hemat biaya untuk rumah, ruko, dan area sempit.",
+  keywords: ["jasa bore pile manual", "strauss pile", "harga bore pile manual", "jasa strauss pile", "pondasi manual", "bore pile akses sempit", "bor pile untuk rumah", "tukang bore pile manual"]
+};
+
 const frontmatter = {
   title: 'Bore Pile Manual',
   subtitle: 'Solusi pondasi presisi untuk lokasi dengan akses paling terbatas.',
@@ -36,14 +42,14 @@ const frontmatter = {
   ],
   gallery_images: [
     '/assets/img/gallery/manual-1.jpg',
-    '/assets/img/gallery/manual-2.jpg',
+    '/assets-img/gallery/manual-2.jpg',
     '/assets/img/gallery/manual-3.jpg',
     '/assets/img/gallery/manual-4.jpg'
   ]
 };
 ---
 
-<ServicePageLayout frontmatter={frontmatter}>
+<ServicePageLayout {...seo} frontmatter={frontmatter}>
   <Fragment slot="description">
     <h2>Metode Teruji untuk Area Tersulit</h2>
     <p>Bore Pile Manual adalah seni pembuatan pondasi yang mengandalkan keahlian dan tenaga manusia. Meskipun terlihat tradisional, metode ini merupakan solusi rekayasa yang sangat efektif dan seringkali menjadi satu-satunya jalan keluar untuk proyek di lokasi yang sangat sulit. Ketika alat berat tidak bisa masuk, tim ahli kamilah yang masuk.</p>

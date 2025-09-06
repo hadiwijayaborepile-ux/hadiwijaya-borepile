@@ -1,25 +1,101 @@
 ---
+import { SEO } from 'astro-seo';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
 	title: string;
+  description?: string;
+  keywords?: string[];
 }
 
-const { title } = Astro.props;
+const { 
+  title = 'Hadiwijaya Pondasi Persada - Jasa Bore Pile Profesional',
+  description = 'Solusi pondasi bore pile terpercaya untuk semua skala proyek. Kami menyediakan jasa bore pile manual, mini crane, dan hydraulic dengan tim berpengalaman.', 
+  keywords = ['jasa bore pile', 'pondasi bore pile', 'kontraktor pondasi', 'bore pile jakarta', 'bore pile indonesia', 'bore pile manual', 'bore pile mini crane', 'bore pile hydraulic']
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="id">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <SEO
+      title={title}
+      description={description}
+      keywords={keywords}
+      openGraph={{
+        basic: {
+          title: title,
+          type: 'website',
+          image: '/assets/img/og-image.jpg', // Placeholder OG Image
+          url: Astro.url,
+        }
+      }}
+      extend={{
+        meta: [
+          {
+            name: 'twitter:card',
+            content: 'summary_large_image',
+          },
+        ],
+        link: [
+          {
+            rel: 'canonical',
+            href: Astro.url.href,
+          }
+        ]
+      }}
+      schema={{
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        name: 'Hadiwijaya Pondasi Persada',
+        image: '/assets/img/logo.png', // Placeholder Logo
+        url: 'https://hadiwijayaborepile.co.id/',
+        telephone: '+6281234567890', // Placeholder Phone
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Jalan Raya Lenteng Agung',
+          addressLocality: 'Jakarta Selatan',
+          addressRegion: 'DKI Jakarta',
+          postalCode: '12610',
+          addressCountry: 'ID',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: -6.3385,
+          longitude: 106.8322,
+        },
+        openingHoursSpecification: {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+          ],
+          opens: '08:00',
+          closes: '17:00',
+        },
+        sameAs: [ // Add social media links here
+          'https://www.facebook.com/hadiwijayapondasi',
+          'https://www.instagram.com/hadiwijayapondasi',
+        ],
+        areaServed: {
+          '@type': 'Country',
+          name: 'Indonesia'
+        }
+      }}
+    />
+
 		<ViewTransitions />
 	</head>
 	<body>
@@ -48,6 +124,7 @@ const { title } = Astro.props;
 	html {
 		font-family: system-ui, sans-serif;
 		background: var(--background-color);
+    scroll-behavior: smooth;
 	}
 
 	body {
@@ -56,21 +133,21 @@ const { title } = Astro.props;
 	}
 
 	main {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 2rem;
+		margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+    max-width: none; /* Allow full width */
 	}
 
 	/* Global styles for sections */
 	section {
 		padding-top: 5rem;
 		padding-bottom: 5rem;
-		text-align: center;
 	}
 
-	main section:not(.final-cta) h2 {
+	section h2 {
 		font-size: 2.8rem;
 		color: var(--secondary-color);
 		margin-bottom: 3rem;
+    text-align: center;
 	}
 </style>

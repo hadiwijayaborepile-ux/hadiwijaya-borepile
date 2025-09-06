@@ -1,6 +1,12 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
+const seo = {
+  title: "Jasa Bore Pile Mini Crane | Cepat & Efisien untuk Proyek Menengah",
+  description: "Kontraktor bore pile mini crane profesional. Solusi pondasi yang cepat dan efisien untuk proyek skala menengah seperti ruko, cluster perumahan, dan gudang. Presisi mesin untuk hasil terbaik.",
+  keywords: ["jasa bore pile mini crane", "harga bore pile mini crane", "bor pile mesin", "bore pile cepat", "pondasi ruko", "pondasi perumahan", "kontraktor bore pile efisien"]
+};
+
 const frontmatter = {
   title: 'Bore Pile Mini Crane',
   subtitle: 'Kombinasi sempurna antara kecepatan mesin dan fleksibilitas akses.',
@@ -43,7 +49,7 @@ const frontmatter = {
 };
 ---
 
-<ServicePageLayout frontmatter={frontmatter}>
+<ServicePageLayout {...seo} frontmatter={frontmatter}>
   <Fragment slot="description">
     <h2>Jembatan Antara Kekuatan dan Fleksibilitas</h2>
     <p>Metode Bore Pile Mini Crane adalah solusi paling populer kami untuk proyek skala menengah. Ini adalah titik temu yang sempurna antara efisiensi mesin dan kemampuan untuk beroperasi di area yang tidak terlalu luas. Jika proyek Anda terlalu besar untuk ditangani secara manual namun lokasinya tidak memungkinkan untuk alat hidrolik raksasa, maka mini crane adalah jawabannya.</p>
