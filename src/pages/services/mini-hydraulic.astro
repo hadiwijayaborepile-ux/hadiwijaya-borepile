@@ -1,0 +1,52 @@
+---
+import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
+
+const frontmatter = {
+  title: 'Bore Pile Mini Hydraulic',
+  subtitle: 'Kekuatan hidrolik dalam paket yang lebih ringkas dan gesit.',
+  heroImage: '/assets/img/services/mini-hydraulic-hero.jpg',
+  key_features: [
+    {
+      icon: 'fa-magnifying-glass-chart',
+      title: 'Daya Dukung Besar',
+      description: 'Kapasitas pondasi jauh lebih besar dari mini crane, cocok untuk bangunan 3-5 lantai.'
+    },
+    {
+      icon: 'fa-road-barrier',
+      title: 'Akses Lebih Fleksibel',
+      description: 'Mampu masuk ke lokasi yang lebih sempit dibandingkan rig hidrolik skala penuh.'
+    },
+    {
+      icon: 'fa-clock-rotate-left',
+      title: 'Efisiensi Proyek',
+      description: 'Kecepatan kerja hidrolik secara signifikan mengurangi waktu pengerjaan di lapangan.'
+    }
+  ],
+  process: [
+    { step: 1, title: 'Mobilisasi Rig Ringkas', description: 'Rig hidrolik ringkas kami ditempatkan di lokasi proyek dengan cepat dan mudah.' },
+    { step: 2, title: 'Pengeboran Presisi', description: 'Operator ahli melakukan pengeboran dengan sistem hidrolik untuk menembus lapisan tanah yang lebih keras.' },
+    { step: 3, title: 'Instalasi Tulangan Baja', description: 'Kerangka tulangan baja yang telah fabrikasi dimasukkan ke dalam lubang bor yang presisi.' },
+    { step: 4, title: 'Pengecoran Terstruktur', description: 'Pengisian lubang dengan beton berkualitas untuk membentuk tiang pondasi yang solid dan kokoh.' }
+  ],
+  ideal_for: [
+    { title: 'Gedung Kantor (3-5 Lantai)', image: '/assets/img/projects/kantor.jpg' },
+    { title: 'Hotel & Apartemen Kecil', image: '/assets/img/projects/hotel.jpg' },
+    { title: 'Jembatan Skala Menengah', image: '/assets/img/projects/jembatan-kecil.jpg' },
+    { title: 'Struktur Industri Kompleks', image: '/assets/img/projects/industri-kecil.jpg' }
+  ],
+  gallery_images: [
+    '/assets/img/gallery/mini-hydraulic-1.jpg',
+    '/assets/img/gallery/mini-hydraulic-2.jpg',
+    '/assets/img/gallery/mini-hydraulic-3.jpg',
+    '/assets/img/gallery/mini-hydraulic-4.jpg'
+  ]
+};
+---
+
+<ServicePageLayout frontmatter={frontmatter}>
+  <Fragment slot="description">
+    <h2>Kekuatan Bertemu Kelincahan</h2>
+    <p>Bore Pile Mini Hydraulic mengisi celah penting antara fleksibilitas mini crane dan kekuatan rig hidrolik skala penuh. Ini adalah solusi ideal ketika proyek Anda membutuhkan daya dukung pondasi yang signifikan, namun lokasi proyek memiliki keterbatasan ruang yang tidak memungkinkan masuknya alat-alat raksasa.</p>
+    <p>Dengan rig yang lebih ramping namun tetap bertenaga hidrolik, kami dapat mengerjakan pondasi untuk bangunan bertingkat menengah, struktur komersial, atau bahkan jembatan kecil dengan efisiensi tinggi. Anda mendapatkan kecepatan dan kekuatan teknologi hidrolik tanpa memerlukan ruang kerja yang sangat luas, menjadikannya pilihan strategis untuk proyek konstruksi perkotaan modern.</p>
+  </Fragment>
+</ServicePageLayout>

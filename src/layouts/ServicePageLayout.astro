@@ -1,0 +1,156 @@
+---
+import Layout from './Layout.astro';
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={`${frontmatter.title} - Hadiwijaya Pondasi Persada`}>
+  <article class="service-page">
+
+    <!-- 1. Hero Section -->
+    <section class="hero" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${frontmatter.heroImage});`}>
+      <div class="hero-content">
+        <h1 class="title">{frontmatter.title}</h1>
+        <p class="subtitle">{frontmatter.subtitle}</p>
+      </div>
+    </section>
+
+    <!-- 2. Key Features Section -->
+    <section class="features">
+        <div class="container">
+            {frontmatter.key_features.map(feature => (
+                <div class="feature-card">
+                    <div class="icon"><i class={`fas ${feature.icon}`}></i></div>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- 3. Detailed Info & Process Section -->
+    <section class="detailed-info">
+      <div class="container grid-two">
+        <div class="prose">
+            <slot name="description" />
+        </div>
+        <div class="process-infographic">
+            <h3>Proses Kerja Kami</h3>
+            <ol>
+                {frontmatter.process.map(step => (
+                    <li>
+                        <div class="step-number">{step.step}</div>
+                        <div class="step-content">
+                            <h4>{step.title}</h4>
+                            <p>{step.description}</p>
+                        </div>
+                    </li>
+                ))}
+            </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Best For Section -->
+    <section class="best-for">
+        <div class="container">
+            <h2>Sangat Ideal Untuk Proyek...</h2>
+            <div class="project-types">
+                {frontmatter.ideal_for.map(item => (
+                    <div class="project-card">
+                        <img src={item.image} alt={item.title} loading="lazy" />
+                        <span>{item.title}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Mini Gallery -->
+    <section class="gallery">
+        <div class="container">
+            <h2>Galeri Proyek</h2>
+            <div class="gallery-grid">
+                {frontmatter.gallery_images.map(image => (
+                    <a href={image} data-fancybox="gallery">
+                        <img src={image} alt={`Galeri proyek ${frontmatter.title}`} loading="lazy" />
+                    </a>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Final CTA -->
+    <section class="final-cta">
+      <div class="container">
+        <h2>Siap Memulai Pondasi Kokoh Anda?</h2>
+        <p>Diskusikan detail proyek Anda dengan tim ahli kami dan dapatkan solusi terbaik.</p>
+        <a href="/contact" class="cta-button">Konsultasi Sekarang</a>
+      </div>
+    </section>
+
+  </article>
+</Layout>
+
+<style>
+  .service-page { background-color: #fff; }
+
+  /* 1. Hero Section */
+  .hero {
+    height: 60vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; color: white; background-size: cover; background-position: center;
+    padding: 2rem;
+  }
+  .hero-content { max-width: 800px; }
+  .hero .title { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; text-shadow: 0 3px 6px rgba(0,0,0,0.5); }
+  .hero .subtitle { font-size: 1.4rem; opacity: 0.9; font-weight: 300; }
+
+  /* Shared Styles */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 5rem 0; }
+  h2 { font-size: 2.8rem; color: var(--secondary-color); text-align: center; margin-bottom: 3rem; }
+
+  /* 2. Key Features */
+  .features { background-color: #f8f9fa; }
+  .features .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+  .feature-card { background: white; padding: 2.5rem; text-align: center; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+  .feature-card .icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+  .feature-card h3 { font-size: 1.5rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+  .feature-card p { color: #555; }
+
+  /* 3. Detailed Info */
+  .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
+  .prose { font-size: 1.1rem; line-height: 1.8; color: #333; }
+
+  .process-infographic h3 { font-size: 1.8rem; color: var(--secondary-color); margin-bottom: 2rem; }
+  .process-infographic ol { list-style: none; padding: 0; position: relative; border-left: 2px solid var(--primary-color); }
+  .process-infographic li { position: relative; margin-bottom: 2.5rem; padding-left: 2.5rem; }
+  .process-infographic .step-number { position: absolute; left: -21px; top: 0; background: var(--primary-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: bold; font-size: 1.2rem; }
+  .process-infographic h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0 0 0.5rem; }
+  .process-infographic p { font-size: 1rem; color: #555; margin: 0; }
+
+  /* 4. Best For */
+  .best-for { background-color: #f8f9fa; }
+  .project-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+  .project-card { background: white; border-radius: 8px; overflow: hidden; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+  .project-card:hover { transform: translateY(-5px); }
+  .project-card img { width: 100%; height: 150px; object-fit: cover; }
+  .project-card span { display: block; padding: 1rem; font-weight: 600; color: var(--secondary-color); }
+
+  /* 5. Mini Gallery */
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+  .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; transition: transform 0.3s ease; cursor: pointer; }
+  .gallery-grid img:hover { transform: scale(1.05); }
+
+  /* 6. Final CTA */
+  .final-cta { background-color: var(--secondary-color); color: white; text-align: center; }
+  .final-cta h2, .final-cta p { color: white; }
+  .final-cta p { max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
+  .cta-button { background-color: var(--primary-color); color: white; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 700; transition: background-color 0.3s ease; }
+  .cta-button:hover { background-color: #e65200; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grid-two { grid-template-columns: 1fr; }
+  }
+
+</style>

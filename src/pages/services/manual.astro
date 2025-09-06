@@ -1,0 +1,52 @@
+---
+import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
+
+const frontmatter = {
+  title: 'Bore Pile Manual',
+  subtitle: 'Solusi pondasi presisi untuk lokasi dengan akses paling terbatas.',
+  heroImage: '/assets/img/services/manual-hero.jpg',
+  key_features: [
+    {
+      icon: 'fa-person-digging',
+      title: 'Aksesibilitas Maksimal',
+      description: 'Dapat dikerjakan di gang sempit, area dalam gedung, dan lokasi yang mustahil dijangkau alat berat.'
+    },
+    {
+      icon: 'fa-leaf',
+      title: 'Dampak Lingkungan Minim',
+      description: 'Hampir tanpa getaran dan kebisingan, menjadikannya ideal untuk renovasi dan area padat penduduk.'
+    },
+    {
+      icon: 'fa-sack-dollar',
+      title: 'Biaya Efektif',
+      description: 'Pilihan paling ekonomis untuk proyek skala kecil atau yang hanya membutuhkan beberapa titik pondasi.'
+    }
+  ],
+  process: [
+    { step: 1, title: 'Survei & Pengukuran', description: 'Penentuan titik bor secara akurat sesuai gambar perencanaan oleh tim ahli kami.' },
+    { step: 2, title: 'Pengeboran Manual', description: 'Menggunakan set bor auger dengan tripod, tim kami mengebor tanah hingga kedalaman yang ditentukan.' },
+    { step: 3, title: 'Instalasi Tulangan', description: 'Rangkaian besi tulangan yang telah disiapkan dimasukkan ke dalam lubang bor sebagai kerangka kekuatan.' },
+    { step: 4, title: 'Pengecoran Beton', description: 'Beton segar dituang ke dalam lubang hingga penuh, memastikan kepadatan dan kekuatan maksimal.' }
+  ],
+  ideal_for: [
+    { title: 'Renovasi Rumah', image: '/assets/img/projects/rumah.jpg' },
+    { title: 'Pondasi Ruko', image: '/assets/img/projects/ruko.jpg' },
+    { title: 'Area Padat Penduduk', image: '/assets/img/projects/padat.jpg' },
+    { title: 'Pagar & Dinding Penahan', image: '/assets/img/projects/pagar.jpg' }
+  ],
+  gallery_images: [
+    '/assets/img/gallery/manual-1.jpg',
+    '/assets/img/gallery/manual-2.jpg',
+    '/assets/img/gallery/manual-3.jpg',
+    '/assets/img/gallery/manual-4.jpg'
+  ]
+};
+---
+
+<ServicePageLayout frontmatter={frontmatter}>
+  <Fragment slot="description">
+    <h2>Metode Teruji untuk Area Tersulit</h2>
+    <p>Bore Pile Manual adalah seni pembuatan pondasi yang mengandalkan keahlian dan tenaga manusia. Meskipun terlihat tradisional, metode ini merupakan solusi rekayasa yang sangat efektif dan seringkali menjadi satu-satunya jalan keluar untuk proyek di lokasi yang sangat sulit. Ketika alat berat tidak bisa masuk, tim ahli kamilah yang masuk.</p>
+    <p>Kami menggabungkan teknik yang telah teruji waktu dengan standar kontrol kualitas modern. Setiap lubang digali dengan presisi, setiap tulangan dipasang dengan teliti, dan setiap pengecoran diawasi untuk memastikan pondasi yang Anda dapatkan tidak hanya kokoh, tetapi juga dibangun dengan standar keamanan tertinggi. Ini adalah solusi cerdas di mana kekuatan bertemu dengan keterbatasan akses.</p>
+  </Fragment>
+</ServicePageLayout>

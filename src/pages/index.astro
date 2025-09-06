@@ -1,11 +1,318 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import ProjectCarousel from '../components/ProjectCarousel.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Hadiwijaya Pondasi Persada - Pondasi Kuat Masa Depan Hemat">
+  <section class="hero" slot="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Pondasi Kuat Masa Depan Hemat</h1>
+      <p>Solusi bore pile profesional untuk proyek konstruksi Anda. Terpercaya dan berpengalaman.</p>
+      <div class="cta-buttons">
+        <a href="/contact?subject=Penawaran%20Gratis" class="cta-primary">Dapatkan Penawaran Gratis</a>
+        <a href="/contact?subject=Konsultasi" class="cta-secondary">Konsultasi Sekarang</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="advantages">
+    <h2>Keunggulan Kompetitif Kami</h2>
+    <div class="grid">
+      <div class="advantage-item">
+        <div class="icon"><i class="fas fa-medal"></i></div>
+        <h3>Berpengalaman & Terpercaya</h3>
+        <p>Bertahun-tahun memberikan solusi pondasi terbaik di berbagai jenis proyek.</p>
+      </div>
+      <div class="advantage-item">
+        <div class="icon"><i class="fas fa-cogs"></i></div>
+        <h3>Alat Modern & Efisien</h3>
+        <p>Menggunakan teknologi bore pile terkini untuk efisiensi dan hasil maksimal.</p>
+      </div>
+      <div class="advantage-item">
+        <div class="icon"><i class="fas fa-users-cog"></i></div>
+        <h3>Tim Ahli & Profesional</h3>
+        <p>Didukung oleh tim profesional yang tersertifikasi dan kompeten di bidangnya.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="process">
+      <h2>Bagaimana Proses Kami Bekerja?</h2>
+      <div class="process-timeline">
+          <div class="step">
+              <div class="step-icon">1</div>
+              <h4>Pengeboran</h4>
+              <p>Pengeboran lubang sesuai dengan diameter dan kedalaman yang telah direncanakan.</p>
+          </div>
+          <div class="step">
+              <div class="step-icon">2</div>
+              <h4>Pemasangan Tulangan</h4>
+              <p>Instalasi kerangka besi sebagai struktur kekuatan utama pondasi.</p>
+          </div>
+          <div class="step">
+              <div class="step-icon">3</div>
+              <h4>Pengecoran Beton</h4>
+              <p>Pengisian lubang bor dengan beton berkualitas tinggi hingga penuh.</p>
+          </div>
+          <div class="step">
+              <div class="step-icon">4</div>
+              <h4>Pondasi Kokoh</h4>
+              <p>Pondasi bore pile telah selesai dan siap menopang struktur bangunan Anda.</p>
+          </div>
+      </div>
+  </section>
+
+  <section class="latest-projects">
+    <h2>Proyek Terbaru Kami</h2>
+    <ProjectCarousel />
+  </section>
+
+  <section class="get-in-touch-section">
+    <h2>Hubungi Kami</h2>
+    <div class="contact-wrapper">
+      <div class="contact-form">
+        <h3>Kirim Pesan Langsung</h3>
+        <p>Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda.</p>
+        <form method="POST">
+          <div class="form-grid">
+            <input type="text" name="name" placeholder="Nama Anda" required>
+            <input type="email" name="email" placeholder="Email Anda" required>
+          </div>
+          <input type="text" name="subject" placeholder="Subjek" required>
+          <textarea name="message" rows="6" placeholder="Pesan Anda" required></textarea>
+          <button type="submit" class="cta-primary">Kirim Pesan</button>
+        </form>
+      </div>
+      <div class="contact-info">
+        <h3>Informasi Kontak</h3>
+        <p>Kami siap membantu mewujudkan proyek Anda. Hubungi kami melalui detail di bawah ini atau isi formulir di samping.</p>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i>Jalan Cempaka No. 34, Manggihan, Kec. Godong Kab. Grobogan</li>
+          <li><i class="fas fa-phone"></i>0813-2579-4818</li>
+          <li><i class="fas fa-envelope"></i>info@hadiningratcorp.com</li>
+        </ul>
+        <div class="contact-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-container">
+          <div class="faq-item">
+              <button class="faq-question">
+                  <span>Apa itu pondasi bore pile?</span>
+                  <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                  <p>Pondasi bore pile adalah jenis pondasi dalam yang dibentuk dengan cara mengebor tanah hingga kedalaman tertentu, kemudian memasukkan tulangan baja dan mengisinya dengan beton. Metode ini sangat efektif untuk menopang struktur bangunan di lokasi dengan kondisi tanah yang kurang stabil.</p>
+              </div>
+          </div>
+          <div class="faq-item">
+              <button class="faq-question">
+                  <span>Kapan saya membutuhkan jasa bore pile?</span>
+                  <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                  <p>Anda membutuhkan jasa bore pile jika akan membangun struktur besar (seperti gedung bertingkat, jembatan, atau gudang industri) atau jika hasil uji tanah menunjukkan bahwa lapisan tanah permukaan tidak cukup kuat untuk menopang beban bangunan. Kami dapat membantu Anda menganalisis kebutuhan ini.</p>
+              </div>
+          </div>
+          <div class="faq-item">
+              <button class="faq-question">
+                  <span>Berapa lama proses pengerjaannya?</span>
+                  <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                  <p>Durasi pengerjaan sangat bervariasi tergantung pada jumlah titik, kedalaman, diameter, dan kondisi lokasi proyek. Setelah survei awal, kami akan memberikan estimasi jadwal pengerjaan yang detail dan transparan.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="final-cta">
+      <div class="cta-content">
+          <h2>Siap Membangun Pondasi yang Kokoh?</h2>
+          <p>Jangan ragu untuk menghubungi kami. Dapatkan konsultasi dan penawaran gratis untuk memastikan proyek Anda berada di tangan yang tepat.</p>
+          <a href="/contact" class="cta-primary">Hubungi Kami Sekarang</a>
+      </div>
+  </section>
+
 </Layout>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const faqItem = button.closest('.faq-item');
+      const faqAnswer = faqItem.querySelector('.faq-answer');
+      const icon = button.querySelector('i');
+      
+      faqItem.classList.toggle('open');
+
+      if (faqItem.classList.contains('open')) {
+        faqAnswer.style.maxHeight = faqAnswer.scrollHeight + "px";
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        faqAnswer.style.maxHeight = '0';
+        icon.style.transform = 'rotate(0deg)';
+      }
+    });
+  });
+</script>
+
+<style>
+  /* HERO SECTION */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-image: url('/assets/img/herobg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(34, 42, 122, 0.8), rgba(34, 42, 122, 0.5));
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 800px;
+    padding: 1rem;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .hero h1 { font-size: 3.8rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  .hero p { font-size: 1.3rem; color: #eee; margin-bottom: 2rem; }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .cta-primary, .cta-secondary { padding: 0.9rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; }
+  .cta-primary { background-color: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
+  .cta-primary:hover { background-color: #e65200; border-color: #e65200; transform: translateY(-3px); }
+  .cta-secondary { background-color: transparent; color: white; border: 2px solid white; }
+  .cta-secondary:hover { background-color: white; color: var(--secondary-color); transform: translateY(-3px); }
+
+  /* GENERAL SECTION STYLING */
+  .advantages, .process, .latest-projects, .get-in-touch-section, .faq, .final-cta {
+     padding-top: 5rem; 
+     padding-bottom: 5rem; 
+     text-align: center; 
+  }
+
+  .latest-projects { position: relative; overflow: hidden; }
+
+  /* ADVANTAGES */
+  .advantages { background: #fff; }
+  .advantages h2, .process h2, .latest-projects h2, .get-in-touch-section h2, .faq h2 {
+      font-size: 2.8rem; color: var(--secondary-color); margin-bottom: 3rem;
+  }
+  .advantages .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+  .advantage-item { background: #fff; padding: 2.5rem; border-radius: 12px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+  .advantage-item:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+  .advantage-item .icon { font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color); }
+  .advantage-item h3 { color: var(--secondary-color); margin-top: 0; font-size: 1.5rem; }
+  .advantage-item p { font-size: 1rem; color: #666; }
+
+  /* PROCESS */
+  .process-timeline { display: flex; justify-content: space-between; position: relative; max-width: 900px; margin: 0 auto; }
+  .process-timeline::before { content: ''; position: absolute; top: 25px; left: 10%; right: 10%; height: 4px; background-color: #e0e0e0; z-index: -1; }
+  .step { display: flex; flex-direction: column; align-items: center; text-align: center; width: 22%; }
+  .step-icon { width: 50px; height: 50px; border-radius: 50%; background: var(--secondary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; border: 4px solid var(--background-color); box-shadow: 0 0 0 3px var(--secondary-color); margin-bottom: 1rem; }
+  .step h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0.5rem 0; }
+  .step p { font-size: 0.9rem; color: #666; }
+
+  /* GET IN TOUCH SECTION */
+  .get-in-touch-section { background-color: #f8f9fa; }
+  .contact-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 0; max-width: 1100px; margin: 0 auto; text-align: left; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: hidden; }
+  .contact-form { padding: 3rem; }
+  .contact-form h3 { margin-top: 0; font-size: 1.8rem; color: var(--secondary-color); }
+  .contact-form p { margin-top: 0; margin-bottom: 2rem; color: #666; }
+  .contact-info { background-color: var(--secondary-color); color: white; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+  .contact-info h3 { color: white; margin-top: 0; font-size: 1.8rem; }
+  .contact-info p { line-height: 1.7; color: #ddd; }
+  .contact-info ul { list-style: none; padding: 0; margin: 2rem 0; }
+  .contact-info li { display: flex; align-items: flex-start; margin-bottom: 1rem; font-size: 0.95rem; }
+  .contact-info li i { color: var(--primary-color); margin-right: 1rem; margin-top: 5px; width: 20px; text-align: center; }
+  .contact-social a { color: white; margin-right: 1rem; font-size: 1.2rem; transition: color 0.3s; }
+  .contact-social a:hover { color: var(--primary-color); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  form input, form textarea { width: 100%; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; margin-bottom: 1.5rem; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
+  form input:focus, form textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2); outline: none; }
+  form button { width: 100%; border: none; cursor: pointer; padding: 1rem; }
+
+  /* FAQ SECTION */
+  .faq { background-color: white; }
+  .faq-container { max-width: 800px; margin: 0 auto; text-align: left; }
+  .faq-item { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; transition: box-shadow 0.3s; }
+  .faq-item:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+  .faq-question { background-color: white; border: none; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 600; text-align: left; cursor: pointer; color: var(--secondary-color); }
+  .faq-item.open .faq-question { color: var(--primary-color); }
+  .faq-question i { transition: transform 0.3s ease-in-out; }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #f8f9fa; }
+  .faq-answer p { padding: 1.5rem; margin: 0; color: #555; line-height: 1.7; }
+
+  /* FINAL CTA */
+  .final-cta {
+      background-color: var(--secondary-color);
+      margin: 0 -100vw; /* Break out of container */
+      padding-left: 100vw;
+      padding-right: 100vw;
+  }
+  .cta-content { max-width: 700px; margin: 0 auto; }
+  .final-cta h2, .final-cta p {
+      color: white;
+  }
+  .final-cta p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+  }
+  .final-cta a { background-color: var(--primary-color); border: 2px solid var(--primary-color); }
+  .final-cta a:hover { background-color: #e65200; border-color: #e65200; }
+
+  /* RESPONSIVE */
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  @media (max-width: 900px) {
+    .contact-wrapper { grid-template-columns: 1fr; }
+
+    .process-timeline {
+      display: flex;
+      flex-direction: row; /* Keep it as a row */
+      overflow-x: auto; /* Allow horizontal scrolling */
+      justify-content: flex-start; /* Align items to the start */
+      padding-bottom: 1.5rem; /* Add some padding for the scrollbar */
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    .process-timeline::-webkit-scrollbar { 
+      display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+    .process-timeline::before { 
+      display: none; /* Hide the connecting line on mobile */
+    }
+    .step {
+      flex-shrink: 0; /* Prevent steps from shrinking */
+      width: 70%; /* Each step takes up a good portion of the screen */
+      min-width: 280px;
+      padding: 0 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+      .hero h1 { font-size: 2.8rem; }
+      .hero p { font-size: 1.1rem; }
+      .form-grid { grid-template-columns: 1fr; }
+  }
+
+</style>

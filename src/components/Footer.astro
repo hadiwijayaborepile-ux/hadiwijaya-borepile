@@ -1,0 +1,136 @@
+---
+const socialLinks = [
+  { name: 'Facebook', icon: 'fab fa-facebook-f', href: '#' },
+  { name: 'Instagram', icon: 'fab fa-instagram', href: '#' },
+  { name: 'LinkedIn', icon: 'fab fa-linkedin-in', href: '#' },
+  { name: 'Twitter', icon: 'fab fa-twitter', href: '#' },
+];
+---
+<footer>
+    <div class="footer-container">
+        <div class="footer-about">
+            <img src="/assets/img/hbp-logo.png" alt="Hadiwijaya Pondasi Persada Logo" class="footer-logo">
+            <p>Solusi pondasi bore pile terpercaya untuk segala jenis proyek konstruksi. Kami mengutamakan kualitas, ketahanan, dan kepuasan klien.</p>
+        </div>
+        <div class="footer-contact">
+            <h4>Kontak Kami</h4>
+            <p><strong>Grobogan Head Office:</strong></p>
+            <p>Jalan Cempaka No. 34, Manggihan<br>Kec. Godong Kab. Grobogan</p>
+            <p><i class="fas fa-phone"></i> 0813-2579-4818</p>
+            <p><i class="fas fa-envelope"></i> info@hadiningratcorp.com</p>
+        </div>
+        <div class="footer-links">
+            <h4>Navigasi</h4>
+            <ul>
+                <li><a href="/">Beranda</a></li>
+                <li><a href="/services/jasa-bore-pile">Services</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-social">
+            <h4>Ikuti Kami</h4>
+            <div class="social-icons">
+                {socialLinks.map(link => (
+                    <a href={link.href} aria-label={link.name} target="_blank" rel="noopener noreferrer">
+                        <i class={link.icon}></i>
+                    </a>
+                ))}
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; {new Date().getFullYear()} Hadiwijaya Pondasi Persada. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<style>
+    footer {
+        background-color: var(--secondary-color);
+        color: #e0e0e0;
+        padding: 4rem 2rem 0;
+        font-size: 0.95rem;
+    }
+    .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 3rem;
+    }
+    .footer-logo {
+        height: 50px;
+        margin-bottom: 1rem;
+        background-color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .footer-about p {
+        line-height: 1.6;
+    }
+    h4 {
+        color: white;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    h4::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background-color: var(--primary-color);
+    }
+    .footer-contact p {
+        margin-bottom: 0.75rem;
+    }
+    .footer-contact i {
+        color: var(--primary-color);
+        margin-right: 10px;
+    }
+    .footer-links ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-links li {
+        margin-bottom: 0.75rem;
+    }
+    .footer-links a {
+        color: #e0e0e0;
+        text-decoration: none;
+        transition: color 0.3s, padding-left 0.3s;
+    }
+    .footer-links a:hover {
+        color: var(--primary-color);
+        padding-left: 5px;
+    }
+    .social-icons {
+        display: flex;
+        gap: 1rem;
+    }
+    .social-icons a {
+        color: white;
+        background: rgba(255,255,255,0.1);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    .social-icons a:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-3px);
+    }
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
+        padding: 1.5rem 0;
+        margin-top: 2rem;
+    }
+</style>

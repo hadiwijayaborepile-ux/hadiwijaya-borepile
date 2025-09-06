@@ -1,0 +1,52 @@
+---
+import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
+
+const frontmatter = {
+  title: 'Bore Pile Mini Crane',
+  subtitle: 'Kombinasi sempurna antara kecepatan mesin dan fleksibilitas akses.',
+  heroImage: '/assets/img/services/minicrane-hero.jpg',
+  key_features: [
+    {
+      icon: 'fa-truck-monster',
+      title: 'Pengerjaan Cepat',
+      description: 'Secara signifikan lebih cepat daripada metode manual, mempercepat jadwal proyek Anda secara keseluruhan.'
+    },
+    {
+      icon: 'fa-drafting-compass',
+      title: 'Presisi & Konsisten',
+      description: 'Mesin memastikan setiap lubang memiliki kedalaman dan diameter yang seragam sesuai spesifikasi teknis.'
+    },
+    {
+      icon: 'fa-building',
+      title: 'Ideal untuk Skala Menengah',
+      description: 'Sangat cocok untuk proyek seperti ruko, cluster perumahan, dan gudang skala menengah.'
+    }
+  ],
+  process: [
+    { step: 1, title: 'Mobilisasi Mesin', description: 'Mesin mini crane kami yang ringkas diposisikan secara strategis di titik pengeboran.' },
+    { step: 2, title: 'Pengeboran Mekanis', description: 'Operator ahli kami melakukan pengeboran menggunakan mata bor spiral untuk efisiensi dan kecepatan.' },
+    { step: 3, title: 'Instalasi Tulangan', description: 'Kerangka besi tulangan yang kokoh dimasukkan ke dalam lubang bor yang telah siap.' },
+    { step: 4, title: 'Pengecoran Beton', description: 'Pengisian lubang bor dengan beton berkualitas tinggi untuk membentuk tiang pondasi yang solid.' }
+  ],
+  ideal_for: [
+    { title: 'Cluster Perumahan', image: '/assets/img/projects/cluster.jpg' },
+    { title: 'Gudang & Pabrik Kecil', image: '/assets/img/projects/gudang.jpg' },
+    { title: 'Ruko & Area Komersial', image: '/assets/img/projects/ruko.jpg' },
+    { title: 'Sekolah & Fasilitas Umum', image: '/assets/img/projects/sekolah.jpg' }
+  ],
+  gallery_images: [
+    '/assets/img/gallery/minicrane-1.jpg',
+    '/assets/img/gallery/minicrane-2.jpg',
+    '/assets/img/gallery/minicrane-3.jpg',
+    '/assets/img/gallery/minicrane-4.jpg'
+  ]
+};
+---
+
+<ServicePageLayout frontmatter={frontmatter}>
+  <Fragment slot="description">
+    <h2>Jembatan Antara Kekuatan dan Fleksibilitas</h2>
+    <p>Metode Bore Pile Mini Crane adalah solusi paling populer kami untuk proyek skala menengah. Ini adalah titik temu yang sempurna antara efisiensi mesin dan kemampuan untuk beroperasi di area yang tidak terlalu luas. Jika proyek Anda terlalu besar untuk ditangani secara manual namun lokasinya tidak memungkinkan untuk alat hidrolik raksasa, maka mini crane adalah jawabannya.</p>
+    <p>Dengan menggunakan mesin bor yang terpasang pada crane yang ringkas, kami dapat menyelesaikan pekerjaan pondasi dengan kecepatan tinggi tanpa mengorbankan kualitas. Metode ini memungkinkan kami membuat pondasi dengan diameter dan kedalaman yang lebih besar daripada metode manual, memberikan daya dukung yang lebih kuat untuk struktur bangunan Anda. Ini adalah pilihan cerdas untuk efisiensi dan keandalan.</p>
+  </Fragment>
+</ServicePageLayout>
