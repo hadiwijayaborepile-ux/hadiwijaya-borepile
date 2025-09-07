@@ -1,0 +1,181 @@
+
+---
+const projects = [
+  {
+    title: "Proyek Bore Pile Gedung Bertingkat",
+    description: "Pondasi untuk gedung perkantoran 15 lantai di pusat kota. Menggunakan metode hydraulic drilling untuk efisiensi dan kedalaman maksimal.",
+    image: "/assets/img/projects/project-1.jpg",
+    category: "Gedung Komersial"
+  },
+  {
+    title: "Pondasi Jembatan Antar Provinsi",
+    description: "Struktur pondasi bore pile untuk jembatan sepanjang 800 meter yang menghubungkan dua provinsi.",
+    image: "/assets/img/projects/project-2.jpg",
+    category: "Infrastruktur"
+  },
+  {
+    title: "Bore Pile Area Pabrik & Gudang",
+    description: "Pengerjaan pondasi di area industri untuk pabrik manufaktur dan kompleks gudang penyimpanan.",
+    image: "/assets/img/projects/project-3.jpg",
+    category: "Industri"
+  },
+  {
+    title: "Pondasi Tower Telekomunikasi",
+    description: "Bore pile untuk tower Base Transceiver Station (BTS) di beberapa lokasi terpencil.",
+    image: "/assets/img/projects/project-4.jpg",
+    category: "Telekomunikasi"
+  },
+  {
+    title: "Proyek Perumahan Klaster",
+    description: "Pondasi bore pile untuk puluhan unit rumah di sebuah klaster eksklusif.",
+    image: "/assets/img/projects/project-5.jpg",
+    category: "Residential"
+  },
+  {
+    title: "Struktur Pondasi Ruko",
+    description: "Pengerjaan pondasi bore pile untuk kompleks ruko di area komersial baru.",
+    image: "/assets/img/projects/project-6.jpg",
+    category: "Komersial"
+  },
+  {
+    title: "Bore Pile untuk Sekolah & Universitas",
+    description: "Pondasi untuk gedung sekolah dan fasilitas kampus universitas.",
+    image: "/assets/img/projects/project-7.jpg",
+    category: "Pendidikan"
+  },
+  {
+    title: "Pondasi Hotel & Resort",
+    description: "Pengerjaan pondasi bore pile untuk hotel bintang 5 di kawasan wisata.",
+    image: "/assets/img/projects/project-8.jpg",
+    category: "Pariwisata"
+  }
+];
+
+const projectsPerPage = 6;
+---
+
+<section class="latest-projects">
+  <div class="container">
+    <h2>Proyek Terbaru Kami</h2>
+    <div id="project-grid" class="project-grid">
+      {projects.map((project, index) => (
+        <div class:list={["project-card", { "hidden": index >= projectsPerPage }]}>
+          <img src={project.image} alt={project.title} loading="lazy" />
+          <div class="card-content">
+            <span class="category">{project.category}</span>
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    {projects.length > projectsPerPage && (
+      <button id="toggle-btn" class="cta-button">Lihat Lebih Banyak</button>
+    )}
+  </div>
+</section>
+
+<script define:vars={{ projectsPerPage }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('toggle-btn');
+    if (!toggleBtn) return;
+
+    const projectCards = Array.from(document.querySelectorAll('.project-card'));
+    let isExpanded = false;
+
+    toggleBtn.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+
+      projectCards.forEach((card, index) => {
+        if (index >= projectsPerPage) {
+          card.classList.toggle('hidden', !isExpanded);
+        }
+      });
+
+      toggleBtn.textContent = isExpanded ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
+    });
+  });
+</script>
+
+<style>
+  .latest-projects {
+    background-color: var(--background-color);
+    text-align: center;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .project-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+
+  .project-card.hidden {
+    display: none;
+  }
+
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .project-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .project-card .card-content {
+    padding: 1.5rem;
+  }
+
+  .project-card .category {
+    display: inline-block;
+    background-color: var(--primary-color-light);
+    color: var(--primary-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card h3 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+  }
+
+  .project-card p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .cta-button {
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+  }
+
+  .cta-button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-3px);
+  }
+</style>

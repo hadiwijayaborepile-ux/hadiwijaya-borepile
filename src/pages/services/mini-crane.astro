@@ -1,58 +1,74 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
-const seo = {
-  title: "Jasa Bore Pile Mini Crane | Cepat & Efisien untuk Proyek Menengah",
-  description: "Kontraktor bore pile mini crane profesional. Solusi pondasi yang cepat dan efisien untuk proyek skala menengah seperti ruko, cluster perumahan, dan gudang. Presisi mesin untuk hasil terbaik.",
-  keywords: ["jasa bore pile mini crane", "harga bore pile mini crane", "bor pile mesin", "bore pile cepat", "pondasi ruko", "pondasi perumahan", "kontraktor bore pile efisien"]
-};
-
-const frontmatter = {
-  title: 'Bore Pile Mini Crane',
-  subtitle: 'Kombinasi sempurna antara kecepatan mesin dan fleksibilitas akses.',
-  heroImage: '/assets/img/services/minicrane-hero.jpg',
+const page = {
+  title: "Jasa Bore Pile Mini Crane",
+  subtitle: "Fleksibilitas tinggi untuk area terbatas dengan kekuatan pondasi yang andal.",
+  mainIcon: "fa-compress-arrows-alt", // Added main icon for the new layout
+  price: "Rp140.000 / m¹",
   key_features: [
     {
-      icon: 'fa-truck-monster',
-      title: 'Pengerjaan Cepat',
-      description: 'Secara signifikan lebih cepat daripada metode manual, mempercepat jadwal proyek Anda secara keseluruhan.'
+      icon: "fa-compress-arrows-alt",
+      title: "Akses Lokasi Sulit",
+      description: "Desainnya yang ringkas memungkinkan mobilisasi di area yang sempit atau sulit dijangkau alat berat."
     },
     {
-      icon: 'fa-drafting-compass',
-      title: 'Presisi & Konsisten',
-      description: 'Mesin memastikan setiap lubang memiliki kedalaman dan diameter yang seragam sesuai spesifikasi teknis.'
+      icon: "fa-check-circle",
+      title: "Kekuatan Terjamin",
+      description: "Mampu menghasilkan pondasi yang kuat dan stabil untuk bangunan 2 hingga 5 lantai."
     },
     {
-      icon: 'fa-building',
-      title: 'Ideal untuk Skala Menengah',
-      description: 'Sangat cocok untuk proyek seperti ruko, cluster perumahan, dan gudang skala menengah.'
+      icon: "fa-leaf",
+      title: "Dampak Lingkungan Rendah",
+      description: "Getaran dan kebisingan yang dihasilkan lebih minim, ideal untuk area padat penduduk."
     }
   ],
   process: [
-    { step: 1, title: 'Mobilisasi Mesin', description: 'Mesin mini crane kami yang ringkas diposisikan secara strategis di titik pengeboran.' },
-    { step: 2, title: 'Pengeboran Mekanis', description: 'Operator ahli kami melakukan pengeboran menggunakan mata bor spiral untuk efisiensi dan kecepatan.' },
-    { step: 3, title: 'Instalasi Tulangan', description: 'Kerangka besi tulangan yang kokoh dimasukkan ke dalam lubang bor yang telah siap.' },
-    { step: 4, title: 'Pengecoran Beton', description: 'Pengisian lubang bor dengan beton berkualitas tinggi untuk membentuk tiang pondasi yang solid.' }
+    { step: 1, title: "Setup Tripod & Winch", description: "Rangka tripod baja diposisikan di atas titik bor, dan mesin winch (derek) disiapkan." },
+    { step: 2, title: "Pengeboran Auger", description: "Mata bor auger diturunkan dan diputar untuk menggali tanah. Dilakukan berulang kali hingga kedalaman tercapai." },
+    { step: 3, title: "Pemasangan Tulangan Besi", description: "Kerangka besi yang telah dirakit dimasukkan ke dalam lubang bor sebagai struktur utama." },
+    { step: 4, title: "Pengecoran", description: "Beton segar dituangkan ke dalam lubang bor hingga penuh, biasanya menggunakan talang atau metode manual." }
   ],
   ideal_for: [
-    { title: 'Cluster Perumahan', image: '/assets/img/projects/cluster.jpg' },
-    { title: 'Gudang & Pabrik Kecil', image: '/assets/img/projects/gudang.jpg' },
-    { title: 'Ruko & Area Komersial', image: '/assets/img/projects/ruko.jpg' },
-    { title: 'Sekolah & Fasilitas Umum', image: '/assets/img/projects/sekolah.jpg' }
+    { title: "Rumah Tinggal Mewah", image: "/assets/img/project-house.jpg" },
+    { title: "Ruko & Rukan", image: "/assets/img/project-ruko.jpg" },
+    { title: "Gudang Skala Menengah", image: "/assets/img/project-warehouse.jpg" },
+    { title: "Bangunan di Lahan Terbatas", image: "/assets/img/project-narrow.jpg" }
   ],
   gallery_images: [
-    '/assets/img/gallery/minicrane-1.jpg',
-    '/assets/img/gallery/minicrane-2.jpg',
-    '/assets/img/gallery/minicrane-3.jpg',
-    '/assets/img/gallery/minicrane-4.jpg'
+    "/assets/img/gallery-minicrane-1.jpg",
+    "/assets/img/gallery-minicrane-2.jpg",
+    "/assets/img/gallery-minicrane-3.jpg",
+    "/assets/img/gallery-minicrane-4.jpg"
   ]
+};
+
+const seo = {
+  title: "Jasa Bore Pile Mini Crane | Solusi Pondasi Lahan Sempit | Hadiwijaya",
+  description: "Spesialis bore pile mini crane untuk lokasi terbatas. Solusi efektif untuk pondasi rumah tinggal, ruko, dan bangunan di area padat penduduk. Kuat dan minim getaran.",
+  keywords: ["bore pile mini crane", "jasa bore pile mini crane", "pondasi lahan sempit", "bore pile ruko", "bore pile perumahan"]
 };
 ---
 
-<ServicePageLayout {...seo} frontmatter={frontmatter}>
-  <Fragment slot="description">
-    <h2>Jembatan Antara Kekuatan dan Fleksibilitas</h2>
-    <p>Metode Bore Pile Mini Crane adalah solusi paling populer kami untuk proyek skala menengah. Ini adalah titik temu yang sempurna antara efisiensi mesin dan kemampuan untuk beroperasi di area yang tidak terlalu luas. Jika proyek Anda terlalu besar untuk ditangani secara manual namun lokasinya tidak memungkinkan untuk alat hidrolik raksasa, maka mini crane adalah jawabannya.</p>
-    <p>Dengan menggunakan mesin bor yang terpasang pada crane yang ringkas, kami dapat menyelesaikan pekerjaan pondasi dengan kecepatan tinggi tanpa mengorbankan kualitas. Metode ini memungkinkan kami membuat pondasi dengan diameter dan kedalaman yang lebih besar daripada metode manual, memberikan daya dukung yang lebih kuat untuk struktur bangunan Anda. Ini adalah pilihan cerdas untuk efisiensi dan keandalan.</p>
-  </Fragment>
+<ServicePageLayout frontmatter={page} title={seo.title} description={seo.description} keywords={seo.keywords}>
+  <div slot="description">
+    <h2>Deskripsi Layanan</h2>
+    <p>
+      <strong>Jasa Bore Pile Mini Crane</strong> adalah solusi cerdas ketika kekuatan pondasi bore pile dibutuhkan di lokasi yang tidak dapat diakses oleh alat berat. Menggunakan sistem tripod (kaki tiga) yang kokoh dan mesin winch bertenaga, metode ini memungkinkan pengeboran yang efisien di area sempit, di dalam ruangan, atau di belakang bangunan.
+    </p>
+    <p>
+      Meskipun ukurannya ringkas, bore pile mini crane mampu membuat lubang bor dengan diameter yang cukup besar (biasanya 30 cm hingga 60 cm) dan kedalaman yang memadai untuk menopang struktur bangunan bertingkat rendah hingga menengah. Ini adalah pilihan paling populer untuk pembangunan ruko, rumah tinggal mewah, dan gudang di kawasan perkotaan yang padat.
+    </p>
+    <h3>Kelebihan Bore Pile Mini Crane:</h3>
+    <ul>
+      <li><strong>Fleksibilitas Tinggi:</strong> Dapat dioperasikan di lokasi yang sangat terbatas atau sulit dijangkau.
+</li>
+      <li><strong>Kekuatan Andal:</strong> Memberikan daya dukung yang jauh lebih superior dibandingkan pondasi dangkal.
+</li>
+      <li><strong>Minim Gangguan:</strong> Proses kerja menghasilkan getaran dan kebisingan yang relatif rendah.
+</li>
+      <li><strong>Cost-Effective:</strong> Biaya mobilisasi dan operasional lebih rendah dibandingkan metode hydraulic.
+</li>
+    </ul>
+  </div>
 </ServicePageLayout>

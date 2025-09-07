@@ -1,58 +1,70 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
-const seo = {
-  title: "Jasa Bore Pile Hydraulic | Pondasi Gedung & Proyek Besar",
-  description: "Spesialis jasa bore pile hydraulic untuk proyek skala besar. Solusi pondasi kuat & dalam untuk gedung bertingkat, jembatan, dan infrastruktur. Didukung alat berat modern.",
-  keywords: ["jasa bore pile hydraulic", "harga bore pile hydraulic", "kontraktor bore pile alat berat", "pondasi gedung bertingkat", "pondasi jembatan", "bore pile untuk industri", "deep foundation", "pondasi skyscraper"]
-};
-
-const frontmatter = {
-  title: 'Bore Pile Hydraulic',
-  subtitle: 'Kekuatan dan kecepatan tak tertandingi untuk proyek paling ambisius.',
-  heroImage: '/assets/img/services/hydraulic-hero.jpg',
+const page = {
+  title: "Jasa Bore Pile Hydraulic",
+  subtitle: "Solusi pondasi dalam dengan kapasitas beban ekstrem dan efisiensi tinggi.",
+  mainIcon: "fa-truck-monster", // Added main icon for the new layout
+  price: "Rp190.000 / m¹",
   key_features: [
     {
-      icon: 'fa-gauge-high',
-      title: 'Kekuatan Maksimal',
-      description: 'Mampu menembus lapisan tanah keras dan bebatuan untuk mencapai daya dukung pondasi yang ekstrem.'
+      icon: "fa-truck-monster",
+      title: "Kekuatan Maksimal",
+      description: "Ideal untuk menopang beban struktur yang sangat besar, seperti gedung pencakar langit dan jembatan."
     },
     {
-      icon: 'fa-bolt',
-      title: 'Sangat Cepat',
-      description: 'Proses pengeboran yang sangat efisien, ideal untuk proyek dengan jadwal yang ketat dan volume pekerjaan besar.'
+      icon: "fa-tachometer-alt",
+      title: "Pengerjaan Cepat",
+      description: "Mesin hydraulic modern memungkinkan proses pengeboran yang jauh lebih cepat dibandingkan metode lain."
     },
     {
-      icon: 'fa-ruler-combined',
-      title: 'Diameter & Kedalaman Superior',
-      description: 'Memungkinkan pembuatan tiang pondasi berdiameter besar pada kedalaman yang sangat dalam.'
+      icon: "fa-ruler-vertical",
+      title: "Kedalaman Superior",
+      description: "Mampu mencapai kedalaman puluhan meter untuk menjangkau lapisan tanah keras yang paling stabil."
     }
   ],
   process: [
-    { step: 1, title: 'Mobilisasi Alat Berat', description: 'Rig bor hidrolik modern kami tiba di lokasi dan disiapkan oleh tim profesional.' },
-    { step: 2, title: 'Pengeboran Bertenaga', description: 'Dengan kekuatan torsi masif, mesin mengebor tanah. Metode casing atau slurry digunakan jika perlu.' },
-    { step: 3, title: 'Instalasi Tulangan Berat', description: 'Kerangka baja tulangan berdiameter besar dan berat dimasukkan ke dalam lubang bor menggunakan crane.' },
-    { step: 4, title: 'Pengecoran Tremi', description: 'Beton dipompa dari dasar lubang menggunakan pipa tremi untuk memastikan integritas struktural tiang.' }
+    { step: 1, title: "Mobilisasi & Persiapan", description: "Alat berat hydraulic rig diantar ke lokasi dan disiapkan di titik pengeboran." },
+    { step: 2, title: "Pengeboran Hydraulic", description: "Mata bor auger rotary menekan dan memutar tanah, yang kemudian diangkat dari lubang." },
+    { step: 3, title: "Instalasi Tulangan & Pipa Tremie", description: "Kerangka besi fabrikasi dan pipa untuk pengecoran dimasukkan ke dalam lubang." },
+    { step: 4, title: "Pengecoran Beton", description: "Beton segar dipompa melalui pipa tremie dari dasar lubang hingga penuh." }
   ],
   ideal_for: [
-    { title: 'Gedung Bertingkat', image: '/assets/img/projects/gedung.jpg' },
-    { title: 'Jembatan & Flyover', image: '/assets/img/projects/jembatan.jpg' },
-    { title: 'Kawasan Industri', image: '/assets/img/projects/industri.jpg' },
-    { title: 'Menara & BTS', image: '/assets/img/projects/menara.jpg' }
+    { title: "Gedung Bertingkat Tinggi", image: "/assets/img/project-highrise.jpg" },
+    { title: "Jembatan & Flyover", image: "/assets/img/project-bridge.jpg" },
+    { title: "Kawasan Industri & Pabrik", image: "/assets/img/project-industrial.jpg" },
+    { title: "Struktur Dermaga", image: "/assets/img/project-dock.jpg" }
   ],
   gallery_images: [
-    '/assets/img/gallery/hydraulic-1.jpg',
-    '/assets/img/gallery/hydraulic-2.jpg',
-    '/assets/img/gallery/hydraulic-3.jpg',
-    '/assets/img/gallery/hydraulic-4.jpg'
+    "/assets/img/gallery-hydraulic-1.jpg",
+    "/assets/img/gallery-hydraulic-2.jpg",
+    "/assets/img/gallery-hydraulic-3.jpg",
+    "/assets/img/gallery-hydraulic-4.jpg"
   ]
+};
+
+const seo = {
+  title: "Jasa Bore Pile Hydraulic Profesional | Hadiwijaya Pondasi Persada",
+  description: "Layanan bore pile hydraulic untuk proyek skala besar. Cepat, efisien, dan mampu menopang beban ekstrem. Solusi terbaik untuk gedung tinggi, jembatan, dan industri.",
+  keywords: ["bore pile hydraulic", "jasa bore pile hydraulic", "pondasi gedung tinggi", "pondasi jembatan", "hydraulic rig"]
 };
 ---
 
-<ServicePageLayout {...seo} frontmatter={frontmatter}>
-  <Fragment slot="description">
-    <h2>Solusi Utama untuk Proyek Skala Besar</h2>
-    <p>Ketika proyek Anda menuntut kekuatan, kedalaman, dan kecepatan tanpa kompromi, Bore Pile Hydraulic adalah satu-satunya pilihan. Ini adalah metode andalan kami untuk infrastruktur vital dan bangunan bertingkat tinggi, di mana stabilitas dan keamanan adalah segalanya. Dengan menggunakan rig bor hidrolik tercanggih, kami dapat mengatasi kondisi tanah yang paling menantang sekalipun.</p>
-    <p>Kekuatan torsi yang masif dari mesin kami memungkinkan pengeboran tiang berdiameter besar hingga ke lapisan tanah yang paling keras, memastikan pondasi Anda memiliki daya dukung yang dibutuhkan untuk menopang beban struktur raksasa. Proses ini, meskipun berskala besar, dijalankan dengan presisi rekayasa oleh tim operator kami yang sangat berpengalaman. Pilih metode hidrolik untuk membangun masa depan yang kokoh dan menjulang tinggi.</p>
-  </Fragment>
+<ServicePageLayout frontmatter={page} title={seo.title} description={seo.description} keywords={seo.keywords}>
+  <div slot="description">
+    <h2>Deskripsi Layanan</h2>
+    <p>
+      <strong>Jasa Bore Pile Hydraulic</strong> adalah puncak dari teknologi pondasi dalam. Menggunakan mesin Hydraulic Rotary Drilling Rig, metode ini dirancang untuk proyek-proyek yang menuntut kekuatan, kedalaman, dan efisiensi tertinggi. Dengan kemampuan mengebor diameter besar (60 cm hingga 200 cm) dan mencapai kedalaman ekstrem, ini adalah pilihan utama untuk struktur-struktur ikonik dan infrastruktur vital.
+    </p>
+    <p>
+      Keunggulan utama dari sistem hydraulic adalah kecepatan dan presisinya. Proses pengeboran yang cepat secara signifikan mengurangi waktu konstruksi, sementara sistem kontrol modern memastikan setiap lubang dibuat dengan akurasi vertikal yang sempurna. Metode ini sangat efektif pada berbagai kondisi tanah, termasuk tanah keras dan berbatu, menjadikannya solusi yang sangat andal untuk proyek-proyek paling menantang.
+    </p>
+    <h3>Kelebihan Bore Pile Hydraulic:</h3>
+    <ul>
+      <li><strong>Kapasitas Beban Tertinggi:</strong> Dirancang untuk menopang beban aksial dan lateral yang masif.</li>
+      <li><strong>Efisiensi Waktu:</strong> Proses pengeboran paling cepat, mempercepat jadwal proyek secara keseluruhan.</li>
+      <li><strong>Minim Getaran:</strong> Proses rotary mengurangi getaran, lebih aman untuk lingkungan sekitar dibandingkan tiang pancang.</li>
+      <li><strong>Akurasi Tinggi:</strong> Mampu menghasilkan lubang bor yang presisi sesuai dengan desain teknis.</li>
+    </ul>
+  </div>
 </ServicePageLayout>

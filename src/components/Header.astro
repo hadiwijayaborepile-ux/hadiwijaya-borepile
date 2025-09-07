@@ -1,8 +1,11 @@
 ---
+const currentPath = Astro.url.pathname;
+
 const navLinks = [
   { name: 'Beranda', href: '/' },
   {
-    name: 'Services',
+    name: 'Layanan',
+    href: '/services/jasa-bore-pile', // Parent link
     isDropdown: true,
     dropdownLinks: [
       { name: 'Jasa Bore Pile', href: '/services/jasa-bore-pile' },
@@ -12,10 +15,13 @@ const navLinks = [
       { name: 'Bore Pile Hydraulic', href: '/services/hydraulic' },
     ],
   },
-  { name: 'About Us', href: '/about' },
-  { name: 'Contact Us', href: '/contact' },
+  { name: 'Tentang Kami', href: '/about' },
+  { name: 'Kontak', href: '/contact' },
 ];
---- 
+
+// Function to determine if a link is active
+const isLinkActive = (href) => href === currentPath || (href.length > 1 && currentPath.startsWith(href));
+---
 
 <header id="main-header">
     <div class="nav-container">
@@ -24,18 +30,27 @@ const navLinks = [
         </a>
         <nav>
             <ul class="nav-links">
-                {navLinks.map(link => (
-                <li class={link.isDropdown ? 'dropdown' : ''}>
-                    {link.href ? <a href={link.href}>{link.name}</a> : <span>{link.name} <i class="fas fa-chevron-down"></i></span>}
-                    {link.isDropdown && (
-                    <ul class="dropdown-menu">
-                        {link.dropdownLinks.map(dropdownLink => (
-                        <li><a href={dropdownLink.href}>{dropdownLink.name}</a></li>
-                        ))}
-                    </ul>
-                    )}
-                </li>
-                ))}
+                {navLinks.map(link => {
+                    const isActive = link.isDropdown ? currentPath.startsWith('/services') : currentPath === link.href;
+                    return (
+                        <li class:list={[ { dropdown: link.isDropdown } ]}>
+                            <a 
+                                href={link.href} 
+                                class:list={[ { 'is-active': isActive } ]}
+                            >
+                                {link.name}
+                                {link.isDropdown && <i class="fas fa-chevron-down"></i>}
+                            </a>
+                            {link.isDropdown && (
+                                <ul class="dropdown-menu">
+                                    {link.dropdownLinks.map(dropdownLink => (
+                                        <li><a href={dropdownLink.href} class:list={[{ 'is-active': currentPath === dropdownLink.href }]}>{dropdownLink.name}</a></li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    );
+                })}
             </ul>
         </nav>
         <a href="/contact" class="nav-cta">Get a Quote</a>
@@ -45,29 +60,23 @@ const navLinks = [
 
 <div id="mobile-menu" class="mobile-menu-hidden">
     <ul>
-        {navLinks.map(link => (
-          <li>
-            {link.href ? <a href={link.href}>{link.name}</a> : <span>{link.name}</span>}
-            {link.isDropdown && (
-              <ul class="mobile-dropdown">
-                {link.dropdownLinks.map(dropdownLink => (
-                  <li><a href={dropdownLink.href}>- {dropdownLink.name}</a></li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
+        {navLinks.map(link => {
+            const isActive = link.isDropdown ? currentPath.startsWith('/services') : currentPath === link.href;
+            return (
+                <li>
+                    <a href={link.href} class:list={[{ 'is-active': isActive }]}>{link.name}</a>
+                    {link.isDropdown && (
+                        <ul class="mobile-dropdown">
+                            {link.dropdownLinks.map(dropdownLink => (
+                                <li><a href={dropdownLink.href} class:list={[{ 'is-active': currentPath === dropdownLink.href }]}>- {dropdownLink.name}</a></li>
+                            ))}
+                        </ul>
+                    )}
+                </li>
+            );
+        })}
     </ul>
 </div>
-
-<script>
-  const toggleButton = document.getElementById('mobile-menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  
-  toggleButton.addEventListener('click', () => {
-    mobileMenu.classList.toggle('mobile-menu-hidden');
-  });
-</script>
 
 <style>
   header {
@@ -78,6 +87,16 @@ const navLinks = [
     width: 90%;
     max-width: 1200px;
     z-index: 1000;
+    transition: top 0.3s ease-in-out; 
+  }
+
+  header.scrolled {
+      top: 10px;
+  }
+
+  header.scrolled .nav-container {
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      background: rgba(255, 255, 255, 0.95);
   }
 
   .nav-container {
@@ -87,13 +106,14 @@ const navLinks = [
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     border-radius: 50px;
-    padding: 0.5rem 1.5rem; /* Reduced padding slightly for logo */
+    padding: 0.5rem 1.5rem;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     border: 1px solid rgba(255,255,255,0.9);
+    transition: all 0.3s ease-in-out;
   }
 
   .logo img {
-    height: 40px; /* Control logo size */
+    height: 40px;
     display: block;
   }
 
@@ -106,33 +126,40 @@ const navLinks = [
     align-items: center;
   }
   
-  .nav-links a, .nav-links span {
+  .nav-links a {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 500;
     transition: color 0.3s;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
-  .nav-links a:hover, .nav-links span:hover {
+  .nav-links a:hover {
     color: var(--primary-color);
   }
   
-  .nav-links span i {
-      font-size: 0.7rem; margin-left: 5px;
+  /* Active State Style */
+  .nav-links a.is-active, .mobile-menu-hidden a.is-active {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+  
+  .nav-links a i {
+      font-size: 0.7rem;
   }
 
   /* Dropdown */
   .dropdown {
     position: relative;
-    padding-bottom: 20px; /* Bridge the gap */
-    margin-bottom: -20px; /* Prevent layout shift */
   }
 
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     left: 50%;
     transform: translateX(-50%);
     background: white;
@@ -143,10 +170,15 @@ const navLinks = [
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     min-width: 220px;
     border: 1px solid #eee;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
   }
 
   .dropdown:hover .dropdown-menu {
     display: block;
+    opacity: 1;
+    visibility: visible;
   }
 
   .dropdown-menu li {
@@ -158,6 +190,10 @@ const navLinks = [
     display: block;
     padding: 0.75rem 1.5rem;
     white-space: nowrap;
+  }
+
+  .dropdown-menu a.is-active {
+      background-color: #f8f9fa;
   }
   
   .nav-cta {
@@ -178,10 +214,15 @@ const navLinks = [
   #mobile-menu-toggle {
     display: none;
     background: none; border: none; font-size: 1.5rem; color: var(--secondary-color);
+    cursor: pointer;
   }
-  #mobile-menu { display: none; }
+  
+  #mobile-menu {
+      display: none;
+  }
 
-  @media (max-width: 768px) {
+  /* Responsive Overrides */
+  @media (max-width: 992px) {
     .nav-links, .nav-cta { display: none; }
     #mobile-menu-toggle { display: block; }
     .nav-container { width: 95%; padding: 0.5rem 1rem; }
@@ -190,17 +231,40 @@ const navLinks = [
         display: block;
         background-color: white;
         position: fixed;
-        top: 90px;
+        top: 80px;
         left: 5%; right: 5%;
         z-index: 999;
         box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         border-radius: 20px;
         padding: 1rem;
-        transition: all 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        transform-origin: top center;
     }
+
     #mobile-menu.mobile-menu-hidden {
-        transform: translateY(-150%); opacity: 0;
+        transform: translateY(-20px) scale(0.98);
+        opacity: 0;
+        pointer-events: none;
     }
-    /* ... mobile styles ... */
+
+    #mobile-menu ul { list-style: none; padding: 0; margin: 0; }
+    #mobile-menu li { padding: 0.5rem 0; }
+    #mobile-menu a {
+        display: block; 
+        padding: 0.8rem 1rem;
+        color: var(--secondary-color);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    #mobile-menu a.is-active {
+        color: var(--primary-color);
+    }
+
+    #mobile-menu .mobile-dropdown {
+        padding-left: 1.5rem; 
+        border-left: 2px solid var(--primary-color);
+        margin-top: 0.5rem;
+    }
   }
 </style>

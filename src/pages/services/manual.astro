@@ -1,58 +1,74 @@
 ---
 import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 
-const seo = {
-  title: "Jasa Bore Pile Manual & Strauss Pile | Solusi Akses Sulit",
-  description: "Melayani jasa bore pile manual (strauss pile) profesional untuk lokasi dengan akses terbatas. Solusi pondasi kuat, minim getaran, dan hemat biaya untuk rumah, ruko, dan area sempit.",
-  keywords: ["jasa bore pile manual", "strauss pile", "harga bore pile manual", "jasa strauss pile", "pondasi manual", "bore pile akses sempit", "bor pile untuk rumah", "tukang bore pile manual"]
-};
-
-const frontmatter = {
-  title: 'Bore Pile Manual',
-  subtitle: 'Solusi pondasi presisi untuk lokasi dengan akses paling terbatas.',
-  heroImage: '/assets/img/services/manual-hero.jpg',
+const page = {
+  title: "Jasa Bore Pile Manual (Strauss Pile)",
+  subtitle: "Solusi pondasi paling ekonomis dan adaptif untuk proyek skala kecil.",
+  mainIcon: "fa-hands-helping", // Added main icon for the new layout
+  price: "Rp85.000 / m¹",
   key_features: [
     {
-      icon: 'fa-person-digging',
-      title: 'Aksesibilitas Maksimal',
-      description: 'Dapat dikerjakan di gang sempit, area dalam gedung, dan lokasi yang mustahil dijangkau alat berat.'
+      icon: "fa-hand-paper",
+      title: "Tenaga Manusia",
+      description: "Dioperasikan secara manual, tidak memerlukan listrik atau mesin berat, bisa diakses di lokasi mana pun."
     },
     {
-      icon: 'fa-leaf',
-      title: 'Dampak Lingkungan Minim',
-      description: 'Hampir tanpa getaran dan kebisingan, menjadikannya ideal untuk renovasi dan area padat penduduk.'
+      icon: "fa-wallet",
+      title: "Sangat Ekonomis",
+      description: "Biaya pengerjaan paling terjangkau, solusi hemat untuk pondasi pagar, rumah 1-2 lantai, dan struktur ringan."
     },
     {
-      icon: 'fa-sack-dollar',
-      title: 'Biaya Efektif',
-      description: 'Pilihan paling ekonomis untuk proyek skala kecil atau yang hanya membutuhkan beberapa titik pondasi.'
+      icon: "fa-map-marker-alt",
+      title: "Aksesibilitas Ekstrem",
+      description: "Dapat dikerjakan di gang-gang sempit, area belakang rumah, atau lokasi tanpa akses alat sama sekali."
     }
   ],
   process: [
-    { step: 1, title: 'Survei & Pengukuran', description: 'Penentuan titik bor secara akurat sesuai gambar perencanaan oleh tim ahli kami.' },
-    { step: 2, title: 'Pengeboran Manual', description: 'Menggunakan set bor auger dengan tripod, tim kami mengebor tanah hingga kedalaman yang ditentukan.' },
-    { step: 3, title: 'Instalasi Tulangan', description: 'Rangkaian besi tulangan yang telah disiapkan dimasukkan ke dalam lubang bor sebagai kerangka kekuatan.' },
-    { step: 4, title: 'Pengecoran Beton', description: 'Beton segar dituang ke dalam lubang hingga penuh, memastikan kepadatan dan kekuatan maksimal.' }
+    { step: 1, title: "Persiapan Alat", description: "Alat bor sederhana (stang, mata bor, pegangan) disiapkan oleh 2-3 pekerja." },
+    { step: 2, title: "Pengeboran Manual", description: "Stang bor diputar secara manual untuk mengikis tanah. Setiap beberapa cm, mata bor diangkat untuk membuang tanah." },
+    { step: 3, title: "Instalasi Tulangan", description: "Tulangan besi sederhana (sering disebut 'cakar ayam') dimasukkan ke dalam lubang." },
+    { step: 4, title: "Pengecoran", description: "Adonan beton dituangkan secara manual ke dalam lubang hingga penuh." }
   ],
   ideal_for: [
-    { title: 'Renovasi Rumah', image: '/assets/img/projects/rumah.jpg' },
-    { title: 'Pondasi Ruko', image: '/assets/img/projects/ruko.jpg' },
-    { title: 'Area Padat Penduduk', image: '/assets/img/projects/padat.jpg' },
-    { title: 'Pagar & Dinding Penahan', image: '/assets/img/projects/pagar.jpg' }
+    { title: "Pondasi Pagar Panel", image: "/assets/img/project-fence.jpg" },
+    { title: "Rumah Tinggal 1-2 Lantai", image: "/assets/img/project-simple-house.jpg" },
+    { title: "Struktur Ringan & Renovasi", image: "/assets/img/project-renovation.jpg" },
+    { title: "Area Sangat Terpencil", image: "/assets/img/project-remote.jpg" }
   ],
   gallery_images: [
-    '/assets/img/gallery/manual-1.jpg',
-    '/assets-img/gallery/manual-2.jpg',
-    '/assets/img/gallery/manual-3.jpg',
-    '/assets/img/gallery/manual-4.jpg'
+    "/assets/img/gallery-manual-1.jpg",
+    "/assets/img/gallery-manual-2.jpg",
+    "/assets/img/gallery-manual-3.jpg",
+    "/assets/img/gallery-manual-4.jpg"
   ]
+};
+
+const seo = {
+  title: "Jasa Bore Pile Manual (Strauss Pile) | Harga Terjangkau | Hadiwijaya",
+  description: "Layanan bore pile manual atau strauss pile dengan harga paling ekonomis. Solusi praktis untuk pondasi pagar, rumah sederhana, dan proyek di lokasi sangat sempit.",
+  keywords: ["bore pile manual", "strauss pile", "harga strauss pile", "jasa pondasi manual", "pondasi cakar ayam"]
 };
 ---
 
-<ServicePageLayout {...seo} frontmatter={frontmatter}>
-  <Fragment slot="description">
-    <h2>Metode Teruji untuk Area Tersulit</h2>
-    <p>Bore Pile Manual adalah seni pembuatan pondasi yang mengandalkan keahlian dan tenaga manusia. Meskipun terlihat tradisional, metode ini merupakan solusi rekayasa yang sangat efektif dan seringkali menjadi satu-satunya jalan keluar untuk proyek di lokasi yang sangat sulit. Ketika alat berat tidak bisa masuk, tim ahli kamilah yang masuk.</p>
-    <p>Kami menggabungkan teknik yang telah teruji waktu dengan standar kontrol kualitas modern. Setiap lubang digali dengan presisi, setiap tulangan dipasang dengan teliti, dan setiap pengecoran diawasi untuk memastikan pondasi yang Anda dapatkan tidak hanya kokoh, tetapi juga dibangun dengan standar keamanan tertinggi. Ini adalah solusi cerdas di mana kekuatan bertemu dengan keterbatasan akses.</p>
-  </Fragment>
+<ServicePageLayout frontmatter={page} title={seo.title} description={seo.description} keywords={seo.keywords}>
+  <div slot="description">
+    <h2>Deskripsi Layanan</h2>
+    <p>
+      <strong>Jasa Bore Pile Manual</strong>, yang juga dikenal luas sebagai <strong>Strauss Pile</strong>, adalah metode pembuatan pondasi yang paling mendasar dan adaptif. Seluruh proses pengerjaan, mulai dari pengeboran hingga pengecoran, dilakukan sepenuhnya dengan tenaga manusia tanpa bantuan mesin berat. Ini menjadikannya solusi yang tak tertandingi untuk proyek di lokasi yang sangat sulit dijangkau.
+    </p>
+    <p>
+      Alat yang digunakan sangat sederhana: sebuah mata bor yang disambungkan dengan pipa-pipa dan sebuah pegangan untuk memutar. Dua hingga tiga orang pekerja memutar alat ini untuk mengikis tanah sedikit demi sedikit. Karena kesederhanaannya, metode ini sangat ekonomis dan ideal untuk struktur ringan seperti pagar, teras, atau rumah tinggal satu hingga dua lantai dengan kondisi tanah yang relatif baik.
+    </p>
+    <h3>Kelebihan Bore Pile Manual:</h3>
+    <ul>
+      <li><strong>Biaya Terendah:</strong> Opsi paling hemat untuk mendapatkan pondasi dalam.
+</li>
+      <li><strong>Aksesibilitas Tanpa Batas:</strong> Bisa dikerjakan di mana saja selama ada ruang untuk beberapa orang berdiri.
+</li>
+      <li><strong>Tidak Ada Kebisingan Mesin:</strong> Proses kerja sangat senyap, tidak mengganggu lingkungan sekitar.
+</li>
+      <li><strong>Tidak Perlu Listrik:</strong> Sepenuhnya dioperasikan secara manual.
+</li>
+    </ul>
+  </div>
 </ServicePageLayout>

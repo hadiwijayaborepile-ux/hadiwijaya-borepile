@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Projects from '../components/Projects.astro';
 
 const title = "Jasa Bore Pile Profesional - Hadiwijaya Pondasi Persada";
 const description = "Kontraktor jasa bore pile terpercaya di Indonesia. Kami menyediakan solusi pondasi bore pile untuk semua skala proyek, dari manual, mini crane, hingga hydraulic. Garansi kualitas dan tim profesional.";
@@ -41,6 +42,8 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
       </div>
     </div>
   </section>
+
+  <Projects />
   
   <section class="process">
     <div class="container">
@@ -145,7 +148,9 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
         <div class="cta-content">
             <h2>Siap Membangun Pondasi yang Kokoh?</h2>
             <p>Jangan ragu untuk menghubungi kami. Dapatkan konsultasi dan penawaran gratis untuk memastikan proyek Anda berada di tangan yang tepat.</p>
-            <a href="/contact" class="cta-primary">Hubungi Kami Sekarang</a>
+            <a href="https://wa.me/6281325794818" class="cta-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> Hubungi Kami Sekarang
+            </a>
         </div>
       </div>
   </section>
@@ -193,8 +198,12 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
 
   /* GENERAL SECTION STYLING */
   .advantages, .process, .latest-projects, .get-in-touch-section, .faq, .final-cta {
+     padding: 6rem 0;
      text-align: center; 
   }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+  h2 { font-size: 2.8rem; color: var(--secondary-color); margin-bottom: 3rem; }
 
   /* ADVANTAGES */
   .advantages .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
@@ -206,16 +215,6 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
 
   .advantages {
     background-color: var(--background-color);
-  }
-
-  .compact-section {
-    padding-top: 4rem !important;
-    padding-bottom: 4rem !important;
-    background-color: var(--background-color);
-  }
-
-  .compact-section h2 {
-    margin-bottom: 2.5rem !important;
   }
 
   /* PROCESS */
@@ -258,12 +257,11 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
 
   /* FINAL CTA */
   .final-cta {
-      background-color: var(--secondary-color);
+      background-color: var(--primary-color);
   }
-  .cta-content { 
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-   }
+  .final-cta .cta-content {
+      padding: 5rem 0;
+  }
   .final-cta h2, .final-cta p {
       color: white;
   }
@@ -271,8 +269,29 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
       font-size: 1.1rem;
       margin-bottom: 2rem;
   }
-  .final-cta a { background-color: var(--primary-color); border: 2px solid var(--primary-color); }
-  .final-cta a:hover { background-color: #e65200; border-color: #e65200; }
+  .cta-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid var(--secondary-color);
+  }
+
+  .cta-whatsapp:hover {
+    background-color: #1a2b88; /* A darker shade of blue for hover */
+    border-color: #1a2b88;
+    transform: translateY(-3px);
+  }
+
+  .cta-whatsapp i {
+    font-size: 1.5rem;
+  }
 
   /* RESPONSIVE */
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -282,22 +301,22 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
 
     .process-timeline {
       display: flex;
-      flex-direction: row; /* Keep it as a row */
-      overflow-x: auto; /* Allow horizontal scrolling */
-      justify-content: flex-start; /* Align items to the start */
-      padding-bottom: 1.5rem; /* Add some padding for the scrollbar */
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      flex-direction: row;
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding-bottom: 1.5rem;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
     .process-timeline::-webkit-scrollbar { 
-      display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+      display: none;
     }
     .process-timeline::before { 
-      display: none; /* Hide the connecting line on mobile */
+      display: none;
     }
     .step {
-      flex-shrink: 0; /* Prevent steps from shrinking */
-      width: 70%; /* Each step takes up a good portion of the screen */
+      flex-shrink: 0;
+      width: 70%;
       min-width: 280px;
       padding: 0 1rem;
     }

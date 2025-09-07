@@ -88,13 +88,13 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
   .about-header {
     background-color: var(--secondary-color);
     color: white;
-    padding: 8rem 2rem 4rem 2rem; /* Corrected top padding */
+    padding: 8rem 2rem 6rem 2rem; 
   }
   .about-header h1 { font-size: 3rem; margin: 0; }
   .about-header p { font-size: 1.2rem; max-width: 600px; margin: 0.5rem auto 0; opacity: 0.9; }
 
   /* Our Story */
-  .our-story { padding: 5rem 0; background-color: white;}
+  .our-story { padding: 6rem 0; background-color: white;}
   .story-container { 
     max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
     display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
@@ -105,7 +105,7 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
   .story-content p { color: #555; line-height: 1.8; font-size: 1.1rem; }
 
   /* Vision & Mission */
-  .vision-mission { padding: 5rem 0; background-color: #f8f9fa; }
+  .vision-mission { padding: 6rem 0; background-color: #f8f9fa; }
   .vm-container { 
     max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
     display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
@@ -121,7 +121,7 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
   .mission-card ul { padding-left: 20px; }
 
   /* Why Choose Us */
-  .why-choose-us { padding: 5rem 0; background: white; }
+  .why-choose-us { padding: 6rem 0; background: white; }
   .grid { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
   .advantage-item { background: #f8f9fa; padding: 2.5rem; border-radius: 12px; text-align: center; transition: all 0.3s ease; }
   .advantage-item:hover { transform: translateY(-10px); background: white; box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
@@ -144,12 +144,20 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
       margin-bottom: 2rem;
       opacity: 0.9;
   }
-  .final-cta-about .cta-primary { 
-      background-color: white; color: var(--primary-color); 
-      border-color: white;
+  .final-cta-about .cta-primary {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+    background-color: white;
+    color: var(--primary-color);
   }
   .final-cta-about .cta-primary:hover { 
-      background-color: #f0f0f0; border-color: #f0f0f0;
+      background-color: #f0f0f0; 
+      border-color: #f0f0f0;
       transform: translateY(-3px);
   }
 
