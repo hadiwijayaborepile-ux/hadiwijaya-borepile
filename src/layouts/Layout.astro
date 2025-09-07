@@ -12,8 +12,8 @@ interface Props {
 
 const { 
   title = 'Hadiwijaya Pondasi Persada - Jasa Bore Pile Profesional',
-  description = 'Solusi pondasi bore pile terpercaya untuk semua skala proyek. Kami menyediakan jasa bore pile manual, mini crane, dan hydraulic dengan tim berpengalaman.', 
-  keywords = ['jasa bore pile', 'pondasi bore pile', 'kontraktor pondasi', 'bore pile jakarta', 'bore pile indonesia', 'bore pile manual', 'bore pile mini crane', 'bore pile hydraulic']
+  description = 'Solusi fondasi bore pile terpercaya untuk semua skala proyek. Kami menyediakan jasa bore pile manual, mini crane, dan hydraulic dengan tim berpengalaman.', 
+  keywords = ['jasa bore pile', 'fondasi bore pile', 'kontraktor fondasi', 'bore pile jakarta', 'bore pile indonesia', 'bore pile manual', 'bore pile mini crane', 'bore pile hydraulic']
 } = Astro.props;
 ---
 
@@ -34,7 +34,7 @@ const {
         basic: {
           title: title,
           type: 'website',
-          image: '/assets/img/og-image.jpg', // Placeholder OG Image
+          image: '/assets/img/og-image.jpg', 
           url: Astro.url,
         }
       }}
@@ -52,48 +52,6 @@ const {
           }
         ]
       }}
-      schema={{
-        '@context': 'https://schema.org',
-        '@type': 'LocalBusiness',
-        name: 'Hadiwijaya Pondasi Persada',
-        image: '/assets/img/logo.png', // Placeholder Logo
-        url: 'https://hadiwijayaborepile.co.id/',
-        telephone: '+6281234567890', // Placeholder Phone
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Jalan Raya Lenteng Agung',
-          addressLocality: 'Jakarta Selatan',
-          addressRegion: 'DKI Jakarta',
-          postalCode: '12610',
-          addressCountry: 'ID',
-        },
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: -6.3385,
-          longitude: 106.8322,
-        },
-        openingHoursSpecification: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-          ],
-          opens: '08:00',
-          closes: '17:00',
-        },
-        sameAs: [ // Add social media links here
-          'https://www.facebook.com/hadiwijayapondasi',
-          'https://www.instagram.com/hadiwijayapondasi',
-        ],
-        areaServed: {
-          '@type': 'Country',
-          name: 'Indonesia'
-        }
-      }}
     />
 
 		<ViewTransitions />
@@ -102,6 +60,7 @@ const {
 
 		<Header/>
 
+    <!-- The hero slot can be full-width, container is managed inside the component -->
 		<slot name="hero" />
 
 		<main>
@@ -110,6 +69,34 @@ const {
 
 		<Footer />
 
+    <script is:inline>
+      function initFaq() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+          const question = item.querySelector('.faq-question');
+          question.addEventListener('click', () => {
+            const answer = item.querySelector('.faq-answer');
+            const icon = question.querySelector('i');
+            const isOpen = item.classList.toggle('open');
+            
+            if (isOpen) {
+              answer.style.maxHeight = answer.scrollHeight + 'px';
+              icon.style.transform = 'rotate(180deg)';
+            } else {
+              answer.style.maxHeight = '0';
+              icon.style.transform = 'rotate(0deg)';
+            }
+          });
+        });
+      }
+
+      function initAll() {
+        initFaq();
+      }
+
+      initAll();
+      document.addEventListener('astro:after-swap', initAll);
+    </script>
 	</body>
 </html>
 
@@ -129,25 +116,34 @@ const {
 
 	body {
 		margin: 0;
-		overflow-x: hidden; /* Prevent horizontal scroll */
+		overflow-x: hidden;
 	}
 
+  /* Remove main content constraint, handle it with .container instead */
 	main {
-		margin: 0; /* Reset margin */
-    padding: 0; /* Reset padding */
-    max-width: none; /* Allow full width */
+    position: relative; /* Positioning context for children */
 	}
 
-	/* Global styles for sections */
-	section {
-		padding-top: 5rem;
-		padding-bottom: 5rem;
-	}
+  /* A helper class to constrain content width */
+  .container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 
-	section h2 {
-		font-size: 2.8rem;
-		color: var(--secondary-color);
-		margin-bottom: 3rem;
+  section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    /* REMOVED horizontal padding from here */
+  }
+
+  section h2 {
+    font-size: 2.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 3rem;
     text-align: center;
-	}
+  }
+
 </style>
