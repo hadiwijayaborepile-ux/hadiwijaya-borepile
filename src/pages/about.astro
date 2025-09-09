@@ -17,7 +17,7 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
   <section class="our-story">
     <div class="story-container">
       <div class="story-image">
-        <img src="/assets/img/team-discussion.jpg" alt="Tim Hadiwijaya Pondasi Persada berdiskusi" loading="lazy">
+        <img src="/assets/img/hbp-logo.png" alt="Logo Hadiwijaya Pondasi Persada" class="story-logo" loading="lazy">
       </div>
       <div class="story-content">
         <h2>Cerita Kami: Dari Visi Menjadi Aksi</h2>
@@ -97,10 +97,19 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
   .our-story { padding: 6rem 0; background-color: white;}
   .story-container { 
     max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center;
     text-align: left;
   }
-  .story-image img { width: 100%; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+  .story-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .story-image img.story-logo {
+    max-width: 350px; /* Adjust logo size */
+    width: 100%;
+    height: auto;
+  }
   .story-content h2 { text-align: left; }
   .story-content p { color: #555; line-height: 1.8; font-size: 1.1rem; }
 
@@ -166,7 +175,10 @@ const keywords = ["profil perusahaan konstruksi", "kontraktor pondasi terpercaya
     .story-container, .vm-container {
       grid-template-columns: 1fr;
     }
-    .story-image { order: -1; }
+    .story-image { 
+      order: -1; 
+      margin-bottom: 2rem;
+    }
     .story-content h2 { text-align: center; }
   }
 </style>

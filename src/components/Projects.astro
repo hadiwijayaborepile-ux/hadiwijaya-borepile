@@ -46,8 +46,7 @@ const initialVisibleProjects = 3;
     <h2>Proyek Terbaru Kami</h2>
     <div id="project-grid" class="project-grid">
       {projects.map((project, index) => (
-        <div 
-          class={`project-card ${index >= initialVisibleProjects ? 'initially-hidden' : ''}`}>
+        <div class="project-card" data-index={index}>
           <img src={project.image} alt={project.title} loading="lazy" />
           <div class="card-content">
             <span class="category">{project.category}</span>
@@ -58,42 +57,46 @@ const initialVisibleProjects = 3;
       ))}
     </div>
     <div class="cta-container">
-        <button id="toggle-projects-btn" class="cta-button">
-            Lihat Lebih Banyak
-        </button>
+      <button id="toggle-projects-btn" class="cta-button">
+        Lihat Lebih Banyak
+      </button>
     </div>
   </div>
 </section>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
-    const toggleBtn = document.getElementById('toggle-projects-btn');
-    const projectGrid = document.getElementById('project-grid');
-    const allCards = Array.from(projectGrid.children);
+  function setupProjectsToggle() {
     const initialVisible = 3;
-    const initiallyHiddenCards = allCards.slice(initialVisible);
-    let areVisible = false;
+    const toggleBtn = document.getElementById('toggle-projects-btn');
+    const projectCards = document.querySelectorAll('.project-card[data-index]');
+    
+    if (!toggleBtn || projectCards.length <= initialVisible) {
+      if(toggleBtn) toggleBtn.style.display = 'none';
+      return;
+    }
 
-    // Hide cards initially
-    initiallyHiddenCards.forEach(card => {
-        (card as HTMLElement).style.display = 'none';
+    let areExtraVisible = false;
+
+    const updateVisibility = () => {
+      projectCards.forEach(card => {
+        const index = parseInt((card as HTMLElement).dataset.index || '0');
+        if (index >= initialVisible) {
+          (card as HTMLElement).style.display = areExtraVisible ? 'block' : 'none';
+        }
+      });
+      toggleBtn.textContent = areExtraVisible ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
+    };
+
+    toggleBtn.addEventListener('click', () => {
+      areExtraVisible = !areExtraVisible;
+      updateVisibility();
     });
 
-    if (toggleBtn && initiallyHiddenCards.length > 0) {
-      toggleBtn.addEventListener('click', () => {
-        areVisible = !areVisible; // Toggle the state
+    // Initial setup
+    updateVisibility();
+  }
 
-        initiallyHiddenCards.forEach(card => {
-          (card as HTMLElement).style.display = areVisible ? 'block' : 'none';
-        });
-
-        toggleBtn.textContent = areVisible ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
-      });
-    } else if (toggleBtn) {
-        // If there are no hidden cards, hide the button itself
-        (toggleBtn.parentNode as HTMLElement).style.display = 'none';
-    }
-  });
+  document.addEventListener('astro:page-load', setupProjectsToggle);
 </script>
 
 <style>
@@ -107,7 +110,7 @@ const initialVisibleProjects = 3;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-bottom: 3rem;
+    margin-top: 3rem; /* Adjusted from margin-bottom */
   }
 
   .project-card {
@@ -158,25 +161,26 @@ const initialVisibleProjects = 3;
   }
 
   .cta-container {
-    margin-top: 2rem;
+    margin-top: 3rem;
+    text-align: center;
   }
 
   .cta-button {
     background-color: var(--primary-color);
     color: white;
-    border: none;
-    padding: 0.8rem 2rem;
+    border: 2px solid transparent;
+    padding: 0.8rem 2.5rem;
     font-size: 1rem;
     font-weight: 700;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-decoration: none; /* In case it's an anchor */
+    text-decoration: none;
   }
 
   .cta-button:hover {
-    background-color: #e65200;
+    background-color: var(--primary-color-dark);
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(255, 107, 0, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 </style>
