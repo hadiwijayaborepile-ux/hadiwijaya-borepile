@@ -92,6 +92,10 @@ const {
       </div>
     </div>
 
+    <a href="https://wa.me/6281325794818" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script is:inline>
       function initNavbar() {
         const toggleButton = document.getElementById('mobile-menu-toggle');
@@ -252,5 +256,24 @@ const {
   #booking-form label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; text-align: left; }
   #booking-form input { width: 100%; padding: 0.8rem 1rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
   #booking-form .cta-button { width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; background-color: var(--primary-color); color: white; }
+
+  /* Floating WhatsApp Button */
+  .whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25D366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 38px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
 
 </style>
