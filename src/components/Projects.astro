@@ -1,57 +1,44 @@
-
 ---
 const projects = [
   {
-    title: "Proyek Bore Pile Gedung Bertingkat",
-    description: "Pondasi untuk gedung perkantoran 15 lantai di pusat kota. Menggunakan metode hydraulic drilling untuk efisiensi dan kedalaman maksimal.",
-    image: "/assets/img/projects/project-1.jpg",
-    category: "Gedung Komersial"
-  },
-  {
-    title: "Pondasi Jembatan Antar Provinsi",
-    description: "Struktur pondasi bore pile untuk jembatan sepanjang 800 meter yang menghubungkan dua provinsi.",
-    image: "/assets/img/projects/project-2.jpg",
-    category: "Infrastruktur"
-  },
-  {
-    title: "Bore Pile Area Pabrik & Gudang",
-    description: "Pengerjaan pondasi di area industri untuk pabrik manufaktur dan kompleks gudang penyimpanan.",
-    image: "/assets/img/projects/project-3.jpg",
+    title: "Proyek Gudang PT Hardo Soloplast",
+    description: "Lokasi: Karanganyar, Solo.",
+    image: "/assets/img/proyek/1.png",
     category: "Industri"
   },
   {
-    title: "Pondasi Tower Telekomunikasi",
-    description: "Bore pile untuk tower Base Transceiver Station (BTS) di beberapa lokasi terpencil.",
-    image: "/assets/img/projects/project-4.jpg",
-    category: "Telekomunikasi"
+    title: "Proyek Gedung Pusat Data “Cloud Core”",
+    description: "Lokasi: Cikarang, Jawa Barat.",
+    image: "/assets/img/proyek/2.png",
+    category: "Teknologi"
   },
   {
-    title: "Proyek Perumahan Klaster",
-    description: "Pondasi bore pile untuk puluhan unit rumah di sebuah klaster eksklusif.",
-    image: "/assets/img/projects/project-5.jpg",
+    title: "Pembangunan Hotel Bintang 4 “Grand Paradise”",
+    description: "Lokasi: Yogyakarta.",
+    image: "/assets/img/proyek/3.png",
+    category: "Pariwisata"
+  },
+  {
+    title: "Proyek Perumahan Cluster “Puspita Asri”",
+    description: "Lokasi: Semarang.",
+    image: "/assets/img/proyek/4.png",
     category: "Residential"
   },
   {
-    title: "Struktur Pondasi Ruko",
-    description: "Pengerjaan pondasi bore pile untuk kompleks ruko di area komersial baru.",
-    image: "/assets/img/projects/project-6.jpg",
+    title: "Proyek Perkantoran “Tower Biznet”",
+    description: "Lokasi: Semarang.",
+    image: "/assets/img/proyek/5.png",
     category: "Komersial"
   },
   {
-    title: "Bore Pile untuk Sekolah & Universitas",
-    description: "Pondasi untuk gedung sekolah dan fasilitas kampus universitas.",
-    image: "/assets/img/projects/project-7.jpg",
-    category: "Pendidikan"
-  },
-  {
-    title: "Pondasi Hotel & Resort",
-    description: "Pengerjaan pondasi bore pile untuk hotel bintang 5 di kawasan wisata.",
-    image: "/assets/img/projects/project-8.jpg",
-    category: "Pariwisata"
+    title: "Pembangunan Fasilitas Golf Semarang “BSB Golf”",
+    description: "Lokasi: Semarang, Jawa Tengah.",
+    image: "/assets/img/proyek/6.png",
+    category: "Rekreasi"
   }
 ];
 
-const projectsPerPage = 6;
+const initialVisibleProjects = 3;
 ---
 
 <section class="latest-projects">
@@ -59,7 +46,8 @@ const projectsPerPage = 6;
     <h2>Proyek Terbaru Kami</h2>
     <div id="project-grid" class="project-grid">
       {projects.map((project, index) => (
-        <div class:list={["project-card", { "hidden": index >= projectsPerPage }]}>
+        <div 
+          class={`project-card ${index >= initialVisibleProjects ? 'initially-hidden' : ''}`}>
           <img src={project.image} alt={project.title} loading="lazy" />
           <div class="card-content">
             <span class="category">{project.category}</span>
@@ -69,31 +57,42 @@ const projectsPerPage = 6;
         </div>
       ))}
     </div>
-    {projects.length > projectsPerPage && (
-      <button id="toggle-btn" class="cta-button">Lihat Lebih Banyak</button>
-    )}
+    <div class="cta-container">
+        <button id="toggle-projects-btn" class="cta-button">
+            Lihat Lebih Banyak
+        </button>
+    </div>
   </div>
 </section>
 
-<script define:vars={{ projectsPerPage }}>
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('toggle-btn');
-    if (!toggleBtn) return;
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toggleBtn = document.getElementById('toggle-projects-btn');
+    const projectGrid = document.getElementById('project-grid');
+    const allCards = Array.from(projectGrid.children);
+    const initialVisible = 3;
+    const initiallyHiddenCards = allCards.slice(initialVisible);
+    let areVisible = false;
 
-    const projectCards = Array.from(document.querySelectorAll('.project-card'));
-    let isExpanded = false;
-
-    toggleBtn.addEventListener('click', () => {
-      isExpanded = !isExpanded;
-
-      projectCards.forEach((card, index) => {
-        if (index >= projectsPerPage) {
-          card.classList.toggle('hidden', !isExpanded);
-        }
-      });
-
-      toggleBtn.textContent = isExpanded ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
+    // Hide cards initially
+    initiallyHiddenCards.forEach(card => {
+        (card as HTMLElement).style.display = 'none';
     });
+
+    if (toggleBtn && initiallyHiddenCards.length > 0) {
+      toggleBtn.addEventListener('click', () => {
+        areVisible = !areVisible; // Toggle the state
+
+        initiallyHiddenCards.forEach(card => {
+          (card as HTMLElement).style.display = areVisible ? 'block' : 'none';
+        });
+
+        toggleBtn.textContent = areVisible ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
+      });
+    } else if (toggleBtn) {
+        // If there are no hidden cards, hide the button itself
+        (toggleBtn.parentNode as HTMLElement).style.display = 'none';
+    }
   });
 </script>
 
@@ -101,6 +100,7 @@ const projectsPerPage = 6;
   .latest-projects {
     background-color: var(--background-color);
     text-align: center;
+    padding: 5rem 0;
   }
 
   .project-grid {
@@ -119,10 +119,6 @@ const projectsPerPage = 6;
     text-align: left;
   }
 
-  .project-card.hidden {
-    display: none;
-  }
-
   .project-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
@@ -130,7 +126,7 @@ const projectsPerPage = 6;
 
   .project-card img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
   }
 
@@ -161,21 +157,26 @@ const projectsPerPage = 6;
     line-height: 1.6;
   }
 
+  .cta-container {
+    margin-top: 2rem;
+  }
+
   .cta-button {
-    padding: 0.9rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
     font-weight: 700;
-    transition: all 0.3s ease;
+    border-radius: 50px;
     cursor: pointer;
-    background-color: transparent;
-    color: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
+    transition: all 0.3s ease;
+    text-decoration: none; /* In case it's an anchor */
   }
 
   .cta-button:hover {
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: #e65200;
     transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 107, 0, 0.3);
   }
 </style>

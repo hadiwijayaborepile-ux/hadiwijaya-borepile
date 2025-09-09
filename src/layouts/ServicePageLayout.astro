@@ -128,7 +128,7 @@ const isImageIcon = mainIcon && !mainIcon.startsWith('fa-');
     .product-image img.service-icon-image {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Corrected to contain */
+      object-fit: cover;
     }
 
     .product-details .title { font-size: 3.2rem; font-weight: 800; color: var(--secondary-color); margin-bottom: 0.5rem; line-height: 1.2; }
@@ -217,7 +217,7 @@ const isImageIcon = mainIcon && !mainIcon.startsWith('fa-');
     .gallery-grid img { 
       width: 100%; 
       height: 100%; 
-      object-fit: contain; /* Make sure gallery images are also contained */
+      object-fit: cover; 
       border-radius: 8px; 
       transition: transform 0.3s ease; 
       cursor: pointer; 
