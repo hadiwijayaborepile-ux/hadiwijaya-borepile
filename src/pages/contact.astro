@@ -17,7 +17,7 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
       <!-- Contact Form Column -->
       <div class="form-wrapper">
         <h2>Kirim Pesan Langsung</h2>
-        <form method="POST">
+        <form id="contact-page-form">
           <div class="form-group">
             <label for="name">Nama Lengkap</label>
             <input type="text" id="name" name="name" placeholder="Contoh: John Doe" required>
@@ -73,6 +73,29 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
     </div>
   </section>
 </Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const contactForm = document.getElementById('contact-page-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const subject = event.target.subject.value;
+        const message = event.target.message.value;
+
+        const whatsappNumber = "6281325794818";
+        const whatsappMessage = `Halo, saya ${name}.\nEmail: ${email}\nSubjek: ${subject}\n\nPesan:\n${message}`;
+
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+        window.open(whatsappUrl, '_blank');
+      });
+    }
+  });
+</script>
 
 <style>
   .contact-header {
