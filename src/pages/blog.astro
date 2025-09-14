@@ -16,7 +16,7 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <!-- Hero Section - Styled exactly like contact.astro -->
+  <!-- Hero Section -->
   <section class="page-header">
     <h1>Blog & Artikel</h1>
     <p>Insight terbaru seputar dunia konstruksi, fondasi, dan teknologi bore pile dari para ahli kami.</p>
@@ -33,7 +33,8 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
           {featuredBlogs.map(blog => (
             <a href={`/blog/${blog.slug}`} class="blog-card">
               <div class="card-image-wrapper">
-                <img src={blog.headline_img} alt={blog.title} class="card-image" loading="lazy" />
+                <!-- PERBAIKAN: Menambahkan API_URL ke path gambar -->
+                <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="card-image" loading="lazy" />
               </div>
               <div class="card-content">
                 <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
@@ -52,7 +53,8 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
           {otherBlogs.map(blog => (
             <a href={`/blog/${blog.slug}`} class="other-article-item">
               <div class="other-article-image-wrapper">
-                <img src={blog.headline_img} alt={blog.title} class="other-article-image" loading="lazy" />
+                <!-- PERBAIKAN: Menambahkan API_URL ke path gambar -->
+                <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="other-article-image" loading="lazy" />
               </div>
               <div class="other-article-content">
                 <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
@@ -68,55 +70,17 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
 </Layout>
 
 <style>
-  /* Header - Copied from contact.astro */
-  .page-header {
-    background-color: var(--secondary-color);
-    color: white;
-    text-align: center;
-    padding: 8rem 2rem 4rem 2rem;
-  }
-  .page-header h1 {
-    font-size: 3rem;
-    margin: 0;
-  }
-  .page-header p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0.5rem auto 0;
-    opacity: 0.9;
-  }
-
-  /* Body */
+  /* Style tidak berubah */
+  .page-header { background-color: var(--secondary-color); color: white; text-align: center; padding: 8rem 2rem 4rem; }
+  .page-header h1 { font-size: 3rem; margin: 0; }
+  .page-header p { font-size: 1.2rem; max-width: 600px; margin: 0.5rem auto 0; opacity: 0.9; }
   .page-body { padding: 5rem 0; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-  
-  h2 {
-    font-size: 2.2rem;
-    color: var(--secondary-color);
-    margin-top: 0;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  /* Featured Section */
+  h2 { font-size: 2.2rem; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; text-align: center; }
   .featured-section { margin-bottom: 5rem; }
-  .featured-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-    gap: 2rem; 
-  }
-  .blog-card { 
-    text-decoration: none; 
-    background-color: white; 
-    border-radius: 12px; 
-    overflow: hidden; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.07); 
-    transition: all 0.3s ease;
-  }
-  .blog-card:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  }
+  .featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+  .blog-card { text-decoration: none; background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.07); transition: all 0.3s ease; }
+  .blog-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
   .card-image-wrapper { height: 200px; }
   .card-image { width: 100%; height: 100%; object-fit: cover; }
   .card-content { padding: 1.5rem; }
@@ -124,37 +88,13 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
   .card-title { font-size: 1.25rem; font-weight: 700; color: var(--secondary-color); margin: 0 0 1rem; line-height: 1.4; }
   .card-cta { font-weight: 600; color: var(--primary-color); }
   .blog-card:hover .card-title { color: var(--primary-color); }
-
-  /* Other Articles Section */
-  .other-articles-list { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 1.5rem; 
-    max-width: 800px; 
-    margin: 0 auto; 
-  }
-  .other-article-item { 
-    display: grid; 
-    grid-template-columns: 150px 1fr; 
-    gap: 1.5rem; 
-    align-items: center; 
-    text-decoration: none; 
-    background-color: white; 
-    padding: 1rem; 
-    border-radius: 8px; 
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05); 
-    transition: all 0.3s ease; 
-  }
-  .other-article-item:hover { 
-    transform: translateY(-3px); 
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08); 
-  }
+  .other-articles-section { }
+  .other-articles-list { display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px; margin: 0 auto; }
+  .other-article-item { display: grid; grid-template-columns: 150px 1fr; gap: 1.5rem; align-items: center; text-decoration: none; background-color: white; padding: 1rem; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; }
+  .other-article-item:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); }
   .other-article-image-wrapper { height: 100px; border-radius: 6px; overflow: hidden; }
   .other-article-image { width: 100%; height: 100%; object-fit: cover; }
   .other-article-title { font-size: 1.15rem; font-weight: 600; color: var(--secondary-color); }
   .other-article-item:hover .other-article-title { color: var(--primary-color); }
-  
-  @media (max-width: 768px) {
-      .other-article-item { grid-template-columns: 100px 1fr; }
-  }
+  @media (max-width: 768px) { .other-article-item { grid-template-columns: 100px 1fr; } }
 </style>

@@ -27,14 +27,7 @@ try {
   if (response.ok) {
     const jsonResponse = await response.json();
     blogPost = jsonResponse.data || jsonResponse;
-
-    // --- LANGKAH DEBUGGING --- 
-    // Cetak seluruh objek blogPost ke terminal untuk inspeksi.
-    console.log(`\n--- DATA MENTAH UNTUK SLUG: ${slug} ---\n`);
-    console.log(JSON.stringify(blogPost, null, 2));
-    console.log(`\n--- AKHIR DATA MENTAH ---\n`);
-
-  } 
+  }
 } catch (error) {
   // Error handling
 }
@@ -44,8 +37,12 @@ if (!blogPost) {
 }
 
 const { title, excerpt, tags, date, category, headline_img } = blogPost;
-// Untuk sementara, kita berikan konten placeholder
-const articleContent = blogPost.body || blogPost.content || "<p><em>Sedang memeriksa data konten...</em></p>";
+const articleContent = blogPost.body || blogPost.content || "<p><em>Konten tidak tersedia.</em></p>";
+
+// --- PERBAIKAN GAMBAR --- 
+// Membuat URL gambar yang lengkap dengan menggabungkan URL API dan path gambar
+const fullImageUrl = `${API_URL}${headline_img}`;
+
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
 const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
@@ -65,7 +62,8 @@ const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
           <span><Icon name="mdi:tag" class="icon" /> {category}</span>
         </div>
 
-        <img class="featured-image" src={headline_img} alt={title} />
+        <!-- Menggunakan URL gambar yang sudah lengkap -->
+        <img class="featured-image" src={fullImageUrl} alt={title} />
 
         <div class="prose-content" set:html={articleContent} />
         
