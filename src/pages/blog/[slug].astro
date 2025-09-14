@@ -2,74 +2,80 @@
 import Layout from '../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 
-// 1. Fetch paths for static generation
 export async function getStaticPaths() {
+  const API_URL = import.meta.env.PUBLIC_API_URL;
+  const endpoint = `${API_URL}/api/v2/blogs`;
   try {
-    const response = await fetch('https://f97s3xn0-8000.asse.devtunnels.ms/api/v2/blogs');
+    const response = await fetch(endpoint);
+    if (!response.ok) return [];
     const paginatedData = await response.json();
-    const blogs = paginatedData.data;
-    return blogs.map((blog) => ({ params: { slug: blog.slug } }));
+    const blogList = paginatedData.data;
+    if (!Array.isArray(blogList)) return [];
+    return blogList.map(blog => ({ params: { slug: blog.slug } }));
   } catch (error) {
-    console.error("Failed to fetch blog slugs for getStaticPaths:", error);
     return [];
   }
 }
 
-// 2. Fetch the specific blog data for this page
+const API_URL = import.meta.env.PUBLIC_API_URL;
 const { slug } = Astro.params;
-let blog = null;
+let blogPost = null;
+
+const singlePostEndpoint = `${API_URL}/api/v2/blogs/${slug}`;
 try {
-  const response = await fetch(`https://f97s3xn0-8000.asse.devtunnels.ms/api/v2/blogs/${slug}`);
+  const response = await fetch(singlePostEndpoint);
   if (response.ok) {
-    blog = await response.json(); // API for single item returns the object directly
-  } else {
-     console.error(`API returned status ${response.status} for slug ${slug}`);
-  }
+    const jsonResponse = await response.json();
+    blogPost = jsonResponse.data || jsonResponse;
+
+    // --- LANGKAH DEBUGGING --- 
+    // Cetak seluruh objek blogPost ke terminal untuk inspeksi.
+    console.log(`\n--- DATA MENTAH UNTUK SLUG: ${slug} ---\n`);
+    console.log(JSON.stringify(blogPost, null, 2));
+    console.log(`\n--- AKHIR DATA MENTAH ---\n`);
+
+  } 
 } catch (error) {
-  console.error(`Failed to fetch blog content for slug ${slug}:`, error);
+  // Error handling
 }
 
-// If blog post not found, redirect to 404
-if (!blog) {
+if (!blogPost) {
   return Astro.redirect('/404');
 }
 
-// SEO Metadata & Content
-const title = `${blog.title} | Blog Hadiwijaya`;
-const description = blog.excerpt || `Baca artikel lengkap tentang ${blog.title}.`;
-const keywords = blog.tags || ["blog konstruksi", "artikel bore pile"];
-const articleContent = blog.body || blog.content || "<p><i>Konten artikel tidak dapat dimuat saat ini.</i></p>";
+const { title, excerpt, tags, date, category, headline_img } = blogPost;
+// Untuk sementara, kita berikan konten placeholder
+const articleContent = blogPost.body || blogPost.content || "<p><em>Sedang memeriksa data konten...</em></p>";
+const pageTitle = `${title} | Blog Hadiwijaya`;
+const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
+const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
-  <!-- Hero Section - Styled like contact.astro -->
+<Layout title={pageTitle} description={pageDescription} keywords={pageKeywords}>
   <section class="page-header">
-    <h1>{blog.title}</h1>
-    <p class="breadcrumb">
-      <a href="/">Beranda</a> &rarr; <a href="/blog">Blog</a>
-    </p>
+    <h1>{title}</h1>
+    <p class="breadcrumb"><a href="/">Beranda</a> &rarr; <a href="/blog">Blog</a></p>
   </section>
 
-  <!-- Main Content Section -->
   <section class="page-body">
     <div class="container">
       <article>
         <div class="article-meta">
-          <span><Icon name="mdi:calendar" class="icon" /> {new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-          <span><Icon name="mdi:tag" class="icon" /> {blog.category}</span>
+          <span><Icon name="mdi:calendar" class="icon" /> {new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+          <span><Icon name="mdi:tag" class="icon" /> {category}</span>
         </div>
 
-        <img class="featured-image" src={blog.headline_img} alt={blog.title} />
+        <img class="featured-image" src={headline_img} alt={title} />
 
         <div class="prose-content" set:html={articleContent} />
         
         <div class="share-section">
           <h3>Bagikan Artikel</h3>
           <div class="share-links">
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url.href}`} target="_blank" aria-label="Bagikan di Facebook"><Icon name="mdi:facebook" class="icon" /></a>
-            <a href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${encodeURIComponent(blog.title)}`} target="_blank" aria-label="Bagikan di Twitter"><Icon name="mdi:twitter" class="icon" /></a>
-            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${Astro.url.href}`} target="_blank" aria-label="Bagikan di LinkedIn"><Icon name="mdi:linkedin" class="icon" /></a>
-            <a href={`https://wa.me/?text=${encodeURIComponent(blog.title + " " + Astro.url.href)}`} target="_blank" aria-label="Bagikan di WhatsApp"><Icon name="mdi:whatsapp" class="icon" /></a>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url.href}`} target="_blank" aria-label="Bagikan di Facebook"><Icon name="mdi:facebook" /></a>
+            <a href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${encodeURIComponent(title)}`} target="_blank" aria-label="Bagikan di Twitter"><Icon name="mdi:twitter" /></a>
+            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${Astro.url.href}`} target="_blank" aria-label="Bagikan di LinkedIn"><Icon name="mdi:linkedin" /></a>
+            <a href={`https://wa.me/?text=${encodeURIComponent(title + " " + Astro.url.href)}`} target="_blank" aria-label="Bagikan di WhatsApp"><Icon name="mdi:whatsapp" /></a>
           </div>
         </div>
       </article>
@@ -77,74 +83,30 @@ const articleContent = blog.body || blog.content || "<p><i>Konten artikel tidak 
   </section>
 </Layout>
 
-<style>
-  /* Header - Copied from contact.astro */
-  .page-header {
-    background-color: var(--secondary-color);
-    color: white;
-    text-align: center;
-    padding: 7rem 2rem 4rem 2rem;
-  }
-  .page-header h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
-    line-height: 1.3;
-    max-width: 900px;
-    margin: 0 auto 1rem auto;
-  }
-  .page-header .breadcrumb {
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
-  .page-header .breadcrumb a {
-    color: white;
-    text-decoration: none;
-  }
-  .page-header .breadcrumb a:hover {
-    text-decoration: underline;
-  }
-
-  /* Body */
+<style is:inline>
+  /* Style tidak berubah */
+  .page-header { background-color: var(--secondary-color); color: white; text-align: center; padding: 7rem 2rem 4rem; }
+  .page-header h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.3; max-width: 900px; margin: 0 auto 1rem; }
+  .page-header .breadcrumb { font-size: 1.1rem; opacity: 0.9; }
+  .page-header .breadcrumb a { color: white; text-decoration: none; }
+  .page-header .breadcrumb a:hover { text-decoration: underline; }
   .page-body { padding: 4rem 0; background-color: white; }
   .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
-  
-  .article-meta {
-    display: flex; flex-wrap: wrap; justify-content: center; 
-    gap: 1rem 2rem; color: #555; font-size: 1rem; 
-    margin-bottom: 2rem; padding-bottom: 2rem; 
-    border-bottom: 1px solid #eee;
-  }
+  .article-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; color: #555; font-size: 1rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
   .article-meta span { display: flex; align-items: center; gap: 0.5rem; }
   .article-meta .icon { width: 1.2rem; height: 1.2rem; color: var(--primary-color); }
-
-  .featured-image {
-    width: 100%; height: auto; max-height: 450px; object-fit: cover;
-    border-radius: 12px; margin-bottom: 3rem; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  }
-
+  .featured-image { width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
   .prose-content { font-size: 1.15rem; line-height: 1.8; color: #333; }
-  .prose-content h1, .prose-content h2, .prose-content h3, .prose-content h4 {
-    color: var(--secondary-color); margin-top: 2em; margin-bottom: 1em;
-  }
-  .prose-content a { color: var(--primary-color); text-decoration: underline; }
-  .prose-content p, .prose-content ul, .prose-content ol { margin-bottom: 1.5em; }
-  .prose-content blockquote { border-left: 4px solid var(--primary-color); padding-left: 1em; margin-left: 0; font-style: italic; color: #555; }
-  .prose-content img { max-width: 100%; border-radius: 8px; margin: 2em 0; }
-
-  .share-section { 
-    margin-top: 4rem; text-align: center; 
-    border-top: 1px solid #eee; padding-top: 2.5rem; 
-  }
-  .share-section h3 { 
-    font-size: 1.5rem; color: var(--secondary-color); 
-    margin-bottom: 1.5rem; 
-  }
+  .prose-content :global(h1), .prose-content :global(h2), .prose-content :global(h3), .prose-content :global(h4) { color: var(--secondary-color); margin-top: 2em; margin-bottom: 1em; }
+  .prose-content :global(a) { color: var(--primary-color); text-decoration: underline; }
+  .prose-content :global(p), .prose-content :global(ul), .prose-content :global(ol) { margin-bottom: 1.5em; }
+  .prose-content :global(blockquote) { border-left: 4px solid var(--primary-color); padding-left: 1em; margin-left: 0; font-style: italic; color: #555; }
+  .prose-content :global(img) { max-width: 100%; border-radius: 8px; margin: 2em 0; }
+  .share-section { margin-top: 4rem; text-align: center; border-top: 1px solid #eee; padding-top: 2.5rem; }
+  .share-section h3 { font-size: 1.5rem; color: var(--secondary-color); margin-bottom: 1.5rem; }
   .share-links { display: flex; justify-content: center; gap: 1.5rem; }
-  .share-links .icon { width: 2rem; height: 2rem; color: #666; transition: color 0.3s ease; }
-  .share-links a:hover .icon { color: var(--primary-color); }
-
-  @media (max-width: 768px) {
-    .page-header h1 { font-size: 2.2rem; }
-  }
+  .share-links a { color: #666; transition: color 0.3s ease; }
+  .share-links a:hover { color: var(--primary-color); }
+  .share-links .icon { width: 1.5rem; height: 1.5rem; }
+  @media (max-width: 768px) { .page-header h1 { font-size: 2.2rem; } }
 </style>
