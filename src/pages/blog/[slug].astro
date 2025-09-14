@@ -3,33 +3,58 @@ import Layout from '../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
+  // --- LANGKAH DIAGNOSTIK --- 
+  // Mencetak variabel lingkungan ke terminal saat build dimulai.
+  console.log("\n--- MEMERIKSA VARIABEL LINGKUNGAN ---");
+  console.log(`Nilai PUBLIC_API_URL yang diterima: ${import.meta.env.PUBLIC_API_URL}`);
+  console.log("------------------------------------\n");
+
   const API_URL = import.meta.env.PUBLIC_API_URL;
-  const endpoint = `${API_URL}/api/v2/blogs`;
-  try {
-    const response = await fetch(endpoint);
-    if (!response.ok) return [];
-    const paginatedData = await response.json();
-    const blogList = paginatedData.data;
-    if (!Array.isArray(blogList)) return [];
-    return blogList.map(blog => ({ params: { slug: blog.slug } }));
-  } catch (error) {
+
+  // Jika API_URL tidak terdefinisi, hentikan proses lebih awal.
+  if (!API_URL) {
+    console.error("FATAL: Variabel lingkungan PUBLIC_API_URL tidak ditemukan. Pastikan file .env sudah benar.");
     return [];
   }
+
+  let allBlogs = [];
+  let nextUrl = `${API_URL}/api/v2/blogs`;
+
+  while (nextUrl) {
+    try {
+      const response = await fetch(nextUrl);
+      if (!response.ok) { break; }
+      const jsonData = await response.json();
+      if (jsonData.data && Array.isArray(jsonData.data)) {
+        allBlogs.push(...jsonData.data);
+      }
+      nextUrl = jsonData.links ? jsonData.links.next : null;
+    } catch (error) {
+      break;
+    }
+  }
+
+  return allBlogs.map(blog => (
+    { params: { slug: blog.slug } }
+  ));
 }
 
+// Sisa kode tidak berubah
 const API_URL = import.meta.env.PUBLIC_API_URL;
 const { slug } = Astro.params;
 let blogPost = null;
 
-const singlePostEndpoint = `${API_URL}/api/v2/blogs/${slug}`;
-try {
-  const response = await fetch(singlePostEndpoint);
-  if (response.ok) {
-    const jsonResponse = await response.json();
-    blogPost = jsonResponse.data || jsonResponse;
+if (API_URL) {
+  const singlePostEndpoint = `${API_URL}/api/v2/blogs/${slug}`;
+  try {
+    const response = await fetch(singlePostEndpoint);
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      blogPost = jsonResponse.data || jsonResponse;
+    } 
+  } catch (error) {
+    // handle error
   }
-} catch (error) {
-  // Error handling
 }
 
 if (!blogPost) {
@@ -38,11 +63,7 @@ if (!blogPost) {
 
 const { title, excerpt, tags, date, category, headline_img } = blogPost;
 const articleContent = blogPost.body || blogPost.content || "<p><em>Konten tidak tersedia.</em></p>";
-
-// --- PERBAIKAN GAMBAR --- 
-// Membuat URL gambar yang lengkap dengan menggabungkan URL API dan path gambar
 const fullImageUrl = `${API_URL}${headline_img}`;
-
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
 const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
@@ -62,7 +83,6 @@ const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
           <span><Icon name="mdi:tag" class="icon" /> {category}</span>
         </div>
 
-        <!-- Menggunakan URL gambar yang sudah lengkap -->
         <img class="featured-image" src={fullImageUrl} alt={title} />
 
         <div class="prose-content" set:html={articleContent} />
@@ -82,7 +102,6 @@ const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
 </Layout>
 
 <style is:inline>
-  /* Style tidak berubah */
   .page-header { background-color: var(--secondary-color); color: white; text-align: center; padding: 7rem 2rem 4rem; }
   .page-header h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.3; max-width: 900px; margin: 0 auto 1rem; }
   .page-header .breadcrumb { font-size: 1.1rem; opacity: 0.9; }

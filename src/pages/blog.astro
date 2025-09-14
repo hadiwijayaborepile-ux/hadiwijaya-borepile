@@ -3,12 +3,31 @@ import Layout from '../layouts/Layout.astro';
 
 const API_URL = import.meta.env.PUBLIC_API_URL;
 
-const response = await fetch(`${API_URL}/api/v2/blogs`);
-const paginatedData = await response.json();
-const blogs = paginatedData.data;
+// --- PERBAIKAN: Logika Paginasi untuk Mengambil Semua Blog ---
+let allBlogs = [];
+let nextUrl = `${API_URL}/api/v2/blogs`; // Titik awal
 
-const featuredBlogs = blogs.slice(0, 3);
-const otherBlogs = blogs.slice(3);
+while (nextUrl) {
+  try {
+    const response = await fetch(nextUrl);
+    if (!response.ok) {
+      console.error(`PAGINATION_ERROR (blog.astro): Gagal mengambil data dari ${nextUrl}. Status: ${response.status}`);
+      break;
+    }
+    const jsonData = await response.json();
+    if (jsonData.data && Array.isArray(jsonData.data)) {
+      allBlogs.push(...jsonData.data);
+    }
+    nextUrl = jsonData.links ? jsonData.links.next : null;
+  } catch (error) {
+    console.error(`PAGINATION_CRITICAL (blog.astro): Error saat menghubungi ${nextUrl}.`, error);
+    break;
+  }
+}
+
+// Sekarang `allBlogs` berisi semua artikel dari semua halaman
+const featuredBlogs = allBlogs.slice(0, 3);
+const otherBlogs = allBlogs.slice(3);
 
 const title = "Blog & Artikel | Hadiwijaya Pondasi Persada";
 const description = "Dapatkan insight terbaru seputar dunia konstruksi, fondasi, dan teknologi bore pile dari para ahli kami.";
@@ -33,7 +52,6 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
           {featuredBlogs.map(blog => (
             <a href={`/blog/${blog.slug}`} class="blog-card">
               <div class="card-image-wrapper">
-                <!-- PERBAIKAN: Menambahkan API_URL ke path gambar -->
                 <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="card-image" loading="lazy" />
               </div>
               <div class="card-content">
@@ -46,14 +64,13 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
         </div>
       </div>
 
-      <!-- Other Articles -->
+      <!-- Other Articles (sekarang menampilkan semua sisa artikel) -->
       <div class="other-articles-section">
         <h2>Artikel Lainnya</h2>
         <div class="other-articles-list">
           {otherBlogs.map(blog => (
             <a href={`/blog/${blog.slug}`} class="other-article-item">
               <div class="other-article-image-wrapper">
-                <!-- PERBAIKAN: Menambahkan API_URL ke path gambar -->
                 <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="other-article-image" loading="lazy" />
               </div>
               <div class="other-article-content">
