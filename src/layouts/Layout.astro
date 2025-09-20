@@ -26,6 +26,9 @@ const {
 		<meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
+    {/* PERUBAHAN: Menambahkan CSS Fancybox */}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
     <SEO
       title={title}
       description={description}
@@ -95,6 +98,9 @@ const {
     <a href="https://wa.me/6281325794818" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
+    
+    {/* PERUBAHAN: Menambahkan Script Fancybox */}
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
     <script is:inline>
       function initNavbar() {
@@ -193,11 +199,24 @@ const {
         }
       }
 
+      // PERUBAHAN: Fungsi untuk inisialisasi Fancybox
+      function initFancybox() {
+        if (typeof Fancybox !== 'undefined') {
+          Fancybox.destroy(); // Membersihkan instance sebelumnya agar tidak duplikat
+          Fancybox.bind("[data-fancybox]", {
+            Toolbar: { // Kustomisasi toolbar
+              display: ["close"],
+            },
+          });
+        }
+      }
+
       function initAll() {
         initNavbar();
         initStickyHeader();
         initFaq();
         initBookingModal();
+        initFancybox(); // PERUBAHAN: Panggil fungsi Fancybox
       }
 
       initAll();
@@ -217,6 +236,11 @@ const {
 		--secondary-color: #222A7A;
 		--background-color: #f8f9fa;
 		--text-color: #333;
+
+    /* PERUBAHAN: Kustomisasi warna Fancybox */
+    --fancybox-bg: rgba(34, 42, 122, 0.92);
+    --fancybox-toolbar-color: #fff;
+    --fancybox-toolbar-bg: transparent;
 	}
 
 	html {

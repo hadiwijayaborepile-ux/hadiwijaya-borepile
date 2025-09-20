@@ -28,6 +28,7 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     <div class="nav-container">
         <a href="/" class="logo">
             <img src="/assets/img/hbp-logo.png" alt="Hadiwijaya Pondasi Persada Logo" />
+            <span class="logo-text">Hadiwijaya <span class="logo-text-primary">Bore Pile</span></span>
         </a>
         <nav>
             <ul class="nav-links">
@@ -106,16 +107,35 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     align-items: center;
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
-    border-radius: 50px;
-    padding: 0.5rem 1.5rem;
+    border-radius: 12px;
+    padding: 0.8rem 1.5rem; 
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     border: 1px solid rgba(255,255,255,0.9);
     transition: all 0.3s ease-in-out;
   }
 
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
   .logo img {
     height: 40px;
     display: block;
+  }
+  
+  /* PERUBAHAN: Warna teks utama menjadi biru */
+  .logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+
+  /* PERUBAHAN: Span baru untuk warna oranye */
+  .logo-text-primary {
+    color: var(--primary-color);
   }
 
   .nav-links {
@@ -142,7 +162,6 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     color: var(--primary-color);
   }
   
-  /* Active State Style */
   .nav-links a.is-active, .mobile-menu-hidden a.is-active {
     color: var(--primary-color);
     font-weight: 700;
@@ -152,7 +171,6 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
       font-size: 0.7rem;
   }
 
-  /* Dropdown */
   .dropdown {
     position: relative;
   }
@@ -202,7 +220,7 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
       color: white;
       text-decoration: none;
       padding: 0.6rem 1.2rem;
-      border-radius: 50px;
+      border-radius: 12px;
       font-weight: 500;
       transition: all 0.3s;
   }
@@ -211,7 +229,6 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
       transform: scale(1.05);
   }
   
-  /* Mobile Menu */
   #mobile-menu-toggle {
     display: none;
     background: none; border: none; font-size: 1.5rem; color: var(--secondary-color);
@@ -222,8 +239,8 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
       display: none;
   }
 
-  /* Responsive Overrides */
   @media (max-width: 992px) {
+    .logo-text { display: none; } 
     .nav-links, .nav-cta { display: none; }
     #mobile-menu-toggle { display: block; }
     .nav-container { width: 95%; padding: 0.5rem 1rem; }

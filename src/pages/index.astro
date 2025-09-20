@@ -47,27 +47,27 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
   
   <section class="process">
     <div class="container">
-      <h2>Bagaimana Proses Kami Bekerja?</h2>
+      <h2>Bagaimana Proses Konsultasi Pada Kami</h2>
       <div class="process-timeline">
           <div class="step">
               <div class="step-icon">1</div>
-              <h4>Pengeboran</h4>
-              <p>Pengeboran lubang sesuai dengan diameter dan kedalaman yang telah direncanakan.</p>
+              <h4>Kontak & Diskusi Awal</h4>
+              <p>Hubungi kami melalui telepon atau WhatsApp untuk mendiskusikan gambaran umum proyek Anda.</p>
           </div>
           <div class="step">
               <div class="step-icon">2</div>
-              <h4>Pemasangan Tulangan</h4>
-              <p>Instalasi kerangka besi sebagai struktur kekuatan utama pondasi.</p>
+              <h4>Survei Lokasi & Analisis</h4>
+              <p>Tim kami akan menjadwalkan kunjungan ke lokasi Anda untuk analisis teknis dan pengukuran.</p>
           </div>
           <div class="step">
               <div class="step-icon">3</div>
-              <h4>Pengecoran Beton</h4>
-              <p>Pengisian lubang bor dengan beton berkualitas tinggi hingga penuh.</p>
+              <h4>Penawaran & Perencanaan</h4>
+              <p>Kami akan menyusun penawaran harga yang transparan beserta rencana kerja yang detail.</p>
           </div>
           <div class="step">
               <div class="step-icon">4</div>
-              <h4>Pondasi Kokoh</h4>
-              <p>Pondasi bore pile telah selesai dan siap menopang struktur bangunan Anda.</p>
+              <h4>Persetujuan & Eksekusi</h4>
+              <p>Setelah kesepakatan, tim kami siap memulai pengerjaan pondasi sesuai jadwal yang ditentukan.</p>
           </div>
       </div>
     </div>
@@ -327,26 +327,25 @@ ${message}`;
   @media (max-width: 900px) {
     .contact-wrapper { grid-template-columns: 1fr; }
 
+    /* PERUBAHAN: Tata Letak Vertikal untuk Timeline Proses */
     .process-timeline {
-      display: flex;
-      flex-direction: row;
-      overflow-x: auto;
-      justify-content: flex-start;
-      padding-bottom: 1.5rem;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: center;
     }
+
     .process-timeline::-webkit-scrollbar { 
       display: none;
     }
+
     .process-timeline::before { 
       display: none;
     }
+    
     .step {
-      flex-shrink: 0;
-      width: 70%;
-      min-width: 280px;
-      padding: 0 1rem;
+      width: 100%;
+      max-width: 400px; /* Batas lebar agar tidak terlalu besar di tablet */
+      padding: 0;
     }
   }
 
