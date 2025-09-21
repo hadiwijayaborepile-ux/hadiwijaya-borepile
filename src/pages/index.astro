@@ -32,18 +32,24 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
       <div class="process-timeline">
           <div class="step">
               <div class="step-icon">1</div>
-              <h3>Dry Boring (Pengeboran Kering)</h3>
-              <p>Metode ini digunakan apabila kondisi tanah solid dan tidak mudah longsor.</p>
+              <div class="step-content">
+                <h3>Dry Boring (Pengeboran Kering)</h3>
+                <p>Metode ini digunakan apabila kondisi tanah solid dan tidak mudah longsor.</p>
+              </div>
           </div>
           <div class="step">
               <div class="step-icon">2</div>
-              <h3>Wash Boring (Pengeboran Basah)</h3>
-              <p>Ideal untuk tanah berpasir atau berair. Air bertekanan tinggi akan mengikis tanah keras dan mencegah kelongsoran.</p>
+              <div class="step-content">
+                <h3>Wash Boring (Pengeboran Basah)</h3>
+                <p>Ideal untuk tanah berpasir atau berair. Air bertekanan tinggi akan mengikis tanah keras dan mencegah kelongsoran.</p>
+              </div>
           </div>
           <div class="step">
               <div class="step-icon">3</div>
-              <h3>Slurry (Pengeboran dengan Slurry)</h3>
-              <p>Pada kondisi tanah yang labil dan mudah longsor, kami menggunakan larutan kental (polimer, bentonite, atau tanah merah) untuk mengikat pasir.</p>
+              <div class="step-content">
+                <h3>Slurry (Pengeboran dengan Slurry)</h3>
+                <p>Pada kondisi tanah yang labil dan mudah longsor, kami menggunakan larutan kental (polimer, bentonite, atau tanah merah) untuk mengikat pasir.</p>
+              </div>
           </div>
       </div>
     </div>
@@ -628,22 +634,28 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
   @media (max-width: 768px) {
     .hero h1 { font-size: 2.5rem; }
     .hero p { font-size: 1.1rem; }
-    .process-timeline { flex-direction: column; }
+    
+    .process-timeline { 
+        flex-direction: column; 
+        gap: 0;
+    }
     .process-timeline::before {
-        left: 30px;
-        top: 5%;
-        bottom: 5%;
-        width: 2px;
-        height: 90%;
+        display: none;
     }
     .step {
         text-align: left;
         display: flex;
         align-items: flex-start;
         gap: 1.5rem;
+        position: relative;
+        padding-bottom: 2rem;
+    }
+    .step:not(:last-child)::after {
+        display: none;
     }
     .step-icon {
         margin: 0;
+        flex-shrink: 0; /* Prevents the icon from shrinking */
     }
     .step-content {
         padding-top: 0.5rem;
