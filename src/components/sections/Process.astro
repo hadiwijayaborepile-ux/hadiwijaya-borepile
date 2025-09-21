@@ -1,0 +1,130 @@
+<section class="process">
+  <div class="container">
+    <h2>Metode Pelaksanaan Bore Pile</h2>
+    <p class="process-description">
+      Pengeboran tiang bor dapat dilaksanakan dengan metode kering, basah, atau
+      slurry. Kami menganalisis kondisi tanah Anda dan menyesuaikan metode
+      pengerjaan untuk memastikan pondasi Anda dibangun di atas dasar yang
+      paling kokoh.
+    </p>
+    <div class="process-timeline">
+      <div class="step">
+        <div class="step-icon">1</div>
+        <div class="step-content">
+          <h3>Dry Boring (Pengeboran Kering)</h3>
+          <p>
+            Metode ini digunakan apabila kondisi tanah solid dan tidak mudah
+            longsor.
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">2</div>
+        <div class="step-content">
+          <h3>Wash Boring (Pengeboran Basah)</h3>
+          <p>
+            Ideal untuk tanah berpasir atau berair. Air bertekanan tinggi akan
+            mengikis tanah keras dan mencegah kelongsoran.
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">3</div>
+        <div class="step-content">
+          <h3>Slurry (Pengeboran dengan Slurry)</h3>
+          <p>
+            Pada kondisi tanah yang labil dan mudah longsor, kami menggunakan
+            larutan kental (polimer, bentonite, atau tanah merah) untuk
+            mengikat pasir.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process {
+    background-color: #fff;
+  }
+  .process-description {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #555;
+    margin-bottom: 4rem;
+  }
+  .process-timeline {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+  }
+  .process-timeline::before {
+    content: "";
+    position: absolute;
+    top: 30px;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background-color: #e0e0e0;
+    z-index: 0;
+  }
+  .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    background-color: #fff;
+    padding: 0 1rem;
+  }
+  .step-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: 4px solid #fff;
+    z-index: 1;
+    position: relative;
+  }
+  .step h3 {
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .process-timeline {
+      flex-direction: column;
+      gap: 0;
+    }
+    .process-timeline::before {
+      display: none;
+    }
+    .step {
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      position: relative;
+      padding-bottom: 2rem;
+    }
+    .step:not(:last-child)::after {
+      display: none;
+    }
+    .step-icon {
+      margin: 0;
+      flex-shrink: 0; /* Prevents the icon from shrinking */
+    }
+    .step-content {
+      padding-top: 0.5rem;
+    }
+  }
+</style>

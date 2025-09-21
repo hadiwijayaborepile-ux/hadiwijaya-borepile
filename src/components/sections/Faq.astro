@@ -1,0 +1,100 @@
+<section class="faq-section">
+  <div class="container">
+    <h2>Tanya Jawab (FAQ)</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          <h4>Apa perbedaan bore pile manual, mini crane, dan hydraulic?</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Perbedaan utamanya terletak pada alat, kedalaman, dan akses lokasi.
+            <strong>Bore pile manual</strong> (strauss pile) menggunakan tenaga
+            manusia, cocok untuk area sempit dan proyek kecil. <strong
+              >Mini crane</strong
+            >
+            menggunakan mesin gawangan untuk kedalaman menengah (12-18 meter) di
+            lokasi terbatas. <strong>Bore pile hydraulic</strong> menggunakan
+            alat berat untuk proyek besar dengan kedalaman di atas 20 meter.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <h4>Berapa lama waktu pengerjaan pondasi bore pile?</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Waktu pengerjaan sangat bervariasi tergantung pada jumlah titik,
+            kedalaman, jenis metode yang digunakan, dan kondisi tanah di lokasi
+            proyek. Setelah survei awal, kami akan memberikan estimasi jadwal
+            yang lebih akurat.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <h4>Apakah saya bisa mendapatkan penawaran harga gratis?</h4>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Tentu saja. Kami menyediakan survei dan penawaran harga gratis
+            untuk calon klien kami. Silakan hubungi kami melalui formulir kontak
+            atau WhatsApp untuk menjadwalkan kunjungan survei ke lokasi proyek
+            Anda.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    background-color: var(--background-color);
+  }
+  .faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    cursor: pointer;
+  }
+  .faq-question h4 {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin: 0;
+  }
+  .faq-question i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+  }
+  .faq-answer p {
+    padding: 0 0 1.5rem 0;
+    margin: 0;
+    color: #555;
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 200px; /* Adjust as needed */
+  }
+  .faq-item.open i {
+    transform: rotate(180deg);
+  }
+</style>

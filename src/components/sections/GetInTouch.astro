@@ -1,0 +1,163 @@
+<section class="get-in-touch-section">
+  <div class="container">
+    <h2>Hubungi Kami</h2>
+    <div class="contact-wrapper">
+      <div class="contact-form">
+        <h3>Kirim Pesan Langsung</h3>
+        <p>
+          Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda.
+        </p>
+        <form id="contact-form">
+          <div class="form-grid">
+            <input type="text" name="name" placeholder="Nama Anda" required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Anda"
+              required
+            />
+          </div>
+          <input type="text" name="subject" placeholder="Subjek" required />
+          <textarea name="message" rows="6" placeholder="Pesan Anda" required
+          ></textarea>
+          <button type="submit" class="cta-primary"
+            ><i class="fab fa-whatsapp"></i> Kirim Pesan</button
+          >
+        </form>
+      </div>
+      <div class="contact-info">
+        <h3>Informasi Kontak</h3>
+        <p>
+          Kami siap membantu mewujudkan proyek Anda. Hubungi kami melalui detail
+          di bawah ini atau isi formulir di samping.
+        </p>
+        <ul>
+          <li>
+            <i class="fas fa-map-marker-alt"></i>Jalan Cempaka No. 34,
+            Manggihan, Kec. Godong Kab. Grobogan
+          </li>
+          <li><i class="fas fa-phone"></i>0813-2579-4818</li>
+          <li><i class="fas fa-envelope"></i>info@hadiningratcorp.com</li>
+        </ul>
+        <div class="contact-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .get-in-touch-section {
+    background-color: #f8f9fa;
+  }
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0; /* Remove gap, will be handled by padding */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden; /* Important for rounded corners */
+  }
+  .contact-form {
+    padding: 3rem;
+  }
+  .contact-form h3 {
+    font-size: 1.8rem;
+    margin-top: 0;
+    color: var(--secondary-color);
+  }
+  .contact-form p,
+  .contact-info p {
+    margin-bottom: 2rem;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  #contact-form input,
+  #contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+  #contact-form input[name="subject"] {
+    margin-bottom: 1rem;
+  }
+  #contact-form textarea {
+    resize: vertical;
+    margin-bottom: 1rem; /* Space between textarea and button */
+  }
+  #contact-form button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  /* Contact Info Styling */
+  .contact-info {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-info h3 {
+    color: white;
+    font-size: 1.8rem;
+    margin-top: 0;
+  }
+  .contact-info p {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    flex-grow: 1; /* Pushes social icons to the bottom */
+  }
+  .contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+  .contact-info li i {
+    font-size: 1.5rem;
+    color: white; /* Changed from primary color */
+    width: 25px;
+    text-align: center;
+  }
+  .contact-social a {
+    color: white;
+    font-size: 1.8rem;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-social a:hover {
+    color: var(--primary-color);
+  }
+
+  @media (max-width: 992px) {
+    .contact-wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
