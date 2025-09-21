@@ -2,81 +2,164 @@
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { name: 'Beranda', href: '/' },
+  { name: "Beranda", href: "/" },
   {
-    name: 'Layanan',
-    href: '/services/jasa-bore-pile', // Parent link
+    name: "Layanan",
+    href: "/services/jasa-bore-pile",
     isDropdown: true,
     dropdownLinks: [
-      { name: 'Jasa Bore Pile', href: '/services/jasa-bore-pile' },
-      { name: 'Bore Pile Manual', href: '/services/manual' },
-      { name: 'Bore Pile Mini Crane', href: '/services/mini-crane' },
-      { name: 'Bore Pile Hydraulic', href: '/services/hydraulic' },
+      { name: "Jasa Bore Pile", href: "/services/jasa-bore-pile" },
+      { name: "Bore Pile Manual", href: "/services/manual" },
+      { name: "Bore Pile Mini Crane", href: "/services/mini-crane" },
+      { name: "Bore Pile Hydraulic", href: "/services/hydraulic" },
     ],
   },
-  { name: 'Tentang Kami', href: '/about' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Kontak', href: '/contact' },
+  { name: "Tentang Kami", href: "/about" },
+  { name: "Blog", href: "/blog" },
+  { name: "Kontak", href: "/contact" },
 ];
-
-// Function to determine if a link is active
-const isLinkActive = (href) => href === currentPath || (href.length > 1 && currentPath.startsWith(href));
 ---
 
 <header id="main-header">
-    <div class="nav-container">
-        <a href="/" class="logo">
-            <img src="/assets/img/hbp-logo.png" alt="Hadiwijaya Pondasi Persada Logo" />
-            <span class="logo-text">Hadiwijaya <span class="logo-text-primary">Bore Pile</span></span>
-        </a>
-        <nav>
-            <ul class="nav-links">
-                {navLinks.map(link => {
-                    const isActive = link.isDropdown ? currentPath.startsWith('/services') : currentPath === link.href;
-                    return (
-                        <li class:list={[ { dropdown: link.isDropdown } ]}>
-                            <a 
-                                href={link.href} 
-                                class:list={[ { 'is-active': isActive } ]}
-                            >
-                                {link.name}
-                                {link.isDropdown && <i class="fas fa-chevron-down"></i>}
-                            </a>
-                            {link.isDropdown && (
-                                <ul class="dropdown-menu">
-                                    {link.dropdownLinks.map(dropdownLink => (
-                                        <li><a href={dropdownLink.href} class:list={[{ 'is-active': currentPath === dropdownLink.href }]}>{dropdownLink.name}</a></li>
-                                    ))}
-                                </ul>
-                            )}
-                        </li>
-                    );
-                })}
-            </ul>
-        </nav>
-        <a href="/contact" class="nav-cta">Get a Quote</a>
-        <button id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
-    </div>
+  <div class="nav-container">
+    <a href="/" class="logo">
+      <img
+        src="/assets/img/hbp-logo.png"
+        alt="Hadiwijaya Pondasi Persada Logo"
+      />
+      <span class="logo-text">
+        Hadiwijaya <span class="logo-text-primary">Bore Pile</span>
+      </span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        {
+          navLinks.map((link) => {
+            const isActive = link.isDropdown
+              ? currentPath.startsWith("/services")
+              : currentPath === link.href;
+            return (
+              <li class:list={[{ dropdown: link.isDropdown }]}>
+                <a
+                  href={link.href}
+                  class:list={[{ "is-active": isActive }]}
+                  {...(link.isDropdown ? { "data-dropdown-toggle": true } : {})}
+                >
+                  {link.name}
+                  {link.isDropdown && <i class="fas fa-chevron-down" />}
+                </a>
+                {link.isDropdown && (
+                  <ul class="dropdown-menu hidden">
+                    {link.dropdownLinks.map((dropdownLink) => (
+                      <li>
+                        <a
+                          href={dropdownLink.href}
+                          class:list={[
+                            { "is-active": currentPath === dropdownLink.href },
+                          ]}
+                        >
+                          {dropdownLink.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+    <a href="/contact" class="nav-cta">Get a Quote</a>
+    <button id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+  </div>
 </header>
 
+<script>
+  document.querySelectorAll("[data-dropdown-toggle]").forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      const dropdown = trigger.nextElementSibling;
+
+      // Tutup semua dropdown lain
+      document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+        if (menu !== dropdown) menu.classList.add("hidden");
+      });
+
+      if (dropdown) {
+        dropdown.classList.toggle("hidden");
+      }
+    });
+  });
+
+  // Klik di luar -> tutup semua dropdown
+  document.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target instanceof Element && !target.closest(".dropdown")) {
+      document
+        .querySelectorAll(".dropdown-menu")
+        .forEach((menu) => menu.classList.add("hidden"));
+    }
+  });
+</script>
+
+<style>
+  .nav-links li {
+    position: relative;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    top: 100%; /* langsung nempel di bawah parent */
+    left: 0;
+    margin-top: 0;
+    transform: translateY(-2px); /* dinaikin sedikit biar gampang di-hover */
+    border-radius: 0.5rem;
+    min-width: 200px;
+    z-index: 50;
+    padding-top: 4px; /* area invisible atas biar lebih ramah cursor */
+  }
+
+  .dropdown-menu.hidden {
+    display: none;
+  }
+</style>
+
 <div id="mobile-menu" class="mobile-menu-hidden">
-    <ul>
-        {navLinks.map(link => {
-            const isActive = link.isDropdown ? currentPath.startsWith('/services') : currentPath === link.href;
-            return (
-                <li>
-                    <a href={link.href} class:list={[{ 'is-active': isActive }]}>{link.name}</a>
-                    {link.isDropdown && (
-                        <ul class="mobile-dropdown">
-                            {link.dropdownLinks.map(dropdownLink => (
-                                <li><a href={dropdownLink.href} class:list={[{ 'is-active': currentPath === dropdownLink.href }]}>- {dropdownLink.name}</a></li>
-                            ))}
-                        </ul>
-                    )}
-                </li>
-            );
-        })}
-    </ul>
+  <ul>
+    {
+      navLinks.map((link) => {
+        const isActive = link.isDropdown
+          ? currentPath.startsWith("/services")
+          : currentPath === link.href;
+        return (
+          <li>
+            <a href={link.href} class:list={[{ "is-active": isActive }]}>
+              {link.name}
+            </a>
+            {link.isDropdown && (
+              <ul class="mobile-dropdown">
+                {link.dropdownLinks.map((dropdownLink) => (
+                  <li>
+                    <a
+                      href={dropdownLink.href}
+                      class:list={[
+                        { "is-active": currentPath === dropdownLink.href },
+                      ]}
+                    >
+                      - {dropdownLink.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
 </div>
 
 <style>
@@ -88,16 +171,16 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     width: 90%;
     max-width: 1200px;
     z-index: 1000;
-    transition: top 0.3s ease-in-out; 
+    transition: top 0.3s ease-in-out;
   }
 
   header.scrolled {
-      top: 10px;
+    top: 10px;
   }
 
   header.scrolled .nav-container {
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.95);
   }
 
   .nav-container {
@@ -107,9 +190,9 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     border-radius: 12px;
-    padding: 0.8rem 1.5rem; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.9);
+    padding: 0.8rem 1.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease-in-out;
   }
 
@@ -124,7 +207,7 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     height: 40px;
     display: block;
   }
-  
+
   /* PERUBAHAN: Warna teks utama menjadi biru */
   .logo-text {
     font-size: 1.1rem;
@@ -145,7 +228,7 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     padding: 0;
     align-items: center;
   }
-  
+
   .nav-links a {
     text-decoration: none;
     color: var(--text-color);
@@ -156,18 +239,19 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     align-items: center;
     gap: 0.5rem;
   }
-  
+
   .nav-links a:hover {
     color: var(--primary-color);
   }
-  
-  .nav-links a.is-active, .mobile-menu-hidden a.is-active {
+
+  .nav-links a.is-active,
+  .mobile-menu-hidden a.is-active {
     color: var(--primary-color);
     font-weight: 700;
   }
-  
+
   .nav-links a i {
-      font-size: 0.7rem;
+    font-size: 0.7rem;
   }
 
   .dropdown {
@@ -185,12 +269,14 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
     padding: 0.5rem 0;
     margin: 0;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     min-width: 220px;
     border: 1px solid #eee;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
   }
 
   .dropdown:hover .dropdown-menu {
@@ -211,77 +297,99 @@ const isLinkActive = (href) => href === currentPath || (href.length > 1 && curre
   }
 
   .dropdown-menu a.is-active {
-      background-color: #f8f9fa;
+    background-color: #f8f9fa;
   }
-  
+
   .nav-cta {
-      background: var(--primary-color);
-      color: white;
-      text-decoration: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 12px;
-      font-weight: 500;
-      transition: all 0.3s;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.3s;
   }
   .nav-cta:hover {
-      background: #e65200;
-      transform: scale(1.05);
+    background: #e65200;
+    transform: scale(1.05);
   }
-  
+
   #mobile-menu-toggle {
     display: none;
-    background: none; border: none; font-size: 1.5rem; color: var(--secondary-color);
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--secondary-color);
     cursor: pointer;
   }
-  
+
   #mobile-menu {
-      display: none;
+    display: none;
   }
 
   @media (max-width: 992px) {
-    .logo-text { display: none; } 
-    .nav-links, .nav-cta { display: none; }
-    #mobile-menu-toggle { display: block; }
-    .nav-container { width: 95%; padding: 0.5rem 1rem; }
-    
+    .logo-text {
+      display: none;
+    }
+    .nav-links,
+    .nav-cta {
+      display: none;
+    }
+    #mobile-menu-toggle {
+      display: block;
+    }
+    .nav-container {
+      width: 95%;
+      padding: 0.5rem 1rem;
+    }
+
     #mobile-menu {
-        display: block;
-        background-color: white;
-        position: fixed;
-        top: 80px;
-        left: 5%; right: 5%;
-        z-index: 999;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        border-radius: 20px;
-        padding: 1rem;
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        transform-origin: top center;
+      display: block;
+      background-color: white;
+      position: fixed;
+      top: 80px;
+      left: 5%;
+      right: 5%;
+      z-index: 999;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      padding: 1rem;
+      transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+      transform-origin: top center;
     }
 
     #mobile-menu.mobile-menu-hidden {
-        transform: translateY(-20px) scale(0.98);
-        opacity: 0;
-        pointer-events: none;
+      transform: translateY(-20px) scale(0.98);
+      opacity: 0;
+      pointer-events: none;
     }
 
-    #mobile-menu ul { list-style: none; padding: 0; margin: 0; }
-    #mobile-menu li { padding: 0.5rem 0; }
+    #mobile-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #mobile-menu li {
+      padding: 0.5rem 0;
+    }
     #mobile-menu a {
-        display: block; 
-        padding: 0.8rem 1rem;
-        color: var(--secondary-color);
-        font-weight: 600;
-        text-decoration: none;
+      display: block;
+      padding: 0.8rem 1rem;
+      color: var(--secondary-color);
+      font-weight: 600;
+      text-decoration: none;
     }
 
     #mobile-menu a.is-active {
-        color: var(--primary-color);
+      color: var(--primary-color);
     }
 
     #mobile-menu .mobile-dropdown {
-        padding-left: 1.5rem; 
-        border-left: 2px solid var(--primary-color);
-        margin-top: 0.5rem;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--primary-color);
+      margin-top: 0.5rem;
     }
   }
 </style>
