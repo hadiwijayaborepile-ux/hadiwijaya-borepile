@@ -163,11 +163,13 @@ const navLinks = [
 </div>
 
 <style>
+  /* PERBAIKAN UTAMA: Centering yang lebih akurat */
   header {
     position: fixed;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     width: 90%;
     max-width: 1200px;
     z-index: 1000;
@@ -194,6 +196,15 @@ const navLinks = [
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease-in-out;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Navigasi di tengah */
+  .nav-container nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
   }
 
   .logo {
@@ -201,6 +212,7 @@ const navLinks = [
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
+    flex-shrink: 0;
   }
 
   .logo img {
@@ -208,14 +220,12 @@ const navLinks = [
     display: block;
   }
 
-  /* PERUBAHAN: Warna teks utama menjadi biru */
   .logo-text {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--secondary-color);
   }
 
-  /* PERUBAHAN: Span baru untuk warna oranye */
   .logo-text-primary {
     color: var(--primary-color);
   }
@@ -308,6 +318,7 @@ const navLinks = [
     border-radius: 12px;
     font-weight: 500;
     transition: all 0.3s;
+    flex-shrink: 0;
   }
   .nav-cta:hover {
     background: #e65200;
@@ -321,6 +332,7 @@ const navLinks = [
     font-size: 1.5rem;
     color: var(--secondary-color);
     cursor: pointer;
+    flex-shrink: 0;
   }
 
   #mobile-menu {
@@ -328,19 +340,32 @@ const navLinks = [
   }
 
   @media (max-width: 992px) {
+    /* PERBAIKAN MOBILE: Centering yang lebih tepat */
+    header {
+      width: 95%;
+      max-width: none;
+    }
+    
     .logo-text {
       display: none;
     }
+    
     .nav-links,
     .nav-cta {
       display: none;
     }
+    
     #mobile-menu-toggle {
       display: block;
     }
+    
     .nav-container {
-      width: 95%;
       padding: 0.5rem 1rem;
+    }
+    
+    /* Reset aturan flex-grow untuk mobile */
+    .nav-container nav {
+      flex-grow: 0;
     }
 
     #mobile-menu {
@@ -348,8 +373,11 @@ const navLinks = [
       background-color: white;
       position: fixed;
       top: 80px;
-      left: 5%;
-      right: 5%;
+      left: 2.5%;
+      right: 2.5%;
+      width: 95%;
+      max-width: none;
+      margin: 0 auto;
       z-index: 999;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       border-radius: 20px;
@@ -358,6 +386,7 @@ const navLinks = [
         transform 0.3s ease-in-out,
         opacity 0.3s ease-in-out;
       transform-origin: top center;
+      box-sizing: border-box;
     }
 
     #mobile-menu.mobile-menu-hidden {
@@ -371,9 +400,11 @@ const navLinks = [
       padding: 0;
       margin: 0;
     }
+    
     #mobile-menu li {
       padding: 0.5rem 0;
     }
+    
     #mobile-menu a {
       display: block;
       padding: 0.8rem 1rem;
@@ -390,6 +421,22 @@ const navLinks = [
       padding-left: 1.5rem;
       border-left: 2px solid var(--primary-color);
       margin-top: 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      width: 96%;
+    }
+    
+    .nav-container {
+      padding: 0.4rem 0.8rem;
+    }
+    
+    #mobile-menu {
+      left: 2%;
+      right: 2%;
+      width: 96%;
     }
   }
 </style>
