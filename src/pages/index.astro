@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Projects from '../components/Projects.astro';
+import VisualFeature from '../components/VisualFeature.astro';
 
 const title = "Jasa Bore Pile Profesional & Terpercaya | Hadiwijaya Pondasi Persada";
 const description = "Hadiwijaya Pondasi Persada adalah kontraktor spesialis jasa bore pile di Indonesia. Kami menawarkan solusi pondasi bore pile manual, mini crane, hingga hydraulic dengan harga kompetitif. Melayani pondasi strauss pile untuk semua skala proyek.";
@@ -20,55 +21,182 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
     </div>
   </section>
 
-  <section class="advantages">
-    <div class="container">
-      <h2>Keunggulan Kompetitif Kami</h2>
-      <div class="grid">
-        <div class="advantage-item">
-          <div class="icon"><i class="fas fa-medal"></i></div>
-          <h3>Berpengalaman & Terpercaya</h3>
-          <p>Bertahun-tahun memberikan solusi pondasi terbaik di berbagai jenis proyek.</p>
-        </div>
-        <div class="advantage-item">
-          <div class="icon"><i class="fas fa-cogs"></i></div>
-          <h3>Alat Modern & Efisien</h3>
-          <p>Menggunakan teknologi bore pile terkini untuk efisiensi dan hasil maksimal.</p>
-        </div>
-        <div class="advantage-item">
-          <div class="icon"><i class="fas fa-users-cog"></i></div>
-          <h3>Tim Ahli & Profesional</h3>
-          <p>Didukung oleh tim profesional yang tersertifikasi dan kompeten di bidangnya.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <VisualFeature />
 
   <Projects />
   
   <section class="process">
     <div class="container">
-      <h2>Bagaimana Proses Konsultasi Pada Kami</h2>
+      <h2>Metode Pelaksanaan Bore Pile</h2>
+      <p class="process-description">Pengeboran tiang bor dapat dilaksanakan dengan metode kering, basah, atau slurry. Kami menganalisis kondisi tanah Anda dan menyesuaikan metode pengerjaan untuk memastikan pondasi Anda dibangun di atas dasar yang paling kokoh.</p>
       <div class="process-timeline">
           <div class="step">
               <div class="step-icon">1</div>
-              <h4>Kontak & Diskusi Awal</h4>
-              <p>Hubungi kami melalui telepon atau WhatsApp untuk mendiskusikan gambaran umum proyek Anda.</p>
+              <h3>Dry Boring (Pengeboran Kering)</h3>
+              <p>Metode ini digunakan apabila kondisi tanah solid dan tidak mudah longsor.</p>
           </div>
           <div class="step">
               <div class="step-icon">2</div>
-              <h4>Survei Lokasi & Analisis</h4>
-              <p>Tim kami akan menjadwalkan kunjungan ke lokasi Anda untuk analisis teknis dan pengukuran.</p>
+              <h3>Wash Boring (Pengeboran Basah)</h3>
+              <p>Ideal untuk tanah berpasir atau berair. Air bertekanan tinggi akan mengikis tanah keras dan mencegah kelongsoran.</p>
           </div>
           <div class="step">
               <div class="step-icon">3</div>
-              <h4>Penawaran & Perencanaan</h4>
-              <p>Kami akan menyusun penawaran harga yang transparan beserta rencana kerja yang detail.</p>
+              <h3>Slurry (Pengeboran dengan Slurry)</h3>
+              <p>Pada kondisi tanah yang labil dan mudah longsor, kami menggunakan larutan kental (polimer, bentonite, atau tanah merah) untuk mengikat pasir.</p>
           </div>
-          <div class="step">
-              <div class="step-icon">4</div>
-              <h4>Persetujuan & Eksekusi</h4>
-              <p>Setelah kesepakatan, tim kami siap memulai pengerjaan pondasi sesuai jadwal yang ditentukan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planning Section -->
+  <section class="planning-section">
+    <div class="container">
+      <h2>Menentukan Metode dan Spesifikasi yang Sesuai</h2>
+      <p class="section-intro">Kami percaya bahwa pondasi yang kuat dimulai dari perencanaan yang matang. Tim kami menggunakan pendekatan berbasis ilmu geoteknik presisi untuk memastikan setiap bore pile dirancang sempurna sesuai:</p>
+      <div class="planning-grid">
+        <div class="planning-item">
+          <i class="fas fa-building"></i>
+          <h3>Kebutuhan Beban Struktur</h3>
+          <p>Pemilihan spesifikasi harus disesuaikan dengan beban struktur bangunan yang akan ditopang.</p>
+        </div>
+        <div class="planning-item">
+          <i class="fas fa-layer-group"></i>
+          <h3>Kondisi Tanah</h3>
+          <p>Pada kondisi tanah sangat keras, harus menggunakan hydraulic bore pile. Untuk tanah berpasir atau berair, menggunakan metode slurry bentonite dengan casing untuk mencegah kelongsoran.</p>
+        </div>
+        <div class="planning-item">
+          <i class="fas fa-wallet"></i>
+          <h3>Budget Proyek</h3>
+          <p>Tim kami akan membantu Anda menyesuaikan metode dan spesifikasi yang optimal sesuai prioritas proyek, baik itu kecepatan, efisiensi biaya, atau kualitas maksimal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Price Table Section -->
+  <section class="price-table-section">
+    <div class="container">
+      <h2>Tabel Harga Jasa Bore Pile Per Meter</h2>
+      <div class="table-responsive">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Diameter (Ø cm)</th>
+              <th>Alat Berat Hydraulic</th>
+              <th>Mini Crane</th>
+              <th>Strauss Pile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>30 cm</td>
+              <td><i class="fas fa-times"></i></td>
+              <td>Rp130.000 per meter¹</td>
+              <td>Rp85.000 per meter¹</td>
+            </tr>
+            <tr>
+              <td>40 cm</td>
+              <td>Rp190.000 per meter¹</td>
+              <td>Rp150.000 per meter¹</td>
+              <td>Rp95.000 per meter¹</td>
+            </tr>
+            <tr>
+              <td>50 cm</td>
+              <td>Rp280.000 per meter¹</td>
+              <td>Rp240.000 per meter¹</td>
+              <td><i class="fas fa-times"></i></td>
+            </tr>
+            <tr>
+              <td>60 cm</td>
+              <td>Rp350.000 per meter¹</td>
+              <td>Rp280.000 per meter¹</td>
+              <td><i class="fas fa-times"></i></td>
+            </tr>
+            <tr>
+              <td>80 cm</td>
+              <td>Rp450.000 per meter¹</td>
+              <td>Rp300.000 per meter¹</td>
+              <td><i class="fas fa-times"></i></td>
+            </tr>
+            <tr>
+              <td>100 cm</td>
+              <td>Rp600.000 per meter¹</td>
+              <td><i class="fas fa-times"></i></td>
+              <td><i class="fas fa-times"></i></td>
+            </tr>
+            <tr>
+              <td>150 cm</td>
+              <td>Rp1.200.000 per meter¹</td>
+              <td><i class="fas fa-times"></i></td>
+              <td><i class="fas fa-times"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-disclaimer">
+        Dapatkan <strong>harga jasa bore pile</strong> yang transparan. Harga di atas adalah estimasi umum. Setiap proyek unik, dan kami akan memberikan penawaran terbaik yang disesuaikan dengan <strong>kondisi tanah, diameter lubang, volume proyek, dan lokasi proyek</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Why Us Section -->
+  <section class="why-us-section">
+      <div class="container">
+          <h2>Mengapa Hadiwijaya Bore Pile adalah Kontraktor yang Tepat?</h2>
+          <p class="section-intro">Kami tidak cuma membangun pondasi. Lebih dari itu, kami membangun <strong>REPUTASI</strong>.</p>
+          <div class="reasons-grid">
+              <div class="reason-item">
+                  <i class="fas fa-file-signature"></i>
+                  <h3>Legalitas Jelas</h3>
+                  <p>Sebagai bagian dari PT. Jowo Land Construction, Hadiwijaya Bore Pile beroperasi dengan legalitas penuh, memberikan Anda ketenangan pikiran dan perlindungan hukum.</p>
+              </div>
+              <div class="reason-item">
+                  <i class="fas fa-award"></i>
+                  <h3>Pengalaman Teruji</h3>
+                  <p>Kami telah membangun pondasi bore pile untuk ratusan proyek. Setiap keberhasilan menambah bukti nyata keahlian kami sebagai kontraktor bore pile terpercaya.</p>
+              </div>
+              <div class="reason-item">
+                  <i class="fas fa-star"></i>
+                  <h3>Komitmen & Kualitas</h3>
+                  <p>Kami hanya menerima sejumlah proyek terbatas setiap bulannya untuk memastikan setiap klien mendapatkan perhatian dan kualitas terbaik. Jadikan proyek Anda prioritas kami.</p>
+              </div>
           </div>
+      </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2>Tanya Jawab (FAQ)</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4>Apa perbedaan bore pile manual, mini crane, dan hydraulic?</h4>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Perbedaan utamanya terletak pada alat, kedalaman, dan akses lokasi. <strong>Bore pile manual</strong> (strauss pile) menggunakan tenaga manusia, cocok untuk area sempit dan proyek kecil. <strong>Mini crane</strong> menggunakan mesin gawangan untuk kedalaman menengah (12-18 meter) di lokasi terbatas. <strong>Bore pile hydraulic</strong> menggunakan alat berat untuk proyek besar dengan kedalaman di atas 20 meter.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4>Berapa lama waktu pengerjaan pondasi bore pile?</h4>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Waktu pengerjaan sangat bervariasi tergantung pada jumlah titik, kedalaman, jenis metode yang digunakan, dan kondisi tanah di lokasi proyek. Setelah survei awal, kami akan memberikan estimasi jadwal yang lebih akurat.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4>Apakah saya bisa mendapatkan penawaran harga gratis?</h4>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Tentu saja. Kami menyediakan survei dan penawaran harga gratis untuk calon klien kami. Silakan hubungi kami melalui formulir kontak atau WhatsApp untuk menjadwalkan kunjungan survei ke lokasi proyek Anda.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -87,7 +215,7 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
             </div>
             <input type="text" name="subject" placeholder="Subjek" required>
             <textarea name="message" rows="6" placeholder="Pesan Anda" required></textarea>
-            <button type="submit" class="cta-primary">Kirim Pesan</button>
+            <button type="submit" class="cta-primary"><i class="fab fa-whatsapp"></i> Kirim Pesan</button>
           </form>
         </div>
         <div class="contact-info">
@@ -107,89 +235,13 @@ const keywords = ["jasa bore pile", "kontraktor bore pile", "pondasi bore pile",
       </div>
     </div>
   </section>
-
-  <section class="faq">
-    <div class="container">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-container">
-          <div class="faq-item">
-              <button class="faq-question">
-                  <span>Apa itu pondasi bore pile?</span>
-                  <i class="fas fa-chevron-down"></i>
-              </button>
-              <div class="faq-answer">
-                  <p>Pondasi bore pile adalah jenis pondasi dalam yang dibentuk dengan cara mengebor tanah hingga kedalaman tertentu, kemudian memasukkan tulangan baja dan mengisinya dengan beton. Metode ini sangat efektif untuk menopang struktur bangunan di lokasi dengan kondisi tanah yang kurang stabil.</p>
-              </div>
-          </div>
-          <div class="faq-item">
-              <button class="faq-question">
-                  <span>Kapan saya membutuhkan jasa bore pile?</span>
-                  <i class="fas fa-chevron-down"></i>
-              </button>
-              <div class="faq-answer">
-                  <p>Anda membutuhkan jasa bore pile jika akan membangun struktur besar (seperti gedung bertingkat, jembatan, atau gudang industri) atau jika hasil uji tanah menunjukkan bahwa lapisan tanah permukaan tidak cukup kuat untuk menopang beban bangunan. Kami dapat membantu Anda menganalisis kebutuhan ini.</p>
-              </div>
-          </div>
-          <div class="faq-item">
-              <button class="faq-question">
-                  <span>Berapa lama proses pengerjaannya?</span>
-                  <i class="fas fa-chevron-down"></i>
-              </button>
-              <div class="faq-answer">
-                  <p>Durasi pengerjaan sangat bervariasi tergantung pada jumlah titik, kedalaman, diameter, dan kondisi lokasi proyek. Setelah survei awal, kami akan memberikan estimasi jadwal pengerjaan yang detail dan transparan.</p>
-              </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="final-cta">
-      <div class="container">
-        <div class="cta-content">
-            <h2>Siap Membangun Pondasi yang Kokoh?</h2>
-            <p>Jangan ragu untuk menghubungi kami. Dapatkan konsultasi dan penawaran gratis untuk memastikan proyek Anda berada di tangan yang tepat.</p>
-            <a href="https://wa.me/6281325794818" class="cta-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Hubungi Kami Sekarang
-            </a>
-        </div>
-      </div>
-  </section>
-
 </Layout>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-      contactForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const name = event.target.name.value;
-        const email = event.target.email.value;
-        const subject = event.target.subject.value;
-        const message = event.target.message.value;
-
-        const whatsappNumber = "6281325794818";
-        const whatsappMessage = `Halo, saya ${name}.
-Email: ${email}
-Subjek: ${subject}
-
-Pesan:
-${message}`;
-
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-
-        window.open(whatsappUrl, '_blank');
-      });
-    }
-  });
-</script>
-
 <style>
-  /* HERO SECTION */
-  .hero {
+.hero {
     position: relative;
-    height: 100vh;
+    height: 80vh;
+    min-height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,159 +252,404 @@ ${message}`;
     background-position: center;
     background-attachment: fixed;
   }
-
   .hero-overlay {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to top, rgba(34, 42, 122, 0.8), rgba(34, 42, 122, 0.5));
-    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(34, 42, 122, 0.7); 
   }
-
   .hero-content {
-    position: relative; z-index: 2;
+    position: relative;
+    z-index: 2;
     max-width: 800px;
-    padding: 1rem;
-    animation: fadeInUp 1s ease-out;
+    padding: 0 1rem;
   }
-
-  .hero h1 { font-size: 3.8rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-  .hero p { font-size: 1.3rem; color: #eee; margin-bottom: 2rem; }
-  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-  .cta-primary, .cta-secondary { padding: 0.9rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; }
-  .cta-primary { background-color: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
-  .cta-primary:hover { background-color: #e65200; border-color: #e65200; transform: translateY(-3px); }
-  .cta-secondary { background-color: transparent; color: white; border: 2px solid white; }
-  .cta-secondary:hover { background-color: white; color: var(--secondary-color); transform: translateY(-3px); }
-
-  /* GENERAL SECTION STYLING */
-  .advantages, .process, .latest-projects, .get-in-touch-section, .faq, .final-cta {
-     padding: 6rem 0;
-     text-align: center; 
+  .hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: 800;
   }
-
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-  h2 { font-size: 2.8rem; color: var(--secondary-color); margin-bottom: 3rem; }
-
-  /* ADVANTAGES */
-  .advantages .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-  .advantage-item { background: #fff; padding: 2.5rem; border-radius: 12px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); transition: all 0.3s ease; }
-  .advantage-item:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
-  .advantage-item .icon { font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color); }
-  .advantage-item h3 { color: var(--secondary-color); margin-top: 0; font-size: 1.5rem; }
-  .advantage-item p { font-size: 1rem; color: #666; }
-
-  .advantages {
-    background-color: var(--background-color);
+  .hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
   }
-
-  /* PROCESS */
-  .process-timeline { display: flex; justify-content: space-between; position: relative; max-width: 900px; margin: 0 auto; }
-  .process-timeline::before { content: ''; position: absolute; top: 25px; left: 10%; right: 10%; height: 4px; background-color: #e0e0e0; z-index: -1; }
-  .step { display: flex; flex-direction: column; align-items: center; text-align: center; width: 22%; }
-  .step-icon { width: 50px; height: 50px; border-radius: 50%; background: var(--secondary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; border: 4px solid var(--background-color); box-shadow: 0 0 0 3px var(--secondary-color); margin-bottom: 1rem; }
-  .step h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0.5rem 0; }
-  .step p { font-size: 0.9rem; color: #666; }
-
-  /* GET IN TOUCH SECTION */
-  .get-in-touch-section { background-color: #fff; }
-  .contact-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 0; max-width: 1100px; margin: 0 auto; text-align: left; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: hidden; }
-  .contact-form { padding: 3rem; }
-  .contact-form h3 { margin-top: 0; font-size: 1.8rem; color: var(--secondary-color); }
-  .contact-form p { margin-top: 0; margin-bottom: 2rem; color: #666; }
-  .contact-info { background-color: var(--secondary-color); color: white; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-  .contact-info h3 { color: white; margin-top: 0; font-size: 1.8rem; }
-  .contact-info p { line-height: 1.7; color: #ddd; }
-  .contact-info ul { list-style: none; padding: 0; margin: 2rem 0; }
-  .contact-info li { display: flex; align-items: flex-start; margin-bottom: 1rem; font-size: 0.95rem; }
-  .contact-info li i { color: var(--primary-color); margin-right: 1rem; margin-top: 5px; width: 20px; text-align: center; }
-  .contact-social a { color: white; margin-right: 1rem; font-size: 1.2rem; transition: color 0.3s; }
-  .contact-social a:hover { color: var(--primary-color); }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  form input, form textarea { width: 100%; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; margin-bottom: 1.5rem; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
-  form input:focus, form textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2); outline: none; }
-  form button { width: 100%; border: none; cursor: pointer; padding: 1rem; }
-
-  /* FAQ SECTION */
-  .faq { background-color: #fff; }
-  .faq-container { max-width: 800px; margin: 0 auto; text-align: left; }
-  .faq-item { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; transition: box-shadow 0.3s; }
-  .faq-item:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-  .faq-question { background-color: white; border: none; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 600; text-align: left; cursor: pointer; color: var(--secondary-color); }
-  .faq-item.open .faq-question { color: var(--primary-color); }
-  .faq-question i { transition: transform 0.3s ease-in-out; }
-  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #f8f9fa; }
-  .faq-answer p { padding: 1.5rem; margin: 0; color: #555; line-height: 1.7; }
-
-  /* FINAL CTA */
-  .final-cta {
-      background-color: var(--primary-color);
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
   }
-  .final-cta .cta-content {
-      padding: 5rem 0;
-  }
-  .final-cta h2, .final-cta p {
-      color: white;
-  }
-  .final-cta p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-  }
-  .cta-whatsapp {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 0.9rem 2rem;
-    border-radius: 50px;
+  .cta-primary, .cta-secondary {
+    padding: 1rem 2rem;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
     transition: all 0.3s ease;
-    border: 2px solid var(--secondary-color);
+    font-size: 1rem;
+    display: flex; /* For icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
   }
-
-  .cta-whatsapp:hover {
-    background-color: #1a2b88; /* A darker shade of blue for hover */
-    border-color: #1a2b88;
+  .cta-primary {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  .cta-primary:hover {
+    background-color: #e65200; 
+    transform: translateY(-3px);
+  }
+  .cta-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+  .cta-secondary:hover {
+    background-color: white;
+    color: var(--secondary-color);
     transform: translateY(-3px);
   }
 
-  .cta-whatsapp i {
+  .process {
+    background-color: #fff;
+  }
+  .process-description {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #555;
+    margin-bottom: 4rem;
+  }
+  .process-timeline {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+  }
+  .process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background-color: #e0e0e0;
+    z-index: 0;
+  }
+  .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    background-color: #fff;
+    padding: 0 1rem;
+  }
+  .step-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
     font-size: 1.5rem;
+    font-weight: 700;
+    border: 4px solid #fff;
+    z-index: 1;
+    position: relative;
+  }
+  .step h3 {
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .planning-section { 
+    background-color: #fff; 
+  }
+  .planning-section .section-intro {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto 3rem auto;
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+  .planning-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .planning-item {
+    text-align: center;
+    padding: 2rem;
+    background: var(--background-color);
+    border-radius: 12px;
+  }
+  .planning-item i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+  }
+  .planning-item h3 {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+  }
+  .planning-item p {
+    color: #555;
+    line-height: 1.7;
+    margin: 0;
   }
 
-  /* RESPONSIVE */
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  
-  @media (max-width: 900px) {
-    .contact-wrapper { grid-template-columns: 1fr; }
+  .price-table-section {
+    background-color: var(--background-color);
+  }
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background-color: white;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .price-table th, .price-table td {
+    padding: 1.25rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    white-space: nowrap;
+  }
+  .price-table th {
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .price-table td {
+    color: #333;
+  }
+  .price-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .price-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+  .price-table td:first-child, .price-table th:first-child {
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+  .price-table .fa-times {
+    color: #dc3545;
+    font-size: 1.5rem;
+    text-align: center;
+    display: block;
+  }
+  .table-disclaimer {
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    max-width: 800px;
+    margin: 2rem auto 0 auto;
+    line-height: 1.8;
+  }
 
-    /* PERUBAHAN: Tata Letak Vertikal untuk Timeline Proses */
-    .process-timeline {
-      flex-direction: column;
-      gap: 2.5rem;
-      align-items: center;
-    }
+  .why-us-section { 
+      background-color: #fff; 
+  }
+  .why-us-section .section-intro {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 3rem auto;
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.7;
+  }
+  .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+  }
+  .reason-item {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      border: 1px solid #e9ecef;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+  }
+  .reason-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+      border-color: var(--primary-color);
+  }
+  .reason-item i {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+  }
+  .reason-item h3 {
+      font-size: 1.4rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+  }
+  .reason-item p {
+      color: #555;
+      line-height: 1.7;
+      margin: 0;
+  }
 
-    .process-timeline::-webkit-scrollbar { 
-      display: none;
-    }
+  .faq-section { background-color: var(--background-color); }
+  .faq-container { max-width: 800px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid #e0e0e0; }
+  .faq-question { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 1.5rem 0; cursor: pointer; 
+  }
+  .faq-question h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0; }
+  .faq-question i { font-size: 1.2rem; color: var(--primary-color); transition: transform 0.3s ease; }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+  .faq-answer p { padding: 0 0 1.5rem 0; margin: 0; color: #555; line-height: 1.7; }
+  .faq-item.open .faq-answer { max-height: 200px; /* Adjust as needed */ }
+  .faq-item.open i { transform: rotate(180deg); }
 
-    .process-timeline::before { 
-      display: none;
+
+  .get-in-touch-section {
+    background-color: #f8f9fa;
+  }
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0; /* Remove gap, will be handled by padding */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    overflow: hidden; /* Important for rounded corners */
+  }
+  .contact-form {
+      padding: 3rem;
+  }
+  .contact-form h3 { font-size: 1.8rem; margin-top: 0; color: var(--secondary-color); }
+  .contact-form p, .contact-info p {
+      margin-bottom: 2rem;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  #contact-form input, #contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+  #contact-form input[name="subject"] {
+    margin-bottom: 1rem;
+  }
+  #contact-form textarea {
+    resize: vertical;
+    margin-bottom: 1rem; /* Space between textarea and button */
+  }
+  #contact-form button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  /* Contact Info Styling */
+  .contact-info {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-info h3 {
+    color: white;
+    font-size: 1.8rem;
+    margin-top: 0;
+  }
+  .contact-info p {
+      color: rgba(255, 255, 255, 0.85);
+  }
+  .contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    flex-grow: 1; /* Pushes social icons to the bottom */
+  }
+  .contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+  .contact-info li i {
+    font-size: 1.5rem;
+    color: white; /* Changed from primary color */
+    width: 25px;
+    text-align: center;
+  }
+  .contact-social a {
+    color: white;
+    font-size: 1.8rem;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-social a:hover {
+    color: var(--primary-color);
+  }
+
+  @media (max-width: 992px) {
+    .contact-wrapper {
+      grid-template-columns: 1fr;
     }
-    
-    .step {
-      width: 100%;
-      max-width: 400px; /* Batas lebar agar tidak terlalu besar di tablet */
-      padding: 0;
+    .planning-grid, .reasons-grid {
+      grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 768px) {
-      .hero h1 { font-size: 2.8rem; }
-      .hero p { font-size: 1.1rem; }
-      .form-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.1rem; }
+    .process-timeline { flex-direction: column; }
+    .process-timeline::before {
+        left: 30px;
+        top: 5%;
+        bottom: 5%;
+        width: 2px;
+        height: 90%;
+    }
+    .step {
+        text-align: left;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .step-icon {
+        margin: 0;
+    }
+    .step-content {
+        padding-top: 0.5rem;
+    }
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
   }
-
 </style>
