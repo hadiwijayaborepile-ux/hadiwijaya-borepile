@@ -10,14 +10,15 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.5.1",
-    "@astrojs/tailwind": "^0.0.2-next.0",
+    "@astrojs/tailwind": "^5.1.5",
     "@iconify-json/mdi": "^1.2.3",
     "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.13",
-    "astro": "^5.13.5",
+    "astro": "^4.16.19",
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
-    "swiper": "^11.2.10",
-    "tailwindcss": "^4.1.13"
+    "swiper": "^11.2.10"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
   }
 }

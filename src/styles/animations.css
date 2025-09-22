@@ -1,0 +1,44 @@
+/* src/styles/animations.css */
+
+/* 
+  Animasi fade-in yang akan diterapkan pada elemen saat muncul di layar.
+  Awalnya, elemen tidak terlihat (opacity: 0) dan sedikit bergeser ke bawah (transform: translateY(20px)).
+*/
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* 
+  Kelas 'visible' ini akan ditambahkan oleh JavaScript ketika elemen masuk ke dalam viewport.
+  Ini akan memicu transisi, membuat elemen menjadi terlihat sepenuhnya (opacity: 1) dan kembali ke posisi semula (transform: translateY(0)).
+*/
+.fade-in-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 
+  Gaya untuk wadah yang anak-anaknya akan muncul satu per satu (staggered effect).
+*/
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 
+  Menambahkan penundaan transisi (transition-delay) ke setiap anak elemen.
+  Ini menciptakan efek animasi berurutan yang menarik secara visual.
+*/
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 0.5s; } /* Penambahan untuk langkah ke-5 jika ada */

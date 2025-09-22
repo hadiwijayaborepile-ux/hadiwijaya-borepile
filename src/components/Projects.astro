@@ -43,8 +43,8 @@ const initialVisibleProjects = 3;
 
 <section class="latest-projects">
   <div class="container">
-    <h2>Proyek Terbaru Kami</h2>
-    <div id="project-grid" class="project-grid">
+    <h2 class="fade-in-on-scroll">Proyek Terbaru Kami</h2>
+    <div id="project-grid" class="project-grid stagger-children">
       {projects.map((project, index) => (
         <div class="project-card" data-index={index}>
           <a 
@@ -63,7 +63,7 @@ const initialVisibleProjects = 3;
         </div>
       ))}
     </div>
-    <div class="cta-container">
+    <div class="cta-container fade-in-on-scroll">
       <button id="toggle-projects-btn" class="cta-button">
         Lihat Lebih Banyak
       </button>
@@ -130,7 +130,7 @@ const initialVisibleProjects = 3;
     flex-direction: column;
   }
 
-  /* PERUBAHAN: Efek hover dipindahkan ke pembungkus gambar */
+  /* Efek hover dipindahkan ke pembungkus gambar */
   .card-image-wrapper {
     width: 100%;
     padding-top: 133.33%; /* 3:4 Aspect Ratio */

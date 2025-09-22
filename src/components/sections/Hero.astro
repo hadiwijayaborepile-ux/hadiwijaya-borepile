@@ -12,13 +12,16 @@
       >
     </div>
   </div>
+  <a href="#layanan" class="scroll-down-arrow" aria-label="Scroll down">
+    <i class="fas fa-chevron-down"></i>
+  </a>
 </section>
 
 <style>
   .hero {
     position: relative;
-    height: 80vh;
-    min-height: 400px;
+    height: 100vh; /* PERUBAHAN: Mengisi tinggi viewport */
+    min-height: 500px; /* Menjaga tinggi minimum */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,12 +93,46 @@
     transform: translateY(-3px);
   }
 
+  /* PERUBAHAN: Tombol Gulir ke Bawah */
+  .scroll-down-arrow {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2rem;
+    z-index: 3;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+  }
+  .scroll-down-arrow:hover {
+    color: var(--primary-color);
+  }
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    40% {
+      transform: translateX(-50%) translateY(-20px);
+    }
+    60% {
+      transform: translateX(-50%) translateY(-10px);
+    }
+  }
+
   @media (max-width: 768px) {
     .hero h1 {
       font-size: 2.5rem;
     }
     .hero p {
       font-size: 1.1rem;
+    }
+    .scroll-down-arrow {
+      font-size: 1.5rem;
     }
   }
 </style>

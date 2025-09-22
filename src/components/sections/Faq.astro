@@ -1,13 +1,14 @@
 <section class="faq-section">
-  <div class="container">
+  <div class="container fade-in-on-scroll">
     <h2>Tanya Jawab (FAQ)</h2>
     <div class="faq-container">
-      <div class="faq-item">
-        <div class="faq-question">
+
+      <div class="accordion-item">
+        <div class="accordion-header">
           <h4>Apa perbedaan bore pile manual, mini crane, dan hydraulic?</h4>
-          <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down accordion-icon"></i>
         </div>
-        <div class="faq-answer">
+        <div class="accordion-content">
           <p>
             Perbedaan utamanya terletak pada alat, kedalaman, dan akses lokasi.
             <strong>Bore pile manual</strong> (strauss pile) menggunakan tenaga
@@ -20,12 +21,13 @@
           </p>
         </div>
       </div>
-      <div class="faq-item">
-        <div class="faq-question">
+
+      <div class="accordion-item">
+        <div class="accordion-header">
           <h4>Berapa lama waktu pengerjaan pondasi bore pile?</h4>
-          <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down accordion-icon"></i>
         </div>
-        <div class="faq-answer">
+        <div class="accordion-content">
           <p>
             Waktu pengerjaan sangat bervariasi tergantung pada jumlah titik,
             kedalaman, jenis metode yang digunakan, dan kondisi tanah di lokasi
@@ -34,12 +36,13 @@
           </p>
         </div>
       </div>
-      <div class="faq-item">
-        <div class="faq-question">
+
+      <div class="accordion-item">
+        <div class="accordion-header">
           <h4>Apakah saya bisa mendapatkan penawaran harga gratis?</h4>
-          <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down accordion-icon"></i>
         </div>
-        <div class="faq-answer">
+        <div class="accordion-content">
           <p>
             Tentu saja. Kami menyediakan survei dan penawaran harga gratis
             untuk calon klien kami. Silakan hubungi kami melalui formulir kontak
@@ -48,6 +51,7 @@
           </p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -60,41 +64,35 @@
     max-width: 800px;
     margin: 0 auto;
   }
-  .faq-item {
+  .accordion-item {
     border-bottom: 1px solid #e0e0e0;
   }
-  .faq-question {
+  .accordion-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 0;
     cursor: pointer;
   }
-  .faq-question h4 {
+  .accordion-header h4 {
     font-size: 1.2rem;
     color: var(--secondary-color);
     margin: 0;
   }
-  .faq-question i {
+  .accordion-icon {
     font-size: 1.2rem;
     color: var(--primary-color);
     transition: transform 0.3s ease;
   }
-  .faq-answer {
+  .accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out;
+    transition: max-height 0.4s ease-out; /* Transisi yang lebih mulus */
   }
-  .faq-answer p {
+  .accordion-content p {
     padding: 0 0 1.5rem 0;
     margin: 0;
     color: #555;
     line-height: 1.7;
-  }
-  .faq-item.open .faq-answer {
-    max-height: 200px; /* Adjust as needed */
-  }
-  .faq-item.open i {
-    transform: rotate(180deg);
   }
 </style>
