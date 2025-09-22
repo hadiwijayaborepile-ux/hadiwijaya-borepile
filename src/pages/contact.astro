@@ -7,10 +7,6 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <head>
-    <!-- Memastikan Font Awesome dimuat untuk ikon WhatsApp -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  </head>
   <section class="contact-header">
     <h1>Hubungi Kami</h1>
     <p>Kami siap mendengar dari Anda. Baik untuk pertanyaan, penawaran, maupun konsultasi proyek.</p>
@@ -20,7 +16,7 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
     <div class="contact-container">
       <!-- Contact Form Column -->
       <div class="form-wrapper">
-        <h2>Kirim pesan whatsapp langsung</h2>
+        <h2>Kirim Pesan Whatsapp Langsung</h2>
         <form id="contact-page-form">
           <div class="form-group">
             <label for="name">Nama Lengkap</label>
@@ -38,8 +34,9 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
             <label for="message">Pesan Anda</label>
             <textarea id="message" name="message" rows="6" placeholder="Tuliskan detail kebutuhan atau pertanyaan Anda di sini..." required></textarea>
           </div>
+          <!-- TOMBOL DIPERBAIKI: Ikon WhatsApp dikembalikan, warna tetap oranye -->
           <button type="submit" class="cta-primary">
-            <i class="fab fa-whatsapp"></i> Kirim Pesan
+            <i class="fab fa-whatsapp"></i> Kirim via WhatsApp
           </button>
         </form>
       </div>
@@ -56,7 +53,6 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
           </li>
           <li>
             <i class="fas fa-phone"></i>
-            <!-- ID ditambahkan di sini untuk diambil oleh script -->
             <span id="contact-phone-number">0813-2579-4818</span>
           </li>
           <li>
@@ -81,42 +77,29 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
   </section>
 </Layout>
 
-<script>
+<script is:inline>
   document.addEventListener('DOMContentLoaded', function () {
     const contactForm = document.getElementById('contact-page-form');
     if (contactForm) {
       contactForm.addEventListener('submit', function (event) {
         event.preventDefault();
-
-        // 1. Ambil data dari form
-        const name = event.target.name.value;
-        const email = event.target.email.value;
-        const subject = event.target.subject.value;
-        const message = event.target.message.value;
-
-        // 2. Ambil nomor telepon dari DOM dan format
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
         const phoneElement = document.getElementById('contact-phone-number');
-        let phoneNumber = '6281325794818'; // Nomor fallback jika tidak ditemukan
+        let phoneNumber = '6281325794818';
         if (phoneElement) {
-          // Ganti '0' di depan dengan '62' dan hapus karakter non-numerik lainnya
           phoneNumber = phoneElement.textContent.trim().replace(/^0/, '62').replace(/\D/g, '');
         }
-
-        // 3. Buat template pesan WhatsApp dengan format
-        let whatsappMessage = `*Pesan dari Website Hadiwijaya*\n\n`;
+        let whatsappMessage = `*Pesan dari Halaman Kontak Website*\n\n`;
         whatsappMessage += `*Nama:* ${name}\n`;
-        
-        // Tambahkan email hanya jika diisi oleh pengguna
-        if (email) {
-          whatsappMessage += `*Email:* ${email}\n`;
-        }
-        
+        if (email) whatsappMessage += `*Email:* ${email}\n`;
         whatsappMessage += `*Subjek:* ${subject}\n\n`;
         whatsappMessage += `${message}`;
-
-        // 4. Buat URL WhatsApp dan buka di tab baru
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
         window.open(whatsappUrl, '_blank');
+        contactForm.reset();
       });
     }
   });
@@ -129,50 +112,14 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
     text-align: center;
     padding: 8rem 2rem 4rem 2rem;
   }
-  .contact-header h1 {
-    font-size: 3rem;
-    margin: 0;
-  }
-  .contact-header p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0.5rem auto 0;
-    opacity: 0.9;
-  }
-
-  .contact-body {
-    padding: 5rem 0;
-  }
-
-  .contact-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 4rem;
-  }
-
-  .form-wrapper h2, .info-wrapper h2 {
-    font-size: 2.2rem;
-    color: var(--secondary-color);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #333;
-  }
-
-  .form-group input,
-  .form-group textarea {
+  .contact-header h1 { font-size: 3rem; margin: 0; }
+  .contact-header p { font-size: 1.2rem; max-width: 600px; margin: 0.5rem auto 0; opacity: 0.9; }
+  .contact-body { padding: 5rem 0; }
+  .contact-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; }
+  .form-wrapper h2, .info-wrapper h2 { font-size: 2.2rem; color: var(--secondary-color); margin-top: 0; margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333; }
+  .form-group input, .form-group textarea {
     width: 100%;
     padding: 1rem;
     border: 1px solid #ccc;
@@ -181,75 +128,42 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
     box-sizing: border-box;
     transition: border-color 0.3s, box-shadow 0.3s;
   }
-
-  .form-group input:focus,
-  .form-group textarea:focus {
+  .form-group input:focus, .form-group textarea:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
     outline: none;
   }
 
   .cta-primary {
-    padding: 0.9rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    background-color: var(--primary-color);
-    color: white;
-    border: 2px solid var(--primary-color);
-    cursor: pointer;
-    width: 100%;
-    font-size: 1.1rem;
-    /* Style untuk mensejajarkan ikon dan teks */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background-color: var(--primary-color);
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
   }
-  
-  .cta-primary i {
-    font-size: 1.2rem; /* Ukuran ikon */
-  }
-
   .cta-primary:hover {
     background-color: #e65200;
-    border-color: #e65200;
+    transform: translateY(-2px);
+  }
+  .cta-primary i {
+    font-size: 1.3rem;
   }
 
-  /* Info Wrapper */
-  .info-wrapper p {
-    line-height: 1.7;
-    margin-bottom: 2rem;
-  }
+  .info-wrapper p { line-height: 1.7; margin-bottom: 2rem; }
+  .contact-details { list-style: none; padding: 0; margin: 0 0 2rem 0; }
+  .contact-details li { display: flex; align-items: flex-start; margin-bottom: 1.5rem; font-size: 1.05rem; }
+  .contact-details li i { font-size: 1.4rem; color: var(--primary-color); margin-right: 1.5rem; margin-top: 4px; width: 25px; text-align: center; }
+  .map-container { margin-top: 2rem; }
 
-  .contact-details {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 2rem 0;
-  }
-
-  .contact-details li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
-  }
-
-  .contact-details li i {
-    font-size: 1.4rem;
-    color: var(--primary-color);
-    margin-right: 1.5rem;
-    margin-top: 4px;
-    width: 25px;
-    text-align: center;
-  }
-  
-  .map-container {
-    margin-top: 2rem;
-  }
-
-  /* Responsive */
   @media (max-width: 992px) {
     .contact-container {
       grid-template-columns: 1fr;

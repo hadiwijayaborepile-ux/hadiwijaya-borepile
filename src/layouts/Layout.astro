@@ -25,11 +25,7 @@ const {
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-    {/* CSS Fancybox */}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-
-    {/* === PERUBAHAN: Menambahkan CSS Animasi Global === */}
     <link rel="stylesheet" href="/styles/animations.css" />
 
     <SEO
@@ -45,36 +41,22 @@ const {
         }
       }}
       extend={{
-        meta: [
-          {
-            name: 'twitter:card',
-            content: 'summary_large_image',
-          },
-        ],
-        link: [
-          {
-            rel: 'canonical',
-            href: Astro.url.href,
-          }
-        ]
+        meta: [{ name: 'twitter:card', content: 'summary_large_image' }],
+        link: [{ rel: 'canonical', href: Astro.url.href }]
       }}
     />
-
 		<ViewTransitions />
 	</head>
 	<body>
 
 		<Header/>
-
 		<slot name="hero" />
-
 		<main> 
 			<slot/>
 		</main>
-
 		<Footer />
 
-    {/* Modal Form */}
+    <!-- Modal Form -->
     <div id="booking-modal" class="modal">
       <div class="modal-content">
         <span class="close-button">&times;</span>
@@ -82,18 +64,18 @@ const {
         <p>Lengkapi detail di bawah ini untuk membuat pesan WhatsApp.</p>
         <form id="booking-form">
           <div class="form-group">
-            <label for="name">Nama Anda</label>
-            <input type="text" id="name" name="name" required placeholder="Masukkan nama lengkap Anda">
+            <label for="modal-name">Nama Anda</label>
+            <input type="text" id="modal-name" name="name" required placeholder="Masukkan nama lengkap Anda">
           </div>
           <div class="form-group">
-            <label for="address">Alamat Proyek</label>
-            <input type="text" id="address" name="address" required placeholder="Contoh: Jl. Proyek No. 1, Jakarta">
+            <label for="modal-address">Alamat Proyek</label>
+            <input type="text" id="modal-address" name="address" required placeholder="Contoh: Jl. Proyek No. 1, Jakarta">
           </div>
           <div class="form-group">
-            <label for="phone">Nomor Telepon (WhatsApp)</label>
-            <input type="tel" id="phone" name="phone" required placeholder="Contoh: 08123456789">
+            <label for="modal-phone">Nomor Telepon (WhatsApp)</label>
+            <input type="tel" id="modal-phone" name="phone" required placeholder="Contoh: 08123456789">
           </div>
-          <button type="submit" class="cta-button">Kirim via WhatsApp</button>
+          <button type="submit" class="cta-button"><i class="fab fa-whatsapp"></i> Kirim via WhatsApp</button>
         </form>
       </div>
     </div>
@@ -102,20 +84,26 @@ const {
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    {/* Script Fancybox */}
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
+    <!-- SCRIPT GLOBAL VERSI FINAL, LENGKAP, DAN UTUH -->
     <script is:inline>
+      function initAll() {
+        initNavbar();
+        initStickyHeader();
+        initFaq();
+        initBookingModal();
+        initFancybox();
+      }
+
       function initNavbar() {
         const toggleButton = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        if (toggleButton && mobileMenu) {
-          if (!toggleButton.dataset.listenerAttached) {
-            toggleButton.addEventListener('click', () => {
-              mobileMenu.classList.toggle('mobile-menu-hidden');
-            });
-            toggleButton.dataset.listenerAttached = 'true';
-          }
+        if (toggleButton && mobileMenu && !toggleButton.dataset.listenerAttached) {
+          toggleButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('mobile-menu-hidden');
+          });
+          toggleButton.dataset.listenerAttached = 'true';
         }
       }
 
@@ -126,7 +114,7 @@ const {
           if (window.scrollY > 40) header.classList.add('scrolled');
           else header.classList.remove('scrolled');
         };
-        handleScroll(); // Run on first load
+        handleScroll();
         if (!window.scrollListenerAttached) {
             window.addEventListener('scroll', handleScroll);
             window.scrollListenerAttached = true;
@@ -134,65 +122,60 @@ const {
       }
 
       function initFaq() {
-        document.querySelectorAll('.faq-item').forEach(item => {
-          const question = item.querySelector('.faq-question');
-          if (question && !question.dataset.listenerAttached) {
-            question.addEventListener('click', () => {
-              const answer = item.querySelector('.faq-answer');
-              const icon = question.querySelector('i');
+        document.querySelectorAll('.accordion-item').forEach(item => {
+          const header = item.querySelector('.accordion-header');
+          if (header && !header.dataset.listenerAttached) {
+            header.addEventListener('click', () => {
+              const content = item.querySelector('.accordion-content');
+              const icon = header.querySelector('.accordion-icon');
               const isOpen = item.classList.toggle('open');
-              answer.style.maxHeight = isOpen ? answer.scrollHeight + 'px' : '0';
-              icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+              if (content) {
+                content.style.maxHeight = isOpen ? content.scrollHeight + 'px' : '0';
+              }
+              if (icon) {
+                icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+              }
             });
-            question.dataset.listenerAttached = 'true';
+            header.dataset.listenerAttached = 'true';
           }
         });
       }
 
       function initBookingModal() {
         const modal = document.getElementById("booking-modal");
+        if (!modal) return;
         const form = document.getElementById("booking-form");
-        const closeBtn = document.querySelector(".modal .close-button");
-
-        if (!modal || !form || !closeBtn) return;
-
+        const closeBtn = modal.querySelector(".close-button");
+        if (!form || !closeBtn) return;
         const openModal = (serviceName) => {
           window.currentService = serviceName;
           modal.style.display = "flex";
         };
-
-        const closeModal = () => {
-          modal.style.display = "none";
-        };
-
+        const closeModal = () => modal.style.display = "none";
         document.querySelectorAll('[data-action="open-booking-modal"]').forEach(btn => {
           if (!btn.dataset.listenerAttached) {
-            btn.addEventListener('click', () => {
-              openModal(btn.dataset.serviceName);
-            });
+            btn.addEventListener('click', () => openModal(btn.dataset.serviceName));
             btn.dataset.listenerAttached = 'true';
           }
         });
-
         if (!closeBtn.dataset.listenerAttached) {
           closeBtn.addEventListener('click', closeModal);
           closeBtn.dataset.listenerAttached = 'true';
         }
-
         if (!window.modalClickListenerAttached) {
           window.addEventListener('click', (event) => {
             if (event.target === modal) closeModal();
           });
           window.modalClickListenerAttached = true;
         }
-        
         if (!form.dataset.listenerAttached) {
           form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById("name").value;
-            const address = document.getElementById("address").value;
-            const phone = document.getElementById("phone").value;
-            const message = `Halo, saya ingin memesan layanan.\n\n*Nama:* ${name}\n*Alamat Proyek:* ${address}\n*Nomor Telepon:* ${phone}\n*Layanan:* ${window.currentService || 'Tidak spesifik'}\n\nMohon informasinya. Terima kasih.`;
+            const name = form.querySelector("#modal-name").value;
+            const address = form.querySelector("#modal-address").value;
+            const phone = form.querySelector("#modal-phone").value;
+            const service = window.currentService || 'Tidak spesifik';
+            const message = `Halo, saya ingin memesan layanan.\n\n*Layanan:* ${service}\n*Nama:* ${name}\n*Alamat Proyek:* ${address}\n*Nomor Telepon:* ${phone}\n\nMohon informasinya. Terima kasih.`;
             const whatsappUrl = `https://wa.me/6281325794818?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
             closeModal();
@@ -205,33 +188,14 @@ const {
       function initFancybox() {
         if (typeof Fancybox !== 'undefined') {
           Fancybox.destroy();
-          Fancybox.bind("[data-fancybox]", {
-            Toolbar: { 
-              display: ["close"],
-            },
-          });
+          Fancybox.bind("[data-fancybox]", { Toolbar: { display: ["close"] } });
         }
       }
 
-      function initAll() {
-        initNavbar();
-        initStickyHeader();
-        initFaq();
-        initBookingModal();
-        initFancybox();
-      }
+      document.addEventListener('astro:page-load', initAll);
+      initAll(); // Fallback for initial load
 
-      initAll();
-      document.addEventListener('astro:after-swap', initAll);
-
-      document.addEventListener('astro:before-swap', () => {
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenu) mobileMenu.classList.add('mobile-menu-hidden');
-      });
     </script>
-
-    {/* === PERUBAHAN: Menambahkan Skrip Animasi Global === */}
-    <script is:inline src="/scripts/animations.js"></script>
 	</body>
 </html>
 
@@ -241,67 +205,33 @@ const {
 		--secondary-color: #222A7A;
 		--background-color: #f8f9fa;
 		--text-color: #333;
-
     --fancybox-bg: rgba(34, 42, 122, 0.92);
     --fancybox-toolbar-color: #fff;
     --fancybox-toolbar-bg: transparent;
 	}
-
 	html {
 		font-family: system-ui, sans-serif;
 		background: var(--background-color);
     scroll-behavior: smooth;
 	}
-
 	body {
 		margin: 0;
 		overflow-x: hidden;
 	}
-
 	main { position: relative; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
   section { padding: 5rem 0; }
   section h2 { font-size: 2.8rem; color: var(--secondary-color); margin-bottom: 3rem; text-align: center; }
-
-  /* Modal Styles */
-  .modal {
-    display: none; position: fixed; z-index: 2000; 
-    left: 0; top: 0; width: 100%; height: 100%; 
-    background-color: rgba(0,0,0,0.6); 
-    align-items: center; justify-content: center;
-  }
-  .modal-content { 
-    position: relative; background-color: #fefefe; padding: 2.5rem; 
-    border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.25); 
-    width: 90%; max-width: 500px; animation: slide-down 0.4s ease-out; 
-  }
+  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+  .modal-content { position: relative; background-color: #fefefe; padding: 2.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.25); width: 90%; max-width: 500px; animation: slide-down 0.4s ease-out; }
   @keyframes slide-down { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   .close-button { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
-  .close-button:hover, .close-button:focus { color: black; }
   .modal-content h2 { margin-top: 0; font-size: 2rem; text-align: left; }
-  .modal-content p { text-align: left; margin-bottom: 1.5rem; color: #666; }
-  #booking-form .form-group { margin-bottom: 1rem; }
+  #booking-form .form-group { margin-bottom: 1.2rem; }
   #booking-form label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; text-align: left; }
   #booking-form input { width: 100%; padding: 0.8rem 1rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
-  #booking-form .cta-button { width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; background-color: var(--primary-color); color: white; }
-
-  /* Floating WhatsApp Button */
-  .whatsapp-float {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-    background-color: #25D366;
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 38px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-  }
-
+  #booking-form .cta-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; border-radius: 8px; font-weight: 700; background-color: var(--primary-color); color: white; transition: background-color 0.3s, transform 0.2s; }
+  #booking-form .cta-button:hover { background-color: #e65200; transform: translateY(-2px); }
+  #booking-form .cta-button i { font-size: 1.2rem; }
+  .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25D366; color: #FFF; border-radius: 50px; text-align: center; font-size: 38px; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; }
 </style>

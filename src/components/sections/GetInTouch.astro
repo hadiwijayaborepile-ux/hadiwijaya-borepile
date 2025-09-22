@@ -4,41 +4,29 @@
     <div class="contact-wrapper">
       <div class="contact-form">
         <h3>Kirim Pesan Langsung</h3>
-        <p>
-          Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda.
-        </p>
-        <form id="contact-form">
+        <p>Isi formulir di bawah dan pesan Anda akan langsung kami terima via WhatsApp.</p>
+        
+        <form id="homepage-contact-form">
           <div class="form-grid">
-            <input type="text" name="name" placeholder="Nama Anda" required />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Anda"
-              required
-            />
+            <input type="text" id="homepage-name" name="name" placeholder="Nama Anda" required />
+            <input type="email" id="homepage-email" name="email" placeholder="Email Anda (Opsional)" />
           </div>
-          <input type="text" name="subject" placeholder="Subjek" required />
-          <textarea name="message" rows="6" placeholder="Pesan Anda" required
-          ></textarea>
-          <button type="submit" class="cta-primary" id="submit-button">
-            <span class="button-text">Kirim Pesan</span>
-            <span class="button-loader" style="display: none;"></span>
+          <input type="text" id="homepage-subject" name="subject" placeholder="Subjek Pesan" required />
+          <textarea id="homepage-message" name="message" rows="6" placeholder="Pesan Anda" required></textarea>
+          
+          <!-- TOMBOL DIPERBAIKI: Ikon WhatsApp dikembalikan, warna tetap oranye -->
+          <button type="submit" class="cta-primary">
+            <i class="fab fa-whatsapp"></i> Kirim via WhatsApp
           </button>
         </form>
-        <div id="form-status" class="form-status"></div>
       </div>
+
       <div class="contact-info">
         <h3>Informasi Kontak</h3>
-        <p>
-          Kami siap membantu mewujudkan proyek Anda. Hubungi kami melalui detail
-          di bawah ini atau isi formulir di samping.
-        </p>
+        <p>Kami siap membantu mewujudkan proyek Anda. Hubungi kami melalui detail di bawah ini.</p>
         <ul>
-          <li>
-            <i class="fas fa-map-marker-alt"></i>Jalan Cempaka No. 34,
-            Manggihan, Kec. Godong Kab. Grobogan
-          </li>
-          <li><i class="fas fa-phone"></i>0813-2579-4818</li>
+          <li><i class="fas fa-map-marker-alt"></i>Jalan Cempaka No. 34, Manggihan, Kec. Godong Kab. Grobogan</li>
+          <li id="homepage-phone-number"><i class="fas fa-phone"></i>0813-2579-4818</li>
           <li><i class="fas fa-envelope"></i>info@hadiningratcorp.com</li>
         </ul>
         <div class="contact-social">
@@ -51,94 +39,43 @@
   </div>
 </section>
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const form = document.getElementById('contact-form') as HTMLFormElement;
-    const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
-    const buttonText = submitButton.querySelector('.button-text') as HTMLSpanElement;
-    const buttonLoader = submitButton.querySelector('.button-loader') as HTMLSpanElement;
-    const formStatus = document.getElementById('form-status') as HTMLDivElement;
-
-    if (!form || !submitButton) return;
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Disable button and show loader
-      submitButton.disabled = true;
-      buttonText.style.display = 'none';
-      buttonLoader.style.display = 'inline-block';
-      formStatus.textContent = '';
-      formStatus.className = 'form-status';
-
-      const formData = new FormData(form);
-      const apiEndpoint = `${import.meta.env.PUBLIC_API_URL}/api/v2/contacts`;
-
-      try {
-        const response = await fetch(apiEndpoint, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          form.reset();
-          formStatus.textContent = 'Pesan Anda berhasil terkirim!';
-          formStatus.classList.add('success');
-        } else {
-          const errorData = await response.json();
-          formStatus.textContent = `Terjadi kesalahan: ${errorData.message || 'Silakan coba lagi.'}`;
-          formStatus.classList.add('error');
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('homepage-contact-form');
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const name = document.getElementById('homepage-name').value;
+        const email = document.getElementById('homepage-email').value;
+        const subject = document.getElementById('homepage-subject').value;
+        const message = document.getElementById('homepage-message').value;
+        const phoneElement = document.getElementById('homepage-phone-number');
+        let phoneNumber = '6281325794818';
+        if (phoneElement) {
+          phoneNumber = phoneElement.textContent.trim().replace(/^0/, '62').replace(/\D/g, '');
         }
-      } catch (error) {
-        console.error('Submit error:', error);
-        formStatus.textContent = 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
-        formStatus.classList.add('error');
-      } finally {
-        // Re-enable button and hide loader
-        submitButton.disabled = false;
-        buttonText.style.display = 'inline-block';
-        buttonLoader.style.display = 'none';
-      }
-    });
+        let whatsappMessage = `*Pesan dari Beranda Website Hadiwijaya*\n\n`;
+        whatsappMessage += `*Nama:* ${name}\n`;
+        if (email) whatsappMessage += `*Email:* ${email}\n`;
+        whatsappMessage += `*Subjek:* ${subject}\n\n`;
+        whatsappMessage += `${message}`;
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        window.open(whatsappUrl, '_blank');
+        form.reset();
+      });
+    }
   });
 </script>
 
 <style>
-  .get-in-touch-section {
-    background-color: #f8f9fa;
-  }
-  .contact-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 0;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-  }
-  .contact-form {
-    padding: 3rem;
-  }
-  .contact-form h3 {
-    font-size: 1.8rem;
-    margin-top: 0;
-    color: var(--secondary-color);
-  }
-  .contact-form p,
-  .contact-info p {
-    margin-bottom: 2rem;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  #contact-form input,
-  #contact-form textarea {
+  .get-in-touch-section { background-color: #f8f9fa; }
+  .contact-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 0; background-color: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); overflow: hidden; }
+  .contact-form { padding: 3rem; }
+  .contact-form h3 { font-size: 1.8rem; margin-top: 0; color: var(--secondary-color); }
+  .contact-form p, .contact-info p { margin-bottom: 2rem; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  #homepage-contact-form input,
+  #homepage-contact-form textarea {
     width: 100%;
     padding: 1rem;
     border: 1px solid #ccc;
@@ -146,106 +83,42 @@
     box-sizing: border-box;
     font-size: 1rem;
   }
-  #contact-form input[name="subject"] {
-    margin-bottom: 1rem;
-  }
-  #contact-form textarea {
-    resize: vertical;
-    margin-bottom: 1rem;
-  }
-  #contact-form button {
+  #homepage-contact-form input[name="subject"] { margin-bottom: 1rem; }
+  #homepage-contact-form textarea { resize: vertical; margin-bottom: 1.5rem; }
+
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
     width: 100%;
     padding: 1rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background-color: var(--primary-color);
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
   }
-  .button-loader {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
+  .cta-primary:hover {
+    background-color: #e65200;
+    transform: translateY(-2px);
   }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  .form-status {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 600;
-    display: none; /* Hidden by default */
-  }
-  .form-status.success {
-    background-color: #d4edda;
-    color: #155724;
-    display: block;
-  }
-  .form-status.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    display: block;
+  .cta-primary i {
+    font-size: 1.3rem; /* Sedikit memperbesar ikon WhatsApp */
   }
 
-  .contact-info {
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-  }
-  .contact-info h3 {
-    color: white;
-    font-size: 1.8rem;
-    margin-top: 0;
-  }
-  .contact-info p {
-    color: rgba(255, 255, 255, 0.85);
-  }
-  .contact-info ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 2rem;
-    flex-grow: 1;
-  }
-  .contact-info li {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    font-size: 1.05rem;
-  }
-  .contact-info li i {
-    font-size: 1.5rem;
-    color: white;
-    width: 25px;
-    text-align: center;
-  }
-  .contact-social a {
-    color: white;
-    font-size: 1.8rem;
-    margin-right: 1.5rem;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  .contact-social a:hover {
-    color: var(--primary-color);
-  }
+  .contact-info { background-color: var(--secondary-color); color: white; padding: 3rem; display: flex; flex-direction: column; }
+  .contact-info h3 { color: white; font-size: 1.8rem; margin-top: 0; }
+  .contact-info p { color: rgba(255, 255, 255, 0.85); }
+  .contact-info ul { list-style: none; padding: 0; margin-bottom: 2rem; flex-grow: 1; }
+  .contact-info li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; font-size: 1.05rem; }
+  .contact-info li i { font-size: 1.5rem; color: white; width: 25px; text-align: center; }
+  .contact-social a { color: white; font-size: 1.8rem; margin-right: 1.5rem; text-decoration: none; transition: color 0.3s; }
+  .contact-social a:hover { color: var(--primary-color); }
 
-  @media (max-width: 992px) {
-    .contact-wrapper {
-      grid-template-columns: 1fr;
-    }
-  }
-  @media (max-width: 768px) {
-    .form-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+  @media (max-width: 992px) { .contact-wrapper { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
 </style>
