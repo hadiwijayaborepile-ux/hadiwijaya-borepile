@@ -1,93 +1,131 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const API_URL = import.meta.env.PUBLIC_API_URL;
+const API_URL = import.meta.env.API_URL;
 
-// --- PERBAIKAN: Logika Paginasi untuk Mengambil Semua Blog ---
+// --- PERBAIKAN: Logika Paginasi dengan Logging & Fallback ---
 let allBlogs = [];
-let nextUrl = `${API_URL}/api/v2/blogs`; // Titik awal
+if (!API_URL) {
+  console.error("BLOG_ERROR: Variabel lingkungan API_URL tidak disetel. Tidak dapat mengambil data blog.");
+} else {
+  let nextUrl = `${API_URL}/api/v2/blogs`;
+  console.log(`Mulai mengambil blog dari: ${nextUrl}`);
 
-while (nextUrl) {
-  try {
-    const response = await fetch(nextUrl);
-    if (!response.ok) {
-      console.error(`PAGINATION_ERROR (blog.astro): Gagal mengambil data dari ${nextUrl}. Status: ${response.status}`);
+  while (nextUrl) {
+    try {
+      const response = await fetch(nextUrl);
+      console.log(`Mengambil dari ${nextUrl} - Status: ${response.status}`);
+
+      if (!response.ok) {
+        console.error(`PAGINATION_ERROR (blog.astro): Gagal mengambil data. Status: ${response.status}`);
+        break;
+      }
+
+      const jsonData = await response.json();
+      
+      if (jsonData.data && Array.isArray(jsonData.data) && jsonData.data.length > 0) {
+        allBlogs.push(...jsonData.data);
+        console.log(`Berhasil menambahkan ${jsonData.data.length} artikel. Total sekarang: ${allBlogs.length}`);
+      } else {
+        console.warn("Peringatan: Respons API tidak berisi data artikel yang valid atau array data kosong.");
+      }
+      
+      nextUrl = jsonData.links ? jsonData.links.next : null;
+      if (!nextUrl) {
+        console.log("Tidak ada halaman selanjutnya. Selesai mengambil data.");
+      }
+
+    } catch (error) {
+      console.error(`PAGINATION_CRITICAL (blog.astro): Terjadi error saat menghubungi ${nextUrl}.`, error);
       break;
     }
-    const jsonData = await response.json();
-    if (jsonData.data && Array.isArray(jsonData.data)) {
-      allBlogs.push(...jsonData.data);
-    }
-    nextUrl = jsonData.links ? jsonData.links.next : null;
-  } catch (error) {
-    console.error(`PAGINATION_CRITICAL (blog.astro): Error saat menghubungi ${nextUrl}.`, error);
-    break;
   }
 }
 
-// Sekarang `allBlogs` berisi semua artikel dari semua halaman
 const featuredBlogs = allBlogs.slice(0, 3);
 const otherBlogs = allBlogs.slice(3);
 
 const title = "Blog & Artikel | Hadiwijaya Pondasi Persada";
 const description = "Dapatkan insight terbaru seputar dunia konstruksi, fondasi, dan teknologi bore pile dari para ahli kami.";
-const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
+const keywords = [
+  "blog konstruksi",
+  "artikel bore pile",
+  "teknik pengeboran bore pile",
+  "manajemen proyek konstruksi",
+  "analisis geoteknik",
+  "estimasi biaya pondasi",
+  "studi kasus pondasi",
+  "solusi pondasi tanah sulit",
+  "inovasi teknologi konstruksi",
+  "pemilihan kontraktor pondasi",
+  "kekuatan struktur bangunan",
+  "tren industri pondasi",
+  "berita fondasi terbaru"
+];
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <!-- Hero Section -->
   <section class="page-header">
     <h1>Blog & Artikel</h1>
     <p>Insight terbaru seputar dunia konstruksi, fondasi, dan teknologi bore pile dari para ahli kami.</p>
   </section>
 
-  <!-- Main Content Section -->
   <section class="page-body">
     <div class="container">
+      {allBlogs.length > 0 ? (
+        <>
+          <!-- Featured Articles -->
+          {featuredBlogs.length > 0 && (
+            <div class="featured-section">
+              <h2>Artikel Unggulan</h2>
+              <div class="featured-grid">
+                {featuredBlogs.map(blog => (
+                  <a href={`/blog/${blog.slug}`} class="blog-card">
+                    <div class="card-image-wrapper">
+                      <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="card-image" loading="lazy" />
+                    </div>
+                    <div class="card-content">
+                      <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                      <h3 class="card-title">{blog.title}</h3>
+                      <span class="card-cta">Baca Selengkapnya &rarr;</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
-      <!-- Featured Articles -->
-      <div class="featured-section">
-        <h2>Artikel Unggulan</h2>
-        <div class="featured-grid">
-          {featuredBlogs.map(blog => (
-            <a href={`/blog/${blog.slug}`} class="blog-card">
-              <div class="card-image-wrapper">
-                <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="card-image" loading="lazy" />
+          <!-- Other Articles -->
+          {otherBlogs.length > 0 && (
+            <div class="other-articles-section">
+              <h2>Artikel Lainnya</h2>
+              <div class="other-articles-list">
+                {otherBlogs.map(blog => (
+                  <a href={`/blog/${blog.slug}`} class="other-article-item">
+                    <div class="other-article-image-wrapper">
+                      <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="other-article-image" loading="lazy" />
+                    </div>
+                    <div class="other-article-content">
+                      <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                      <h3 class="other-article-title">{blog.title}</h3>
+                    </div>
+                  </a>
+                ))}
               </div>
-              <div class="card-content">
-                <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                <h3 class="card-title">{blog.title}</h3>
-                <span class="card-cta">Baca Selengkapnya &rarr;</span>
-              </div>
-            </a>
-          ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <div class="no-articles-message">
+          <h2>Segera Hadir</h2>
+          <p>Belum ada artikel yang tersedia saat ini. Kami sedang mempersiapkan konten-konten menarik untuk Anda.</p>
         </div>
-      </div>
-
-      <!-- Other Articles (sekarang menampilkan semua sisa artikel) -->
-      <div class="other-articles-section">
-        <h2>Artikel Lainnya</h2>
-        <div class="other-articles-list">
-          {otherBlogs.map(blog => (
-            <a href={`/blog/${blog.slug}`} class="other-article-item">
-              <div class="other-article-image-wrapper">
-                <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="other-article-image" loading="lazy" />
-              </div>
-              <div class="other-article-content">
-                <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                <h3 class="other-article-title">{blog.title}</h3>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-
+      )}
     </div>
   </section>
 </Layout>
 
 <style>
-  /* Style tidak berubah */
   .page-header { background-color: var(--secondary-color); color: white; text-align: center; padding: 8rem 2rem 4rem; }
   .page-header h1 { font-size: 3rem; margin: 0; }
   .page-header p { font-size: 1.2rem; max-width: 600px; margin: 0.5rem auto 0; opacity: 0.9; }
@@ -113,5 +151,8 @@ const keywords = ["blog konstruksi", "artikel bore pile", "berita fondasi"];
   .other-article-image { width: 100%; height: 100%; object-fit: cover; }
   .other-article-title { font-size: 1.15rem; font-weight: 600; color: var(--secondary-color); }
   .other-article-item:hover .other-article-title { color: var(--primary-color); }
+  .no-articles-message { text-align: center; padding: 4rem 2rem; background-color: #f7f9fc; border-radius: 12px; }
+  .no-articles-message h2 { font-size: 2rem; }
+  .no-articles-message p { font-size: 1.2rem; color: #555; max-width: 500px; margin: 0.5rem auto 0; }
   @media (max-width: 768px) { .other-article-item { grid-template-columns: 100px 1fr; } }
 </style>

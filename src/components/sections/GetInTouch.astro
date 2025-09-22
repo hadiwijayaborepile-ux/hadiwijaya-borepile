@@ -20,10 +20,12 @@
           <input type="text" name="subject" placeholder="Subjek" required />
           <textarea name="message" rows="6" placeholder="Pesan Anda" required
           ></textarea>
-          <button type="submit" class="cta-primary"
-            ><i class="fab fa-whatsapp"></i> Kirim Pesan</button
-          >
+          <button type="submit" class="cta-primary" id="submit-button">
+            <span class="button-text">Kirim Pesan</span>
+            <span class="button-loader" style="display: none;"></span>
+          </button>
         </form>
+        <div id="form-status" class="form-status"></div>
       </div>
       <div class="contact-info">
         <h3>Informasi Kontak</h3>
@@ -49,6 +51,61 @@
   </div>
 </section>
 
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
+    const buttonText = submitButton.querySelector('.button-text') as HTMLSpanElement;
+    const buttonLoader = submitButton.querySelector('.button-loader') as HTMLSpanElement;
+    const formStatus = document.getElementById('form-status') as HTMLDivElement;
+
+    if (!form || !submitButton) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Disable button and show loader
+      submitButton.disabled = true;
+      buttonText.style.display = 'none';
+      buttonLoader.style.display = 'inline-block';
+      formStatus.textContent = '';
+      formStatus.className = 'form-status';
+
+      const formData = new FormData(form);
+      const apiEndpoint = `${import.meta.env.PUBLIC_API_URL}/api/v2/contacts`;
+
+      try {
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          form.reset();
+          formStatus.textContent = 'Pesan Anda berhasil terkirim!';
+          formStatus.classList.add('success');
+        } else {
+          const errorData = await response.json();
+          formStatus.textContent = `Terjadi kesalahan: ${errorData.message || 'Silakan coba lagi.'}`;
+          formStatus.classList.add('error');
+        }
+      } catch (error) {
+        console.error('Submit error:', error);
+        formStatus.textContent = 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
+        formStatus.classList.add('error');
+      } finally {
+        // Re-enable button and hide loader
+        submitButton.disabled = false;
+        buttonText.style.display = 'inline-block';
+        buttonLoader.style.display = 'none';
+      }
+    });
+  });
+</script>
+
 <style>
   .get-in-touch-section {
     background-color: #f8f9fa;
@@ -56,11 +113,11 @@
   .contact-wrapper {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 0; /* Remove gap, will be handled by padding */
+    gap: 0;
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    overflow: hidden; /* Important for rounded corners */
+    overflow: hidden;
   }
   .contact-form {
     padding: 3rem;
@@ -94,7 +151,7 @@
   }
   #contact-form textarea {
     resize: vertical;
-    margin-bottom: 1rem; /* Space between textarea and button */
+    margin-bottom: 1rem;
   }
   #contact-form button {
     width: 100%;
@@ -102,9 +159,40 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .button-loader {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .form-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    display: none; /* Hidden by default */
+  }
+  .form-status.success {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+  }
+  .form-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
   }
 
-  /* Contact Info Styling */
   .contact-info {
     background-color: var(--secondary-color);
     color: white;
@@ -124,7 +212,7 @@
     list-style: none;
     padding: 0;
     margin-bottom: 2rem;
-    flex-grow: 1; /* Pushes social icons to the bottom */
+    flex-grow: 1;
   }
   .contact-info li {
     display: flex;
@@ -135,7 +223,7 @@
   }
   .contact-info li i {
     font-size: 1.5rem;
-    color: white; /* Changed from primary color */
+    color: white;
     width: 25px;
     text-align: center;
   }

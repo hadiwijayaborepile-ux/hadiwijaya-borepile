@@ -3,17 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
-  // --- LANGKAH DIAGNOSTIK --- 
-  // Mencetak variabel lingkungan ke terminal saat build dimulai.
-  console.log("\n--- MEMERIKSA VARIABEL LINGKUNGAN ---");
-  console.log(`Nilai PUBLIC_API_URL yang diterima: ${import.meta.env.PUBLIC_API_URL}`);
-  console.log("------------------------------------\n");
+  const API_URL = import.meta.env.API_URL;
 
-  const API_URL = import.meta.env.PUBLIC_API_URL;
-
-  // Jika API_URL tidak terdefinisi, hentikan proses lebih awal.
   if (!API_URL) {
-    console.error("FATAL: Variabel lingkungan PUBLIC_API_URL tidak ditemukan. Pastikan file .env sudah benar.");
+    console.error("FATAL: Variabel lingkungan API_URL tidak ditemukan. Pastikan file .env sudah benar.");
     return [];
   }
 
@@ -39,8 +32,7 @@ export async function getStaticPaths() {
   ));
 }
 
-// Sisa kode tidak berubah
-const API_URL = import.meta.env.PUBLIC_API_URL;
+const API_URL = import.meta.env.API_URL;
 const { slug } = Astro.params;
 let blogPost = null;
 
@@ -66,10 +58,22 @@ const articleContent = blogPost.body || blogPost.content || "<p><em>Konten tidak
 const fullImageUrl = `${API_URL}${headline_img}`;
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
-const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
+
+// Improved SEO Keywords
+const baseKeywords = tags || [];
+const categoryKeyword = category || "";
+const enhancedKeywords = [...new Set([
+  ...baseKeywords,
+  categoryKeyword,
+  title,
+  "Hadiwijaya Pondasi Persada",
+  "blog konstruksi",
+  "artikel bore pile"
+])];
+
 ---
 
-<Layout title={pageTitle} description={pageDescription} keywords={pageKeywords}>
+<Layout title={pageTitle} description={pageDescription} keywords={enhancedKeywords}>
   <section class="page-header">
     <h1>{title}</h1>
     <p class="breadcrumb"><a href="/">Beranda</a> &rarr; <a href="/blog">Blog</a></p>
@@ -87,15 +91,6 @@ const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
 
         <div class="prose-content" set:html={articleContent} />
         
-        <div class="share-section">
-          <h3>Bagikan Artikel</h3>
-          <div class="share-links">
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url.href}`} target="_blank" aria-label="Bagikan di Facebook"><Icon name="mdi:facebook" /></a>
-            <a href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${encodeURIComponent(title)}`} target="_blank" aria-label="Bagikan di Twitter"><Icon name="mdi:twitter" /></a>
-            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${Astro.url.href}`} target="_blank" aria-label="Bagikan di LinkedIn"><Icon name="mdi:linkedin" /></a>
-            <a href={`https://wa.me/?text=${encodeURIComponent(title + " " + Astro.url.href)}`} target="_blank" aria-label="Bagikan di WhatsApp"><Icon name="mdi:whatsapp" /></a>
-          </div>
-        </div>
       </article>
     </div>
   </section>
@@ -119,11 +114,5 @@ const pageKeywords = tags || ["blog konstruksi", "artikel bore pile"];
   .prose-content :global(p), .prose-content :global(ul), .prose-content :global(ol) { margin-bottom: 1.5em; }
   .prose-content :global(blockquote) { border-left: 4px solid var(--primary-color); padding-left: 1em; margin-left: 0; font-style: italic; color: #555; }
   .prose-content :global(img) { max-width: 100%; border-radius: 8px; margin: 2em 0; }
-  .share-section { margin-top: 4rem; text-align: center; border-top: 1px solid #eee; padding-top: 2.5rem; }
-  .share-section h3 { font-size: 1.5rem; color: var(--secondary-color); margin-bottom: 1.5rem; }
-  .share-links { display: flex; justify-content: center; gap: 1.5rem; }
-  .share-links a { color: #666; transition: color 0.3s ease; }
-  .share-links a:hover { color: var(--primary-color); }
-  .share-links .icon { width: 1.5rem; height: 1.5rem; }
   @media (max-width: 768px) { .page-header h1 { font-size: 2.2rem; } }
 </style>
