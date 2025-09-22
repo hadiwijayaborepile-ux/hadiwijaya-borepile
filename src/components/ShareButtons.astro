@@ -1,0 +1,86 @@
+--- 
+import { Icon } from 'astro-icon/components';
+
+const { title } = Astro.props;
+const shareUrl = Astro.url.href;
+const shareTitle = encodeURIComponent(title);
+
+const twitterUrl = `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`;
+const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+const whatsappUrl = `https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`;
+---
+
+<div class="share-container">
+  <h4>Bagikan Artikel Ini</h4>
+  <div class="share-buttons">
+    <a href={twitterUrl} target="_blank" rel="noopener noreferrer" aria-label="Bagikan di Twitter" class="share-btn twitter">
+      <Icon name="mdi:twitter" />
+    </a>
+    <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Bagikan di Facebook" class="share-btn facebook">
+      <Icon name="mdi:facebook" />
+    </a>
+    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Bagikan di WhatsApp" class="share-btn whatsapp">
+      <Icon name="mdi:whatsapp" />
+    </a>
+    <button id="copy-link-btn" aria-label="Salin Tautan" class="share-btn copy-link">
+      <Icon name="mdi:link-variant" />
+    </button>
+  </div>
+</div>
+
+<script>
+  const copyBtn = document.getElementById('copy-link-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        // You can add a more sophisticated notification here
+        alert('Tautan berhasil disalin!');
+      }).catch(err => {
+        console.error('Gagal menyalin tautan: ', err);
+        alert('Gagal menyalin tautan.');
+      });
+    });
+  }
+</script>
+
+<style>
+  .share-container {
+    margin: 3rem 0;
+    padding: 1.5rem;
+    background-color: #f8f9fa; /* Light gray background */
+    border-radius: 12px;
+    text-align: center;
+  }
+  .share-container h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+  .share-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  .share-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .twitter { background-color: #1DA1F2; }
+  .facebook { background-color: #1877F2; }
+  .whatsapp { background-color: #25D366; }
+  .copy-link { background-color: #6c757d; }
+</style>

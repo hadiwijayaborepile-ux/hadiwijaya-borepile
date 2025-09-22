@@ -1,6 +1,6 @@
 ---
 import Layout from './Layout.astro';
-const { frontmatter, title, description, keywords } = Astro.props;
+const { frontmatter, title, description, keywords, contentHtml } = Astro.props;
 
 const price = frontmatter.price;
 const serviceName = frontmatter.title;
@@ -50,9 +50,7 @@ const isImageIcon = mainIcon && mainIcon.startsWith('/'); // Check if it's a pat
     <!-- 2. Detailed Info & Process Section -->
     <section class="detailed-info">
       <div class="container grid-two">
-        <div class="prose">
-            <slot name="description" />
-        </div>
+        <div class="prose" set:html={contentHtml} />
         <div class="process-infographic">
             <h3>Proses Kerja Kami</h3>
             <ol>

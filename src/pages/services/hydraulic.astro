@@ -42,23 +42,29 @@ const seo = {
   description: "Layanan bore pile hydraulic dari Hadiwijaya Pondasi Persada untuk proyek skala besar dan masif. Solusi pondasi cepat dan efisien untuk gedung tinggi, jembatan, dan infrastruktur. Hubungi untuk estimasi biaya.",
   keywords: ["jasa bore pile hydraulic", "harga bore pile hydraulic", "biaya bore pile hydraulic", "pondasi gedung tinggi", "pondasi jembatan", "pondasi tower", "hydraulic drilling rig", "kontraktor hydraulic bore pile", "pondasi industri berat"]
 };
+
+const contentHtml = `
+  <h2>Deskripsi Layanan</h2>
+  <p>
+    <strong>Jasa Bore Pile Hydraulic</strong> adalah puncak dari teknologi pondasi dalam. Menggunakan mesin Hydraulic Rotary Drilling Rig, metode ini dirancang untuk proyek-proyek yang menuntut kekuatan, kedalaman, dan efisiensi tertinggi. Dengan kemampuan mengebor diameter besar (60 cm hingga 200 cm) dan mencapai kedalaman ekstrem, ini adalah pilihan utama untuk struktur-struktur ikonik dan infrastruktur vital.
+  </p>
+  <p>
+    Keunggulan utama dari sistem hydraulic adalah kecepatan dan presisinya. Proses pengeboran yang cepat secara signifikan mengurangi waktu konstruksi, sementara sistem kontrol modern memastikan setiap lubang dibuat dengan akurasi vertikal yang sempurna. Metode ini sangat efektif pada berbagai kondisi tanah, termasuk tanah keras dan berbatu, menjadikannya solusi yang sangat andal untuk proyek-proyek paling menantang.
+  </p>
+  <h3>Kelebihan Bore Pile Hydraulic:</h3>
+  <ul>
+    <li><strong>Kapasitas Beban Tertinggi:</strong> Dirancang untuk menopang beban aksial dan lateral yang masif.</li>
+    <li><strong>Efisiensi Waktu:</strong> Proses pengeboran paling cepat, mempercepat jadwal proyek secara keseluruhan.</li>
+    <li><strong>Minim Getaran:</strong> Proses rotary mengurangi getaran, lebih aman untuk lingkungan sekitar dibandingkan tiang pancang.</li>
+    <li><strong>Akurasi Tinggi:</strong> Mampu menghasilkan lubang bor yang presisi sesuai dengan desain teknis.</li>
+  </ul>
+`;
 ---
 
-<ServicePageLayout frontmatter={page} title={seo.title} description={seo.description} keywords={seo.keywords}>
-  <div slot="description">
-    <h2>Deskripsi Layanan</h2>
-    <p>
-      <strong>Jasa Bore Pile Hydraulic</strong> adalah puncak dari teknologi pondasi dalam. Menggunakan mesin Hydraulic Rotary Drilling Rig, metode ini dirancang untuk proyek-proyek yang menuntut kekuatan, kedalaman, dan efisiensi tertinggi. Dengan kemampuan mengebor diameter besar (60 cm hingga 200 cm) dan mencapai kedalaman ekstrem, ini adalah pilihan utama untuk struktur-struktur ikonik dan infrastruktur vital.
-    </p>
-    <p>
-      Keunggulan utama dari sistem hydraulic adalah kecepatan dan presisinya. Proses pengeboran yang cepat secara signifikan mengurangi waktu konstruksi, sementara sistem kontrol modern memastikan setiap lubang dibuat dengan akurasi vertikal yang sempurna. Metode ini sangat efektif pada berbagai kondisi tanah, termasuk tanah keras dan berbatu, menjadikannya solusi yang sangat andal untuk proyek-proyek paling menantang.
-    </p>
-    <h3>Kelebihan Bore Pile Hydraulic:</h3>
-    <ul>
-      <li><strong>Kapasitas Beban Tertinggi:</strong> Dirancang untuk menopang beban aksial dan lateral yang masif.</li>
-      <li><strong>Efisiensi Waktu:</strong> Proses pengeboran paling cepat, mempercepat jadwal proyek secara keseluruhan.</li>
-      <li><strong>Minim Getaran:</strong> Proses rotary mengurangi getaran, lebih aman untuk lingkungan sekitar dibandingkan tiang pancang.</li>
-      <li><strong>Akurasi Tinggi:</strong> Mampu menghasilkan lubang bor yang presisi sesuai dengan desain teknis.</li>
-    </ul>
-  </div>
-</ServicePageLayout>
+<ServicePageLayout 
+  frontmatter={page} 
+  title={seo.title} 
+  description={seo.description} 
+  keywords={seo.keywords}
+  contentHtml={contentHtml}
+/>

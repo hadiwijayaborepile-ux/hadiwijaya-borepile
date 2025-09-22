@@ -1,0 +1,107 @@
+---
+import ReadAlsoCard from './ReadAlsoCard.astro'; // We can reuse the card style with some adjustments
+
+const { posts } = Astro.props; // Expects an array of post objects
+
+if (!posts || posts.length === 0) {
+  return null;
+}
+
+const API_URL = import.meta.env.API_URL;
+---
+
+<section class="recommended-posts">
+  <div class="container">
+    <h3 class="section-title">Rekomendasi Bacaan Lainnya</h3>
+    <div class="grid">
+      {posts.map(post => {
+        const postUrl = `/blog/${post.slug}`;
+        const imageUrl = post.headline_img ? `${API_URL}${post.headline_img}` : '/assets/img/default-placeholder.png';
+        const excerpt = post.excerpt?.substring(0, 100) + '...' || '';
+
+        return (
+          <a href={postUrl} class="recommended-card">
+            <div class="card-image-container">
+              <img src={imageUrl} alt={post.title} loading="lazy" />
+            </div>
+            <div class="card-content">
+              <h4 class="card-title">{post.title}</h4>
+              <p class="card-excerpt">{excerpt}</p>
+              <span class="read-more">Baca Selengkapnya &rarr;</span>
+            </div>
+          </a>
+        )
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .recommended-posts {
+    padding: 4rem 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e5e7eb;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .recommended-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .recommended-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+  }
+  .card-image-container {
+    height: 200px;
+  }
+  .card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card-content {
+    padding: 1.5rem;
+  }
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+    color: var(--secondary-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    margin: 0 0 1rem 0;
+  }
+  .read-more {
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+</style>

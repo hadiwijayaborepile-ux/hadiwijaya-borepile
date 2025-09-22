@@ -42,27 +42,29 @@ const seo = {
   description: "Jasa bore pile manual (strauss pile) dari Hadiwijaya Pondasi Persada. Solusi pondasi ekonomis, tidak bising, dan tanpa getaran untuk proyek di lokasi sempit seperti pagar, ruko, dan rumah 1-2 lantai. Harga per meter kompetitif.",
   keywords: ["jasa bore pile manual", "harga strauss pile", "jasa strauss pile", "bore pile manual adalah", "pondasi cakar ayam", "harga bor pile manual per meter", "pondasi rumah 2 lantai", "pondasi untuk tanah sempit", "pondasi manual", "jasa pondasi terdekat"]
 };
+
+const contentHtml = `
+  <h2>Deskripsi Layanan</h2>
+  <p>
+    <strong>Jasa Bore Pile Manual</strong>, yang juga dikenal luas sebagai <strong>Strauss Pile</strong>, adalah metode pembuatan pondasi yang paling mendasar dan adaptif. Seluruh proses pengerjaan, mulai dari pengeboran hingga pengecoran, dilakukan sepenuhnya dengan tenaga manusia tanpa bantuan mesin berat. Ini menjadikannya solusi yang tak tertandingi untuk proyek di lokasi yang sangat sulit dijangkau.
+  </p>
+  <p>
+    Alat yang digunakan sangat sederhana: sebuah mata bor yang disambungkan dengan pipa-pipa dan sebuah pegangan untuk memutar. Dua hingga tiga orang pekerja memutar alat ini untuk mengikis tanah sedikit demi sedikit. Karena kesederhanaannya, metode ini sangat ekonomis dan ideal untuk struktur ringan seperti pagar, teras, atau rumah tinggal satu hingga dua lantai dengan kondisi tanah yang relatif baik.
+  </p>
+  <h3>Kelebihan Bore Pile Manual:</h3>
+  <ul>
+    <li><strong>Biaya Terendah:</strong> Opsi paling hemat untuk mendapatkan pondasi dalam.</li>
+    <li><strong>Aksesibilitas Tanpa Batas:</strong> Bisa dikerjakan di mana saja selama ada ruang untuk beberapa orang berdiri.</li>
+    <li><strong>Tidak Ada Kebisingan Mesin:</strong> Proses kerja sangat senyap, tidak mengganggu lingkungan sekitar.</li>
+    <li><strong>Tidak Perlu Listrik:</strong> Sepenuhnya dioperasikan secara manual.</li>
+  </ul>
+`;
 ---
 
-<ServicePageLayout frontmatter={page} title={seo.title} description={seo.description} keywords={seo.keywords}>
-  <div slot="description">
-    <h2>Deskripsi Layanan</h2>
-    <p>
-      <strong>Jasa Bore Pile Manual</strong>, yang juga dikenal luas sebagai <strong>Strauss Pile</strong>, adalah metode pembuatan pondasi yang paling mendasar dan adaptif. Seluruh proses pengerjaan, mulai dari pengeboran hingga pengecoran, dilakukan sepenuhnya dengan tenaga manusia tanpa bantuan mesin berat. Ini menjadikannya solusi yang tak tertandingi untuk proyek di lokasi yang sangat sulit dijangkau.
-    </p>
-    <p>
-      Alat yang digunakan sangat sederhana: sebuah mata bor yang disambungkan dengan pipa-pipa dan sebuah pegangan untuk memutar. Dua hingga tiga orang pekerja memutar alat ini untuk mengikis tanah sedikit demi sedikit. Karena kesederhanaannya, metode ini sangat ekonomis dan ideal untuk struktur ringan seperti pagar, teras, atau rumah tinggal satu hingga dua lantai dengan kondisi tanah yang relatif baik.
-    </p>
-    <h3>Kelebihan Bore Pile Manual:</h3>
-    <ul>
-      <li><strong>Biaya Terendah:</strong> Opsi paling hemat untuk mendapatkan pondasi dalam.
-</li>
-      <li><strong>Aksesibilitas Tanpa Batas:</strong> Bisa dikerjakan di mana saja selama ada ruang untuk beberapa orang berdiri.
-</li>
-      <li><strong>Tidak Ada Kebisingan Mesin:</strong> Proses kerja sangat senyap, tidak mengganggu lingkungan sekitar.
-</li>
-      <li><strong>Tidak Perlu Listrik:</strong> Sepenuhnya dioperasikan secara manual.
-</li>
-    </ul>
-  </div>
-</ServicePageLayout>
+<ServicePageLayout 
+  frontmatter={page} 
+  title={seo.title} 
+  description={seo.description} 
+  keywords={seo.keywords} 
+  contentHtml={contentHtml}
+/>

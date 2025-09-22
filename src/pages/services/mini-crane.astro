@@ -42,27 +42,29 @@ const seo = {
   description: "Hadiwijaya Pondasi Persada menyediakan jasa bore pile mini crane, solusi efektif untuk pondasi di lokasi terbatas seperti ruko, perumahan, dan gudang. Menjamin kekuatan untuk bangunan 2-5 lantai dengan getaran minim. Dapatkan harga terbaik.",
   keywords: ["jasa bore pile mini crane", "harga bore pile mini crane", "pondasi lahan sempit", "bore pile ruko", "bore pile perumahan", "bore pile mesin", "jasa pondasi mesin tripod", "pondasi minim getaran", "bore pile untuk gudang"]
 };
+
+const contentHtml = `
+  <h2>Deskripsi Layanan</h2>
+  <p>
+    <strong>Jasa Bore Pile Mini Crane</strong> adalah solusi cerdas ketika kekuatan pondasi bore pile dibutuhkan di lokasi yang tidak dapat diakses oleh alat berat. Menggunakan sistem tripod (kaki tiga) yang kokoh dan mesin winch bertenaga, metode ini memungkinkan pengeboran yang efisien di area sempit, di dalam ruangan, atau di belakang bangunan.
+  </p>
+  <p>
+    Meskipun ukurannya ringkas, bore pile mini crane mampu membuat lubang bor dengan diameter yang cukup besar (biasanya 30 cm hingga 60 cm) dan kedalaman yang memadai untuk menopang struktur bangunan bertingkat rendah hingga menengah. Ini adalah pilihan paling populer untuk pembangunan ruko, rumah tinggal mewah, dan gudang di kawasan perkotaan yang padat.
+  </p>
+  <h3>Kelebihan Bore Pile Mini Crane:</h3>
+  <ul>
+    <li><strong>Fleksibilitas Tinggi:</strong> Dapat dioperasikan di lokasi yang sangat terbatas atau sulit dijangkau.</li>
+    <li><strong>Kekuatan Andal:</strong> Memberikan daya dukung yang jauh lebih superior dibandingkan pondasi dangkal.</li>
+    <li><strong>Minim Gangguan:</strong> Proses kerja menghasilkan getaran dan kebisingan yang relatif rendah.</li>
+    <li><strong>Cost-Effective:</strong> Biaya mobilisasi dan operasional lebih rendah dibandingkan metode hydraulic.</li>
+  </ul>
+`;
 ---
 
-<ServicePageLayout frontmatter={page} title={seo.title} description={seo.description} keywords={seo.keywords}>
-  <div slot="description">
-    <h2>Deskripsi Layanan</h2>
-    <p>
-      <strong>Jasa Bore Pile Mini Crane</strong> adalah solusi cerdas ketika kekuatan pondasi bore pile dibutuhkan di lokasi yang tidak dapat diakses oleh alat berat. Menggunakan sistem tripod (kaki tiga) yang kokoh dan mesin winch bertenaga, metode ini memungkinkan pengeboran yang efisien di area sempit, di dalam ruangan, atau di belakang bangunan.
-    </p>
-    <p>
-      Meskipun ukurannya ringkas, bore pile mini crane mampu membuat lubang bor dengan diameter yang cukup besar (biasanya 30 cm hingga 60 cm) dan kedalaman yang memadai untuk menopang struktur bangunan bertingkat rendah hingga menengah. Ini adalah pilihan paling populer untuk pembangunan ruko, rumah tinggal mewah, dan gudang di kawasan perkotaan yang padat.
-    </p>
-    <h3>Kelebihan Bore Pile Mini Crane:</h3>
-    <ul>
-      <li><strong>Fleksibilitas Tinggi:</strong> Dapat dioperasikan di lokasi yang sangat terbatas atau sulit dijangkau.
-</li>
-      <li><strong>Kekuatan Andal:</strong> Memberikan daya dukung yang jauh lebih superior dibandingkan pondasi dangkal.
-</li>
-      <li><strong>Minim Gangguan:</strong> Proses kerja menghasilkan getaran dan kebisingan yang relatif rendah.
-</li>
-      <li><strong>Cost-Effective:</strong> Biaya mobilisasi dan operasional lebih rendah dibandingkan metode hydraulic.
-</li>
-    </ul>
-  </div>
-</ServicePageLayout>
+<ServicePageLayout 
+  frontmatter={page} 
+  title={seo.title} 
+  description={seo.description} 
+  keywords={seo.keywords}
+  contentHtml={contentHtml}
+/>

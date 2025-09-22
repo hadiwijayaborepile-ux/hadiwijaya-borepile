@@ -1,76 +1,97 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
+import ShareButtons from '../../components/ShareButtons.astro';
+import ReadAlsoCard from '../../components/ReadAlsoCard.astro';
+import RecommendedPosts from '../../components/RecommendedPosts.astro';
 
+// --- 1. STATIC PATHS (TIDAK BERUBAH) ---
 export async function getStaticPaths() {
   const API_URL = import.meta.env.API_URL;
-
-  if (!API_URL) {
-    console.error("FATAL: Variabel lingkungan API_URL tidak ditemukan. Pastikan file .env sudah benar.");
-    return [];
-  }
-
+  if (!API_URL) return [];
+  
   let allBlogs = [];
   let nextUrl = `${API_URL}/api/v2/blogs`;
-
   while (nextUrl) {
     try {
       const response = await fetch(nextUrl);
-      if (!response.ok) { break; }
+      if (!response.ok) break;
       const jsonData = await response.json();
-      if (jsonData.data && Array.isArray(jsonData.data)) {
-        allBlogs.push(...jsonData.data);
+      const posts = jsonData.data || jsonData;
+      if (Array.isArray(posts)) {
+        allBlogs.push(...posts);
       }
       nextUrl = jsonData.links ? jsonData.links.next : null;
     } catch (error) {
       break;
     }
   }
-
-  return allBlogs.map(blog => (
-    { params: { slug: blog.slug } }
-  ));
+  return allBlogs.map(blog => ({ params: { slug: blog.slug } }));
 }
 
+// --- 2. PERBAIKAN PENGAMBILAN DATA ---
 const API_URL = import.meta.env.API_URL;
 const { slug } = Astro.params;
+
+const singlePostEndpoint = `${API_URL}/api/v2/blogs/${slug}`;
+const allPostsEndpoint = `${API_URL}/api/v2/blogs?limit=100`;
+
 let blogPost = null;
+let allPostsData = [];
 
-if (API_URL) {
-  const singlePostEndpoint = `${API_URL}/api/v2/blogs/${slug}`;
-  try {
-    const response = await fetch(singlePostEndpoint);
-    if (response.ok) {
-      const jsonResponse = await response.json();
-      blogPost = jsonResponse.data || jsonResponse;
-    } 
-  } catch (error) {
-    // handle error
+try {
+  const [singlePostRes, allPostsRes] = await Promise.all([
+    fetch(singlePostEndpoint),
+    fetch(allPostsEndpoint)
+  ]);
+
+  // Pemeriksaan yang benar: pastikan KEDUA request berhasil
+  if (!singlePostRes.ok || !allPostsRes.ok) {
+    throw new Error('Gagal mengambil data blog.');
   }
-}
 
-if (!blogPost) {
+  const singleJson = await singlePostRes.json();
+  const allJson = await allPostsRes.json();
+
+  // Logika parsing yang aman, seperti kode lama Anda
+  blogPost = singleJson.data || singleJson;
+  allPostsData = allJson.data || allJson || [];
+
+} catch (error) {
+  console.error("Error fetching blog data:", error);
+  // Jika ada kesalahan (termasuk fetch atau parsing), redirect ke 404
   return Astro.redirect('/404');
 }
 
+if (!blogPost || !Array.isArray(allPostsData)) {
+  return Astro.redirect('/404');
+}
+
+// --- 3. LOGIKA REKOMENDASI (SAMA SEPERTI SEBELUMNYA) ---
+const otherPosts = allPostsData.filter(p => p.slug !== slug);
+let readAlsoPost = null;
+if (otherPosts.length > 0) {
+  const randomIndex = Math.floor(Math.random() * otherPosts.length);
+  readAlsoPost = otherPosts[randomIndex];
+}
+const recommendedPosts = otherPosts.slice(0, 3);
+
+const articleContent = blogPost.body || blogPost.content || "<p></p>";
+const paragraphs = articleContent.split('</p>');
+let contentPart1 = articleContent;
+let contentPart2 = null;
+
+if (paragraphs.length > 3) { 
+  contentPart1 = paragraphs.slice(0, 2).join('</p>') + '</p>';
+  contentPart2 = paragraphs.slice(2).join('</p>');
+}
+
+// --- 4. PERSIAPAN VARIABEL (SAMA SEPERTI SEBELUMNYA) ---
 const { title, excerpt, tags, date, category, headline_img } = blogPost;
-const articleContent = blogPost.body || blogPost.content || "<p><em>Konten tidak tersedia.</em></p>";
 const fullImageUrl = `${API_URL}${headline_img}`;
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
-
-// Improved SEO Keywords
-const baseKeywords = tags || [];
-const categoryKeyword = category || "";
-const enhancedKeywords = [...new Set([
-  ...baseKeywords,
-  categoryKeyword,
-  title,
-  "Hadiwijaya Pondasi Persada",
-  "blog konstruksi",
-  "artikel bore pile"
-])];
-
+const enhancedKeywords = [...new Set([...(tags || []), category, title, "Hadiwijaya Pondasi Persada"])];
 ---
 
 <Layout title={pageTitle} description={pageDescription} keywords={enhancedKeywords}>
@@ -89,11 +110,20 @@ const enhancedKeywords = [...new Set([
 
         <img class="featured-image" src={fullImageUrl} alt={title} />
 
-        <div class="prose-content" set:html={articleContent} />
+        <ShareButtons title={title} />
+
+        <div class="prose max-w-none" set:html={contentPart1} />
+
+        {readAlsoPost && <ReadAlsoCard post={readAlsoPost} />}
+
+        {contentPart2 && <div class="prose max-w-none" set:html={contentPart2} />}
         
       </article>
     </div>
   </section>
+
+  <RecommendedPosts posts={recommendedPosts} />
+
 </Layout>
 
 <style is:inline>
@@ -102,17 +132,12 @@ const enhancedKeywords = [...new Set([
   .page-header .breadcrumb { font-size: 1.1rem; opacity: 0.9; }
   .page-header .breadcrumb a { color: white; text-decoration: none; }
   .page-header .breadcrumb a:hover { text-decoration: underline; }
-  .page-body { padding: 4rem 0; background-color: white; }
+  .page-body { padding: 4rem 0 0; background-color: white; }
   .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
   .article-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; color: #555; font-size: 1rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
   .article-meta span { display: flex; align-items: center; gap: 0.5rem; }
   .article-meta .icon { width: 1.2rem; height: 1.2rem; color: var(--primary-color); }
-  .featured-image { width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-  .prose-content { font-size: 1.15rem; line-height: 1.8; color: #333; }
-  .prose-content :global(h1), .prose-content :global(h2), .prose-content :global(h3), .prose-content :global(h4) { color: var(--secondary-color); margin-top: 2em; margin-bottom: 1em; }
-  .prose-content :global(a) { color: var(--primary-color); text-decoration: underline; }
-  .prose-content :global(p), .prose-content :global(ul), .prose-content :global(ol) { margin-bottom: 1.5em; }
-  .prose-content :global(blockquote) { border-left: 4px solid var(--primary-color); padding-left: 1em; margin-left: 0; font-style: italic; color: #555; }
-  .prose-content :global(img) { max-width: 100%; border-radius: 8px; margin: 2em 0; }
+  .featured-image { width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 12px; margin-bottom: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+  
   @media (max-width: 768px) { .page-header h1 { font-size: 2.2rem; } }
 </style>
