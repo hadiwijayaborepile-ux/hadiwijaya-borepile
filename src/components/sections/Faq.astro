@@ -1,31 +1,7 @@
 ---
-// --- Data Fetching untuk FAQ ---
-
 const API_BASE_URL = import.meta.env.API_URL;
 
-// Data default/fallback jika API gagal.
-let faqs = [
-  {
-    id: 1,
-    question: "Apa itu layanan Bore Pile?",
-    answer: "Bore pile adalah jenis pondasi dalam yang dibuat dengan cara mengebor lubang ke dalam tanah, kemudian mengisinya dengan tulangan baja dan beton. Metode ini sangat efektif untuk menopang beban berat pada struktur bangunan."
-  },
-  {
-    id: 2,
-    question: "Kapan saya membutuhkan pondasi bore pile?",
-    answer: "Anda mungkin memerlukan bore pile jika kondisi tanah di lokasi proyek Anda lunak atau tidak stabil, atau jika bangunan Anda memiliki beban yang sangat berat seperti gedung bertingkat tinggi, jembatan, atau menara."
-  },
-  {
-    id: 3,
-    question: "Berapa lama proses pengerjaan bore pile?",
-    answer: "Durasi pengerjaan sangat bervariasi tergantung pada jumlah titik, kedalaman pengeboran, dan kondisi tanah. Tim kami akan memberikan estimasi waktu yang lebih akurat setelah melakukan survei lokasi."
-  },
-  {
-    id: 4,
-    question: "Apakah ada garansi untuk layanan yang diberikan?",
-    answer: "Ya, kami memberikan garansi pada hasil kerja kami. Detail mengenai garansi akan dijelaskan secara rinci dalam kontrak kerja sama sebelum proyek dimulai untuk memastikan transparansi dan kepercayaan."
-  }
-];
+let faqs = [];
 
 if (API_BASE_URL) {
   try {
@@ -38,13 +14,13 @@ if (API_BASE_URL) {
         faqs = apiFaqs;
       }
     } else {
-      console.error(`[Faq Component] API request failed: ${response.status}`);
+      console.error(`[Faq Component] API request failed: ${response.status}. Section will be empty.`);
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.error("[Faq Component] Gagal fetch data FAQ:", error.message);
+      console.error("[Faq Component] Gagal fetch data FAQ: " + error.message + ". Section will be empty.");
     } else {
-      console.error("[Faq Component] Terjadi error tidak diketahui:", error);
+      console.error("[Faq Component] Terjadi error tidak diketahui. Section will be empty.", error);
     }
   }
 }
@@ -72,137 +48,61 @@ if (API_BASE_URL) {
   </div>
 </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
+<script is:inline>
+  function setupFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
+    if (faqItems.length === 0) return;
 
     faqItems.forEach(item => {
       const question = item.querySelector('.faq-question');
-      
-      if (!question) {
-        return;
-      }
+      if (!question) return;
 
       question.addEventListener('click', () => {
-        const answer = item.querySelector<HTMLElement>('.faq-answer');
-        
-        if (!answer) {
-          return;
-        }
+        const answer = item.querySelector('.faq-answer');
+        if (!answer) return;
 
         const isOpen = item.classList.contains('active');
 
-        // Tutup semua item lain
+        // Close all other items for a cleaner accordion experience
         faqItems.forEach(otherItem => {
           if (otherItem !== item) {
             otherItem.classList.remove('active');
-            const otherAnswer = otherItem.querySelector<HTMLElement>('.faq-answer');
+            const otherAnswer = otherItem.querySelector('.faq-answer');
             if (otherAnswer) {
-              // **SOLUSI:** Ganti null dengan string kosong agar type-safe
-              otherAnswer.style.maxHeight = '';
+              otherAnswer.style.maxHeight = null;
             }
           }
         });
 
-        // Buka atau tutup item yang diklik
+        // Toggle the clicked item
         if (isOpen) {
           item.classList.remove('active');
-          // **SOLUSI:** Ganti null dengan string kosong agar type-safe
-          answer.style.maxHeight = '';
+          answer.style.maxHeight = null;
         } else {
           item.classList.add('active');
           answer.style.maxHeight = answer.scrollHeight + "px";
         }
       });
     });
-  });
+  }
+
+  // REVERTED to astro:page-load for robust Astro navigation
+  document.addEventListener('astro:page-load', setupFaqAccordion);
 </script>
 
 <style>
-/* CSS Styles remain the same */
-.faq-section {
-  padding: 80px 0;
-  background-color: #f8f9fa;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--secondary-color);
-  margin-bottom: 10px;
-}
-
-.section-subtitle {
-  font-size: 1.1rem;
-  color: #6c757d;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.faq-accordion {
-  max-width: 800px;
-  margin: 0 auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.faq-item {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.faq-item:last-child {
-  border-bottom: none;
-}
-
-.faq-question {
-  width: 100%;
-  padding: 20px;
-  background: #fff;
-  border: none;
-  text-align: left;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--secondary-color);
-  transition: background-color 0.3s ease;
-}
-
-.faq-question:hover {
-  background-color: #fdf2e9;
-}
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  background: #fff;
-}
-
-.faq-answer p {
-  padding: 0 20px 20px;
-  margin: 0;
-  color: #555;
-  line-height: 1.6;
-}
-
-.faq-item.active .faq-question {
-  background-color: #fdf2e9;
-}
-
-.faq-question i {
-  transition: transform 0.3s ease;
-}
-
-.faq-item.active .faq-question i {
-  transform: rotate(180deg);
-}
+.faq-section { padding: 80px 0; background-color: #f8f9fa; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-title { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 10px; }
+.section-subtitle { font-size: 1.1rem; color: #6c757d; max-width: 600px; margin: 0 auto; }
+.faq-accordion { max-width: 800px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
+.faq-item { border-bottom: 1px solid #e0e0e0; }
+.faq-item:last-child { border-bottom: none; }
+.faq-question { width: 100%; padding: 20px; background: #fff; border: none; text-align: left; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--secondary-color); transition: background-color 0.3s ease; }
+.faq-question:hover { background-color: #fdf2e9; }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
+.faq-answer p { padding: 0 20px 20px; margin: 0; color: #555; line-height: 1.6; }
+.faq-item.active .faq-question { background-color: #fdf2e9; }
+.faq-question i { transition: transform 0.3s ease; }
+.faq-item.active .faq-question i { transform: rotate(180deg); }
 </style>

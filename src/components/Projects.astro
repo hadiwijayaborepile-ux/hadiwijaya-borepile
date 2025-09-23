@@ -1,41 +1,8 @@
 ---
 const API_BASE_URL = import.meta.env.API_URL;
 
-// 1. Data fallback (data statis asli)
-let projects = [
-  {
-    title: "Proyek Gudang PT Hardo Soloplast",
-    description: "Lokasi: Karanganyar, Solo.",
-    image: "/assets/img/proyek/1.png",
-  },
-  {
-    title: "Proyek Gedung Pusat Data “Cloud Core”",
-    description: "Lokasi: Cikarang, Jawa Barat.",
-    image: "/assets/img/proyek/2.png",
-  },
-  {
-    title: "Pembangunan Hotel Bintang 4 “Grand Paradise”",
-    description: "Lokasi: Yogyakarta.",
-    image: "/assets/img/proyek/3.png",
-  },
-  {
-    title: "Proyek Perumahan Cluster “Puspita Asri”",
-    description: "Lokasi: Semarang.",
-    image: "/assets/img/proyek/4.png",
-  },
-  {
-    title: "Proyek Perkantoran “Tower Biznet”",
-    description: "Lokasi: Semarang.",
-    image: "/assets/img/proyek/5.png",
-  },
-  {
-    title: "Pembangunan Fasilitas Golf Semarang “BSB Golf”",
-    description: "Lokasi: Semarang, Jawa Tengah.",
-    image: "/assets/img/proyek/6.png",
-  }
-];
+let projects = [];
 
-// 2. Logika Fetching Data
 if (API_BASE_URL) {
   try {
     const apiUrl = `${API_BASE_URL}/api/v2/projects`;
@@ -44,31 +11,26 @@ if (API_BASE_URL) {
     if (response.ok) {
       const apiProjects = await response.json();
       if (Array.isArray(apiProjects) && apiProjects.length > 0) {
-        // 3. Transformasi data agar SAMA PERSIS dengan format layout yang ada
         projects = apiProjects.map(project => ({
           title: project.title,
-          // Format 'description' agar sesuai dengan layout asli
           description: `Lokasi: ${project.location}.`,
-          // Buat URL gambar yang lengkap dari API
           image: `${API_BASE_URL}/storage/${project.picture_upload}`
         }));
       }
     } else {
-      console.error(`[Projects Component] API request failed: ${response.status}. Using fallback data.`);
+      console.error(`[Projects Component] API request failed: ${response.status}. Section will be empty.`);
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.error("[Projects Component] Gagal fetch data: " + error.message + ". Using fallback data.");
+      console.error("[Projects Component] Gagal fetch data: " + error.message + ". Section will be empty.");
     } else {
-      console.error("[Projects Component] Terjadi error tidak diketahui. Using fallback data.", error);
+      console.error("[Projects Component] Terjadi error tidak diketahui. Section will be empty.", error);
     }
   }
 }
 
 const initialVisibleProjects = 3;
 ---
-
-{/* BAGIAN HTML, STYLE, DAN SCRIPT BAWAH INI TIDAK DIUBAH SAMA SEKALI */}
 
 <section class="latest-projects">
   <div class="container">
@@ -99,7 +61,7 @@ const initialVisibleProjects = 3;
   </div>
 </section>
 
-<script>
+<script is:inline>
   function setupProjectsToggle() {
     const initialVisible = 3;
     const toggleBtn = document.getElementById('toggle-projects-btn');
@@ -131,101 +93,21 @@ const initialVisibleProjects = 3;
     updateVisibility();
   }
 
+  // REVERTED to astro:page-load for robust Astro navigation
   document.addEventListener('astro:page-load', setupProjectsToggle);
 </script>
 
 <style>
-  .latest-projects {
-    background-color: var(--background-color);
-    text-align: center;
-    padding: 5rem 0;
-  }
-
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-  }
-
-  .project-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-image-wrapper {
-    width: 100%;
-    padding-top: 133.33%; /* 3:4 Aspect Ratio */
-    position: relative;
-    display: block;
-    border-radius: 12px 12px 0 0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .card-image-wrapper:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-  }
-
-  .project-card img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .project-card .card-content {
-    padding: 1.5rem;
-    flex-grow: 1;
-    margin-top: -10px;
-    position: relative;
-    z-index: 2;
-    background: #fff;
-    border-radius: 0 0 12px 12px;
-  }
-
-  .project-card h3 {
-    margin-top: 0;
-    font-size: 1.3rem;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-  }
-
-  .project-card p {
-    font-size: 0.95rem;
-    color: #666;
-    line-height: 1.6;
-  }
-
-  .cta-container {
-    margin-top: 3rem;
-    text-align: center;
-  }
-
-  .cta-button {
-    background-color: white;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    padding: 0.8rem 2.5rem;
-    font-size: 1rem;
-    font-weight: 700;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-  }
-
-  .cta-button:hover {
-    background-color: var(--primary-color);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
+  .latest-projects { background-color: var(--background-color); text-align: center; padding: 5rem 0; }
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .project-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); text-align: left; display: flex; flex-direction: column; }
+  .card-image-wrapper { width: 100%; padding-top: 133.33%; position: relative; display: block; border-radius: 12px 12px 0 0; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .card-image-wrapper:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
+  .project-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+  .project-card .card-content { padding: 1.5rem; flex-grow: 1; margin-top: -10px; position: relative; z-index: 2; background: #fff; border-radius: 0 0 12px 12px; }
+  .project-card h3 { margin-top: 0; font-size: 1.3rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+  .project-card p { font-size: 0.95rem; color: #666; line-height: 1.6; }
+  .cta-container { margin-top: 3rem; text-align: center; }
+  .cta-button { background-color: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 0.8rem 2.5rem; font-size: 1rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+  .cta-button:hover { background-color: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
 </style>
