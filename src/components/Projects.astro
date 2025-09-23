@@ -1,32 +1,36 @@
 ---
+// 1. Mendefinisikan tipe data untuk TypeScript
+interface Project {
+  title: string;
+  description: string;
+  image: string;
+}
+
+// 2. Data dinamis dengan tipe yang benar
 const API_BASE_URL = import.meta.env.API_URL;
+let projects: Project[] = []; // Tipe eksplisit untuk variabel
 
-let projects = [];
-
-if (API_BASE_URL) {
-  try {
+try {
+  if (API_BASE_URL) {
     const apiUrl = `${API_BASE_URL}/api/v2/projects`;
     const response = await fetch(apiUrl, { cache: 'no-store' });
 
     if (response.ok) {
-      const apiProjects = await response.json();
-      if (Array.isArray(apiProjects) && apiProjects.length > 0) {
-        projects = apiProjects.map(project => ({
+      const apiProjects: any[] = await response.json();
+      if (Array.isArray(apiProjects)) {
+        // 3. SECARA EKSPLISIT memberi tahu TypeScript bahwa .map() mengembalikan tipe Project
+        projects = apiProjects.map((project: any): Project => ({
           title: project.title,
           description: `Lokasi: ${project.location}.`,
           image: `${API_BASE_URL}/storage/${project.picture_upload}`
         }));
       }
     } else {
-      console.error(`[Projects Component] API request failed: ${response.status}. Section will be empty.`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("[Projects Component] Gagal fetch data: " + error.message + ". Section will be empty.");
-    } else {
-      console.error("[Projects Component] Terjadi error tidak diketahui. Section will be empty.", error);
+      console.error(`[Projects] API request failed: ${response.status}.`);
     }
   }
+} catch (error) {
+  console.error("[Projects] Gagal fetch data: ", error);
 }
 
 const initialVisibleProjects = 3;
@@ -35,113 +39,80 @@ const initialVisibleProjects = 3;
 <section class="latest-projects">
   <div class="container">
     <h2 class="fade-in-on-scroll">Proyek Terbaru Kami</h2>
-    <div id="project-grid" class="project-grid stagger-children">
-      {projects.map((project, index) => (
-        <div class="project-card" data-index={index}>
-          <a
-            href={project.image}
-            class="card-image-wrapper"
-            data-fancybox="projects"
-            data-caption={`<h3>${project.title}</h3><p>${project.description}</p>`}
-          >
-            <img src={project.image} alt={project.title} loading="lazy" />
-          </a>
-          <div class="card-content">
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
+
+    <div id="project-container" class="project-container">
+      <div class="project-grid stagger-children">
+        {projects.map((project, index) => (
+          <div class="project-card" data-index={index}>
+            <a
+              href={project.image}
+              class="card-image-wrapper"
+              data-fancybox="projects"
+              data-caption={`<h3>${project.title}</h3><p>${project.description}</p>`}
+            >
+              <img src={project.image} alt={project.title} loading="lazy" />
+            </a>
+            <div class="card-content">
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
+
     {projects.length > initialVisibleProjects && (
       <div class="cta-container fade-in-on-scroll">
         <button id="toggle-projects-btn" class="cta-button">
-          Lihat Lebih Banyak
+          {/* Teks tombol dikontrol oleh CSS */}
         </button>
       </div>
     )}
   </div>
 </section>
 
-<script>
-  function setupProjectsToggle() {
-    const initialVisible = 3;
+<script is:inline>
+  function initProjectToggle() {
     const toggleBtn = document.getElementById('toggle-projects-btn');
-    const projectCards = document.querySelectorAll('.project-card[data-index]');
+    const projectContainer = document.getElementById('project-container');
 
-    // Guard clauses for robustness
-    if (!toggleBtn) {
-      return;
-    }
-    
-    if (projectCards.length <= initialVisible) {
-      toggleBtn.style.display = 'none';
-      return;
-    }
+    if (toggleBtn && projectContainer) {
+      if (window.projectToggleInitialized) return;
+      window.projectToggleInitialized = true;
 
-    // Set initial state on every run to handle astro:page-load correctly
-    projectCards.forEach((card, index) => {
-      // Pure JS, no more 'as HTMLElement'. The 'style' property exists on elements.
-      if (index >= initialVisible) {
-        card.style.display = 'none';
-      }
-    });
-    toggleBtn.textContent = 'Lihat Lebih Banyak';
-    toggleBtn.style.display = 'inline-block';
-
-    // Prevent adding multiple listeners to the same button
-    if (toggleBtn.dataset.listenerAttached === 'true') {
-      return;
-    }
-    toggleBtn.dataset.listenerAttached = 'true';
-
-    toggleBtn.addEventListener('click', () => {
-      // Determine state at the moment of the click
-      const firstHiddenCard = projectCards[initialVisible];
-      const areExtraItemsHidden = firstHiddenCard.style.display === 'none';
-
-      projectCards.forEach((card, index) => {
-        if (index >= initialVisible) {
-          // Use 'flex' as that's the card's display type from the styles
-          card.style.display = areExtraItemsHidden ? 'flex' : 'none';
-        }
+      toggleBtn.addEventListener('click', function() {
+        projectContainer.classList.toggle('is-expanded');
       });
-
-      toggleBtn.textContent = areExtraItemsHidden ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
-    });
+    }
   }
 
-  // The most robust listeners for pure JavaScript
-  document.addEventListener('DOMContentLoaded', setupProjectsToggle);
-  document.addEventListener('astro:page-load', setupProjectsToggle);
+  document.addEventListener('DOMContentLoaded', initProjectToggle);
+  document.addEventListener('astro:after-swap', initProjectToggle);
 </script>
 
 <style>
-  /* Styles remain the same */
+  /* CSS tidak berubah, sudah kuat dan andal */
   .latest-projects { background-color: var(--background-color); text-align: center; padding: 5rem 0; }
   .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem; }
   .project-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); text-align: left; display: flex; flex-direction: column; }
-  .card-image-wrapper { 
-    width: 100%; 
-    padding-top: 133.33%;
-    position: relative; 
-    display: block; 
-    border-radius: 12px 12px 0 0; 
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
-  }
+  .project-card:nth-child(n + 4) { display: none; }
+  .project-container.is-expanded .project-card:nth-child(n + 4) { display: flex; }
+  .card-image-wrapper { width: 100%; padding-top: 133.33%; position: relative; display: block; border-radius: 12px 12px 0 0; transition: transform 0.3s ease, box-shadow 0.3s ease; }
   .card-image-wrapper:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
   .project-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-  .project-card .card-content { padding: 1.5rem; flex-grow: 1; }
-  .project-card h3 { margin-top: 0; font-size: 1.25rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
-  .project-card p { font-size: 0.95rem; color: #666; line-height: 1.6; }
+  .card-content { padding: 1.5rem; flex-grow: 1; }
+  h3 { margin-top: 0; font-size: 1.25rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+  p { font-size: 0.95rem; color: #666; line-height: 1.6; }
   .cta-container { margin-top: 3rem; text-align: center; }
   .cta-button { background-color: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 0.8rem 2.5rem; font-size: 1rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
   .cta-button:hover { background-color: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
+  .cta-button::after { content: 'Lihat Lebih Banyak'; }
+  .project-container.is-expanded + .cta-container .cta-button::after { content: 'Lihat Lebih Sedikit'; }
 
   @media (max-width: 768px) {
     .latest-projects { padding: 3rem 0; }
     .project-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    .project-card h3 { font-size: 1.15rem; }
-    .project-card p { font-size: 0.9rem; }
+    h3 { font-size: 1.15rem; }
+    p { font-size: 0.9rem; }
   }
 </style>
