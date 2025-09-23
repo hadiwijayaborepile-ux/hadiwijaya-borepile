@@ -1,0 +1,86 @@
+---// Komponen ini adalah placeholder visual (skeleton) untuk sebuah postingan blog.
+// Tujuannya adalah untuk ditampilkan secara instan saat pengguna menavigasi ke sebuah postingan,
+// memberikan umpan balik visual bahwa halaman sedang dimuat, sebelum konten sebenarnya (dari CMS atau file markdown) tiba.
+---
+
+<div class="skeleton-post">
+  <div class="skeleton-title shimmer"></div>
+  <div class="skeleton-meta shimmer"></div>
+  <div class="skeleton-content">
+    <div class="skeleton-line shimmer"></div>
+    <div class="skeleton-line shimmer"></div>
+    <div class="skeleton-line shimmer short"></div>
+    <br />
+    <div class="skeleton-line shimmer"></div>
+    <div class="skeleton-line shimmer medium"></div>
+    <br />
+    <div class="skeleton-line shimmer"></div>
+    <div class="skeleton-line shimmer"></div>
+    <div class="skeleton-line shimmer"></div>
+    <div class="skeleton-line shimmer long"></div>
+  </div>
+</div>
+
+<style>
+  /* Efek animasi shimmer/kilau */
+  @keyframes shimmer-animation {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  /* Kelas dasar untuk elemen yang berkilau */
+  .shimmer {
+    animation: shimmer-animation 2s infinite linear;
+    background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
+    background-size: 2000px 104px;
+  }
+
+  /* Wadah utama untuk kerangka */
+  .skeleton-post {
+    width: 100%;
+    max-width: 800px; /* Sesuaikan dengan lebar maks konten blog Anda */
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  /* Placeholder untuk judul */
+  .skeleton-title {
+    width: 80%;
+    height: 2.5rem; /* Tinggi yang sesuai untuk h1 */
+    margin-bottom: 1rem;
+    border-radius: 8px;
+  }
+
+  /* Placeholder untuk metadata (tanggal, penulis) */
+  .skeleton-meta {
+    width: 40%;
+    height: 1rem;
+    margin-bottom: 3rem;
+    border-radius: 6px;
+  }
+
+  /* Placeholder untuk baris teks paragraf */
+  .skeleton-line {
+    width: 100%;
+    height: 1rem; /* Tinggi yang sesuai untuk teks paragraf */
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+  }
+
+  /* Variasi panjang untuk baris teks agar terlihat lebih realistis */
+  .skeleton-line.short {
+    width: 60%;
+  }
+  
+  .skeleton-line.medium {
+    width: 85%;
+  }
+
+  .skeleton-line.long {
+    width: 95%;
+  }
+</style>

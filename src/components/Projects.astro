@@ -4,37 +4,31 @@ const projects = [
     title: "Proyek Gudang PT Hardo Soloplast",
     description: "Lokasi: Karanganyar, Solo.",
     image: "/assets/img/proyek/1.png",
-    category: "Industri"
   },
   {
     title: "Proyek Gedung Pusat Data “Cloud Core”",
     description: "Lokasi: Cikarang, Jawa Barat.",
     image: "/assets/img/proyek/2.png",
-    category: "Teknologi"
   },
   {
     title: "Pembangunan Hotel Bintang 4 “Grand Paradise”",
     description: "Lokasi: Yogyakarta.",
     image: "/assets/img/proyek/3.png",
-    category: "Pariwisata"
   },
   {
     title: "Proyek Perumahan Cluster “Puspita Asri”",
     description: "Lokasi: Semarang.",
     image: "/assets/img/proyek/4.png",
-    category: "Residential"
   },
   {
     title: "Proyek Perkantoran “Tower Biznet”",
     description: "Lokasi: Semarang.",
     image: "/assets/img/proyek/5.png",
-    category: "Komersial"
   },
   {
     title: "Pembangunan Fasilitas Golf Semarang “BSB Golf”",
     description: "Lokasi: Semarang, Jawa Tengah.",
     image: "/assets/img/proyek/6.png",
-    category: "Rekreasi"
   }
 ];
 
@@ -56,7 +50,7 @@ const initialVisibleProjects = 3;
             <img src={project.image} alt={project.title} loading="lazy" />
           </a>
           <div class="card-content">
-            <span class="category">{project.category}</span>
+            {/* Label kategori telah dihapus dari sini */}
             <h3>{project.title}</h3>
             <p>{project.description}</p>
           </div>
@@ -130,7 +124,6 @@ const initialVisibleProjects = 3;
     flex-direction: column;
   }
 
-  /* Efek hover dipindahkan ke pembungkus gambar */
   .card-image-wrapper {
     width: 100%;
     padding-top: 133.33%; /* 3:4 Aspect Ratio */
@@ -157,28 +150,20 @@ const initialVisibleProjects = 3;
   .project-card .card-content {
     padding: 1.5rem;
     flex-grow: 1;
-    margin-top: -10px; /* Konten sedikit naik untuk menutupi bagian bawah gambar */
+    margin-top: -10px;
     position: relative;
     z-index: 2;
     background: #fff;
     border-radius: 0 0 12px 12px;
   }
 
-  .project-card .category {
-    display: inline-block;
-    background-color: var(--primary-color-light);
-    color: var(--primary-color);
-    padding: 0.3rem 0.8rem;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
+  /* Definisi gaya untuk .category telah dihapus */
 
   .project-card h3 {
     margin-top: 0;
     font-size: 1.3rem;
     color: var(--secondary-color);
+    margin-bottom: 0.5rem; /* Menambahkan sedikit margin bawah setelah kategori dihapus */
   }
 
   .project-card p {

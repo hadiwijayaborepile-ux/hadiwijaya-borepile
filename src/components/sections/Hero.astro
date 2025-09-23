@@ -1,15 +1,55 @@
-<section class="hero" slot="hero">
+---
+// --- Data Fetching & Processing (Corrected .env variable & Error Handling) ---
+
+const API_BASE_URL = import.meta.env.API_URL;
+
+let heroData = {
+  title: "Pondasi Kuat Masa Depan Hemat",
+  subtitle: "Solusi bore pile profesional untuk proyek konstruksi Anda. Terpercaya dan berpengalaman.",
+  button_text: "Konsultasi Sekarang",
+  button_url: "/contact?subject=Konsultasi",
+  background_image_url: "/assets/img/herobg.jpg"
+};
+
+if (API_BASE_URL) {
+  try {
+    const apiUrl = `${API_BASE_URL}/api/v2/heroes`;
+    const response = await fetch(apiUrl, { cache: 'no-store' });
+
+    if (response.ok) {
+      const heroes = await response.json();
+      if (heroes && heroes.length > 0) {
+        heroData = { ...heroData, ...heroes[0] };
+      }
+    } else {
+      console.error(`[Hero Component] API request failed with status: ${response.status}. Using default data.`);
+    }
+  } catch (error) {
+    // **SOLUSI:** Periksa tipe error sebelum mengakses properti .message
+    if (error instanceof Error) {
+      console.error("[Hero Component] Gagal mengambil data dari API. Using default data. Error:", error.message);
+    } else {
+      console.error("[Hero Component] Terjadi error yang tidak diketahui saat fetch. Using default data.", error);
+    }
+  }
+} else {
+  console.warn("[Hero Component] Peringatan: Variabel API_URL tidak ditemukan di .env. Menggunakan data default.");
+}
+---
+
+<section 
+  class="hero"
+  slot="hero"
+  style={`background-image: url(${heroData.background_image_url});`}
+>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>Pondasi Kuat Masa Depan Hemat</h1>
-    <p>
-      Solusi bore pile profesional untuk proyek konstruksi Anda. Terpercaya dan
-      berpengalaman.
-    </p>
+    <h1>{heroData.title}</h1>
+    <p>{heroData.subtitle}</p>
     <div class="cta-buttons">
-      <a href="/contact?subject=Konsultasi" class="cta-primary"
-        >Konsultasi Sekarang</a
-      >
+      <a href={heroData.button_url} class="cta-primary">
+        {heroData.button_text}
+      </a>
     </div>
   </div>
   <a href="#layanan" class="scroll-down-arrow" aria-label="Scroll down">
@@ -18,16 +58,16 @@
 </section>
 
 <style>
+  /* Styles tidak berubah */
   .hero {
     position: relative;
-    height: 100vh; /* PERUBAHAN: Mengisi tinggi viewport */
-    min-height: 500px; /* Menjaga tinggi minimum */
+    height: 100vh;
+    min-height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
-    background-image: url("/assets/img/herobg.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -61,20 +101,17 @@
     justify-content: center;
     gap: 1rem;
   }
-  .cta-primary,
-  .cta-secondary {
+  .cta-primary {
     padding: 1rem 2rem;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
     transition: all 0.3s ease;
     font-size: 1rem;
-    display: flex; /* For icon alignment */
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-  }
-  .cta-primary {
     background-color: var(--primary-color);
     color: white;
   }
@@ -82,18 +119,6 @@
     background-color: #e65200;
     transform: translateY(-3px);
   }
-  .cta-secondary {
-    background-color: transparent;
-    color: white;
-    border: 2px solid white;
-  }
-  .cta-secondary:hover {
-    background-color: white;
-    color: var(--secondary-color);
-    transform: translateY(-3px);
-  }
-
-  /* PERUBAHAN: Tombol Gulir ke Bawah */
   .scroll-down-arrow {
     position: absolute;
     bottom: 30px;
@@ -109,30 +134,13 @@
     color: var(--primary-color);
   }
   @keyframes bounce {
-    0%,
-    20%,
-    50%,
-    80%,
-    100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    40% {
-      transform: translateX(-50%) translateY(-20px);
-    }
-    60% {
-      transform: translateX(-50%) translateY(-10px);
-    }
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-20px); }
+    60% { transform: translateX(-50%) translateY(-10px); }
   }
-
   @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 2.5rem;
-    }
-    .hero p {
-      font-size: 1.1rem;
-    }
-    .scroll-down-arrow {
-      font-size: 1.5rem;
-    }
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.1rem; }
+    .scroll-down-arrow { font-size: 1.5rem; }
   }
 </style>
