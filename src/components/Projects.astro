@@ -63,32 +63,47 @@ const initialVisibleProjects = 3;
   </div>
 </section>
 
-<script is:inline>
+<script>
   function setupProjectsToggle() {
     const initialVisible = 3;
     const toggleBtn = document.getElementById('toggle-projects-btn');
     const projectCards = document.querySelectorAll('.project-card[data-index]');
 
-    if (!toggleBtn || projectCards.length <= initialVisible) {
-      if(toggleBtn) toggleBtn.style.display = 'none';
+    // Guard clauses for robustness
+    if (!toggleBtn) {
+      return;
+    }
+    
+    if (projectCards.length <= initialVisible) {
+      toggleBtn.style.display = 'none';
       return;
     }
 
-    // **FIX**: Initially hide projects directly using inline styles.
+    // Set initial state on every run to handle astro:page-load correctly
     projectCards.forEach((card, index) => {
+      // Pure JS, no more 'as HTMLElement'. The 'style' property exists on elements.
       if (index >= initialVisible) {
-        (card as HTMLElement).style.display = 'none';
+        card.style.display = 'none';
       }
     });
     toggleBtn.textContent = 'Lihat Lebih Banyak';
+    toggleBtn.style.display = 'inline-block';
 
-    // **FIX**: Add a robust click listener that manipulates inline styles.
+    // Prevent adding multiple listeners to the same button
+    if (toggleBtn.dataset.listenerAttached === 'true') {
+      return;
+    }
+    toggleBtn.dataset.listenerAttached = 'true';
+
     toggleBtn.addEventListener('click', () => {
-      const areExtraItemsHidden = (projectCards[initialVisible] as HTMLElement).style.display === 'none';
+      // Determine state at the moment of the click
+      const firstHiddenCard = projectCards[initialVisible];
+      const areExtraItemsHidden = firstHiddenCard.style.display === 'none';
 
       projectCards.forEach((card, index) => {
         if (index >= initialVisible) {
-          (card as HTMLElement).style.display = areExtraItemsHidden ? 'flex' : 'none';
+          // Use 'flex' as that's the card's display type from the styles
+          card.style.display = areExtraItemsHidden ? 'flex' : 'none';
         }
       });
 
@@ -96,11 +111,13 @@ const initialVisibleProjects = 3;
     });
   }
 
+  // The most robust listeners for pure JavaScript
+  document.addEventListener('DOMContentLoaded', setupProjectsToggle);
   document.addEventListener('astro:page-load', setupProjectsToggle);
 </script>
 
 <style>
-  /* Styles remain the same, but the .project-hidden class is no longer needed and has been removed */
+  /* Styles remain the same */
   .latest-projects { background-color: var(--background-color); text-align: center; padding: 5rem 0; }
   .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem; }
   .project-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); text-align: left; display: flex; flex-direction: column; }

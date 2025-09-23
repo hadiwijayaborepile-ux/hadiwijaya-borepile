@@ -34,90 +34,74 @@ if (API_BASE_URL) {
     </div>
     <div class="faq-accordion">
       {faqs.map((faq, index) => (
-        <div class="faq-item" data-aos="fade-up" data-aos-delay={index * 100}>
-          <button class="faq-question">
+        <details class="faq-item" data-aos="fade-up" data-aos-delay={index * 100}>
+          <summary class="faq-question">
             <span>{faq.question}</span>
             <i class="fas fa-chevron-down faq-icon"></i>
-          </button>
+          </summary>
           <div class="faq-answer">
             <p>{faq.answer}</p>
           </div>
-        </div>
+        </details>
       ))}
     </div>
   </div>
 </section>
-
-<script is:inline>
-  function setupFaqAccordion() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    if (faqItems.length === 0) return;
-
-    faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      const answer = item.querySelector('.faq-answer');
-      const icon = item.querySelector('.faq-icon');
-
-      if (!question || !answer || !icon) return;
-
-      // Initialize all as closed
-      answer.style.maxHeight = null;
-      answer.style.paddingTop = '0px';
-      answer.style.paddingBottom = '0px';
-      icon.style.transform = 'rotate(0deg)';
-
-      question.addEventListener('click', () => {
-        const isCurrentlyOpen = answer.style.maxHeight !== '' && answer.style.maxHeight !== '0px' && answer.style.maxHeight !== null;
-
-        // Close all other items
-        faqItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            const otherAnswer = otherItem.querySelector('.faq-answer');
-            const otherIcon = otherItem.querySelector('.faq-icon');
-            if (otherAnswer && otherIcon) {
-              otherAnswer.style.maxHeight = null;
-              otherAnswer.style.paddingTop = '0px';
-              otherAnswer.style.paddingBottom = '0px';
-              otherIcon.style.transform = 'rotate(0deg)';
-            }
-          }
-        });
-
-        // Toggle the clicked item
-        if (isCurrentlyOpen) {
-          answer.style.maxHeight = null;
-          answer.style.paddingTop = '0px';
-          answer.style.paddingBottom = '0px';
-          icon.style.transform = 'rotate(0deg)';
-        } else {
-          answer.style.paddingTop = '0px';
-          answer.style.paddingBottom = '20px';
-          answer.style.maxHeight = answer.scrollHeight + "px";
-          icon.style.transform = 'rotate(180deg)';
-        }
-      });
-    });
-  }
-
-  document.addEventListener('astro:page-load', setupFaqAccordion);
-</script>
 
 <style>
   .faq-section { padding: 80px 0; background-color: #f8f9fa; }
   .section-header { text-align: center; margin-bottom: 50px; }
   .section-title { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 10px; }
   .section-subtitle { font-size: 1.1rem; color: #6c757d; max-width: 600px; margin: 0 auto; }
-  .faq-accordion { max-width: 800px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
-  .faq-item { border-bottom: 1px solid #e0e0e0; }
-  .faq-item:last-child { border-bottom: none; }
-  .faq-question { width: 100%; padding: 20px; background: #fff; border: none; text-align: left; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--secondary-color); transition: background-color 0.3s ease; }
-  .faq-question:hover { background-color: #fdf2e9; }
-  .faq-icon { transition: transform 0.3s ease; } /* Animasi rotasi ikon */
-  .faq-answer { 
-    max-height: 0; 
-    overflow: hidden; 
+  .faq-accordion { max-width: 800px; margin: 0 auto; }
+
+  .faq-item { 
+    border-bottom: 1px solid #e0e0e0; 
     background: #fff; 
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Transisi halus */
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
   }
-  .faq-answer p { padding: 0 20px; margin: 0; color: #555; line-height: 1.6; }
+
+  .faq-question { 
+    width: 100%; 
+    padding: 20px; 
+    background: #fff; 
+    text-align: left; 
+    font-size: 1.1rem; 
+    font-weight: 600; 
+    cursor: pointer; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    color: var(--secondary-color); 
+    transition: background-color 0.3s ease; 
+    list-style: none; /* Hide default marker */
+  }
+
+  .faq-question::-webkit-details-marker { display: none; } /* Hide default marker for Chrome/Safari */
+
+  .faq-question:hover { background-color: #fdf2e9; }
+
+  .faq-icon { 
+    transition: transform 0.3s ease; 
+  }
+
+  /* Rotate icon when the <details> element is open */
+  details[open] > .faq-question .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer { 
+    background: #fff; 
+    padding: 0 20px 20px 20px;
+    transition: all 0.4s ease-out;
+  }
+
+  .faq-answer p { 
+    margin: 0; 
+    color: #555; 
+    line-height: 1.6; 
+  }
 </style>
