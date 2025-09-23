@@ -74,26 +74,25 @@ const initialVisibleProjects = 3;
       return;
     }
 
-    // **FIX**: Initially hide projects using a robust CSS class.
+    // **FIX**: Initially hide projects directly using inline styles.
     projectCards.forEach((card, index) => {
       if (index >= initialVisible) {
-        card.classList.add('project-hidden');
+        (card as HTMLElement).style.display = 'none';
       }
     });
     toggleBtn.textContent = 'Lihat Lebih Banyak';
 
-    // **FIX**: Add a more robust click listener using class toggling.
+    // **FIX**: Add a robust click listener that manipulates inline styles.
     toggleBtn.addEventListener('click', () => {
-      // Check if we are about to expand or collapse the list.
-      const isExpanding = projectCards[initialVisible].classList.contains('project-hidden');
+      const areExtraItemsHidden = (projectCards[initialVisible] as HTMLElement).style.display === 'none';
 
-      // Toggle the class for all extra items.
-      for (let i = initialVisible; i < projectCards.length; i++) {
-        projectCards[i].classList.toggle('project-hidden');
-      }
+      projectCards.forEach((card, index) => {
+        if (index >= initialVisible) {
+          (card as HTMLElement).style.display = areExtraItemsHidden ? 'flex' : 'none';
+        }
+      });
 
-      // Update button text based on the action we just took.
-      toggleBtn.textContent = isExpanding ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
+      toggleBtn.textContent = areExtraItemsHidden ? 'Lihat Lebih Sedikit' : 'Lihat Lebih Banyak';
     });
   }
 
@@ -101,12 +100,13 @@ const initialVisibleProjects = 3;
 </script>
 
 <style>
+  /* Styles remain the same, but the .project-hidden class is no longer needed and has been removed */
   .latest-projects { background-color: var(--background-color); text-align: center; padding: 5rem 0; }
   .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem; }
   .project-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); text-align: left; display: flex; flex-direction: column; }
   .card-image-wrapper { 
     width: 100%; 
-    padding-top: 133.33%; /* potrait 3:4 aspect ratio */
+    padding-top: 133.33%;
     position: relative; 
     display: block; 
     border-radius: 12px 12px 0 0; 
@@ -120,11 +120,6 @@ const initialVisibleProjects = 3;
   .cta-container { margin-top: 3rem; text-align: center; }
   .cta-button { background-color: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 0.8rem 2.5rem; font-size: 1rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
   .cta-button:hover { background-color: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
-
-  /* **FIX**: Utility class to reliably hide projects. */
-  .project-hidden {
-    display: none !important;
-  }
 
   @media (max-width: 768px) {
     .latest-projects { padding: 3rem 0; }
