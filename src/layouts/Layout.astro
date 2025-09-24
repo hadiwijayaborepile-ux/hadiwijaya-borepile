@@ -80,7 +80,7 @@ const {
       </div>
     </div>
 
-    <a href="https://wa.me/6281325794818" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+    <a href="https://api.whatsapp.com/send/?phone=6281233624549&text=Hallo+Mas+Hadi...+Saya+mau+bikin+pondasi+bore+pile%2C+bisa+tolong+dibantu%3F&type=phone_number&app_absent=0" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
@@ -176,7 +176,7 @@ const {
             const phone = form.querySelector("#modal-phone").value;
             const service = window.currentService || 'Tidak spesifik';
             const message = `Halo, saya ingin memesan layanan.\n\n*Layanan:* ${service}\n*Nama:* ${name}\n*Alamat Proyek:* ${address}\n*Nomor Telepon:* ${phone}\n\nMohon informasinya. Terima kasih.`;
-            const whatsappUrl = `https://wa.me/6281325794818?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://wa.me/6281233624549?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
             closeModal();
             form.reset();

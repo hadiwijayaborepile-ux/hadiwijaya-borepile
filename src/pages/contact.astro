@@ -52,7 +52,7 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
           </li>
           <li>
             <i class="fas fa-phone"></i>
-            <span id="contact-phone-number">0813-2579-4818</span>
+            <span id="contact-phone-number">0812-3362-4549</span>
           </li>
           <li>
             <i class="fas fa-envelope"></i>
@@ -61,15 +61,7 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
         </ul>
 
         <div class="map-container">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.42483863435!2d110.7915550759367!3d-7.01890389295551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70f7c4e58f276f%3A0x7336a10593452c97!2sJl.%20Cempaka%20No.34%2C%20Manggihan%2C%20Kec.%20Godong%2C%20Kabupaten%20Grobogan%2C%20Jawa%20Tengah%2058162!5e0!3m2!1sen!2sid!4v1715843438670!5m2!1sen!2sid"
-            width="100%" 
-            height="350" 
-            style="border:0; border-radius: 8px;"
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8383.037437584808!2d110.74139457372077!3d-7.066029234586458!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x490336cdce072b8f%3A0x1f48794632c8ef6e!2sHadiwijaya%20Bore%20Pile%20-%20Jasa%20Bore%20Pile%20dan%20Strauss%20Pile%20Manual!5e1!3m2!1sid!2skr!4v1758705712147!5m2!1sid!2skr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>
@@ -82,22 +74,30 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
     if (contactForm) {
       contactForm.addEventListener('submit', function (event) {
         event.preventDefault();
+        
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const subject = document.getElementById('subject').value;
         const message = document.getElementById('message').value;
+        
         const phoneElement = document.getElementById('contact-phone-number');
-        let phoneNumber = '6281325794818';
+        let phoneNumber = '6281233624549'; // Fallback phone number
         if (phoneElement) {
           phoneNumber = phoneElement.textContent.trim().replace(/^0/, '62').replace(/\D/g, '');
         }
+
         let whatsappMessage = `*Pesan dari Halaman Kontak Website*\n\n`;
         whatsappMessage += `*Nama:* ${name}\n`;
-        if (email) whatsappMessage += `*Email:* ${email}\n`;
+        if (email) {
+          whatsappMessage += `*Email:* ${email}\n`;
+        }
         whatsappMessage += `*Subjek:* ${subject}\n\n`;
         whatsappMessage += `${message}`;
+
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        
         window.open(whatsappUrl, '_blank');
+        
         contactForm.reset();
       });
     }
@@ -113,11 +113,31 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
   }
   .contact-header h1 { font-size: 3rem; margin: 0; }
   .contact-header p { font-size: 1.2rem; max-width: 600px; margin: 0.5rem auto 0; opacity: 0.9; }
+
   .contact-body { padding: 5rem 0; }
-  .contact-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; }
-  .form-wrapper h2, .info-wrapper h2 { font-size: 2.2rem; color: var(--secondary-color); margin-top: 0; margin-bottom: 1.5rem; }
+  .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 4rem;
+  }
+
+  .form-wrapper h2, .info-wrapper h2 {
+    font-size: 2.2rem;
+    color: var(--secondary-color);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
   .form-group { margin-bottom: 1.5rem; }
-  .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333; }
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+  }
   .form-group input, .form-group textarea {
     width: 100%;
     padding: 1rem;
@@ -157,11 +177,33 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
     font-size: 1.3rem;
   }
 
-  .info-wrapper p { line-height: 1.7; margin-bottom: 2rem; }
-  .contact-details { list-style: none; padding: 0; margin: 0 0 2rem 0; }
-  .contact-details li { display: flex; align-items: flex-start; margin-bottom: 1.5rem; font-size: 1.05rem; }
-  .contact-details li i { font-size: 1.4rem; color: var(--primary-color); margin-right: 1.5rem; margin-top: 4px; width: 25px; text-align: center; }
-  .map-container { margin-top: 2rem; }
+  .info-wrapper p {
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .contact-details {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+  }
+  .contact-details li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+  }
+  .contact-details li i {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-right: 1.5rem;
+    margin-top: 4px;
+    width: 25px;
+    text-align: center;
+  }
+
+  .map-container {
+    margin-top: 2rem;
+  }
 
   @media (max-width: 992px) {
     .contact-container {
