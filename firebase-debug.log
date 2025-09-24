@@ -1,0 +1,74 @@
+[debug] [2025-09-24T09:59:12.891Z] ----------------------------------------------------------------------
+[debug] [2025-09-24T09:59:12.894Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /nix/store/a3jfkfzmr1h8lmk31a8fbchkg5sp12q9-firebase-tools-14.16.0/lib/node_modules/firebase-tools/lib/bin/firebase.js deploy --only hosting
+[debug] [2025-09-24T09:59:12.895Z] CLI Version:   14.16.0
+[debug] [2025-09-24T09:59:12.896Z] Platform:      linux
+[debug] [2025-09-24T09:59:12.896Z] Node Version:  v20.19.1
+[debug] [2025-09-24T09:59:12.896Z] Time:          Wed Sep 24 2025 09:59:12 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-09-24T09:59:12.896Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-24T09:59:13.504Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:13.505Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:13.509Z] >>> [apiv2][query] GET https://monospace-pa.googleapis.com/v1/workspaces/hadiwijaya-borepile-37062310 [none]
+[debug] [2025-09-24T09:59:14.549Z] <<< [apiv2][status] GET https://monospace-pa.googleapis.com/v1/workspaces/hadiwijaya-borepile-37062310 200
+[debug] [2025-09-24T09:59:14.549Z] <<< [apiv2][body] GET https://monospace-pa.googleapis.com/v1/workspaces/hadiwijaya-borepile-37062310 {"workspaceId":"hadiwijaya-borepile-37062310","name":"Hadiwijaya Borepile","workspaceRedirectUrl":"firebase-hadiwijaya-borepile-1757152662488.cluster-zumahodzirciuujpqvsniawo3o.cloudworkstations.dev","status":"WORKSPACE_STATUS_RUNNING","lastAccessDatetime":"2025-09-24T07:31:08.644110Z","workspaceTemplate":"WORKSPACE_TEMPLATE_BLANK_WEB","owner":"SELF","serviceAccountEmail":"msp-1195138135658546191@monospace-4.iam.gserviceaccount.com","enableNix":true,"ownerEmail":"micropadmanusantara@gmail.com","workspaceImageUrl":"https://www.gstatic.com/monospace/231115/logo_astro.svg","templateArgs":"{\"typescript\":\"strict\",\"template\":\"basics\",\"tailwind\":true}","templateRepoUrl":"file:///usr/local/monospace/templates/public/astro","workstationAccessToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Nsb3VkLmdvb2dsZS5jb20vd29ya3N0YXRpb25zIiwiYXVkIjoiZmlyZWJhc2UtaGFkaXdpamF5YS1ib3JlcGlsZS0xNzU3MTUyNjYyNDg4LmNsdXN0ZXItenVtYWhvZHppcmNpdXVqcHF2c25pYXdvM28uY2xvdWR3b3Jrc3RhdGlvbnMuZGV2IiwiaWF0IjoxNzU4NzA3OTU0LCJleHAiOjE3NTg3OTQzNTR9.J3-rBCOyPOiZ_oiVhoEbQXwkD2DXmCkJmsf9U2w1EQmxpKrlV02NnR7khgvixOYKBnqJF-3qfMji1N8HcdOVfm2a8RG1GNrEpIyvsCzIT4sjrj8rslwd5OSf6NOktNqocSQdPjXwaqwxog5pgZnWqDQcev0YeyIWlfVMIRIuoGQvE8Hb01mVv615Gidkf6xtLz50mSVNuoogE89mdL4NHwvBnn7mG2yhsgLomaemQCfPdEEEzoVz9IHDsuHYN7_3QPFI8xoKrsxoVumeklzr1F81HF9Wr8l0gNcKYxw9kKC2IAnPNJyR_v4RRETemVS2hh08howZzSJDZUHqdCOaag","firebaseProjectId":"hadiwijaya-bore-pile"}
+[debug] [2025-09-24T09:59:14.559Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2025-09-24T09:59:14.560Z] > authorizing via signed-in user (micropadmanusantara@gmail.com)
+[debug] [2025-09-24T09:59:14.560Z] [iam] checking project hadiwijaya-bore-pile for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-09-24T09:59:14.563Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:14.563Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:14.564Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/hadiwijaya-bore-pile:testIamPermissions [none]
+[debug] [2025-09-24T09:59:14.565Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/hadiwijaya-bore-pile:testIamPermissions x-goog-quota-user=projects/hadiwijaya-bore-pile
+[debug] [2025-09-24T09:59:14.565Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/hadiwijaya-bore-pile:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-24T09:59:15.343Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/hadiwijaya-bore-pile:testIamPermissions 200
+[debug] [2025-09-24T09:59:15.344Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/hadiwijaya-bore-pile:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-24T09:59:15.354Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:15.354Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:15.357Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hadiwijaya-bore-pile [none]
+[debug] [2025-09-24T09:59:15.678Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hadiwijaya-bore-pile 200
+[debug] [2025-09-24T09:59:15.678Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hadiwijaya-bore-pile {"projectId":"hadiwijaya-bore-pile","projectNumber":"541533140951","displayName":"hadiwijaya-bore-pile","name":"projects/hadiwijaya-bore-pile","resources":{"hostingSite":"hadiwijaya-bore-pile"},"state":"ACTIVE","etag":"1_1adffb51-44e8-4622-9cad-e774cfbb2d10"}
+[info] 
+   Thank you for trying our experimental support for Astro on Firebase Hosting.
+   While this integration is maintained by Googlers it is not a supported Firebase product.
+   Issues filed on GitHub will be addressed on a best-effort basis by maintainers and other community members.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/frameworks-overview
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2025-09-24T09:59:55.626Z] [web frameworks] effective firebase.json:  {
+  "hosting": [
+    {
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "frameworksBackend": {
+        "region": "us-west1"
+      },
+      "site": "hadiwijaya-bore-pile",
+      "rewrites": [],
+      "redirects": [],
+      "headers": [],
+      "cleanUrls": true,
+      "public": ".firebase/hadiwijaya-bore-pile/hosting",
+      "webFramework": "astro"
+    }
+  ]
+}
+[info] 
+[info] === Deploying to 'hadiwijaya-bore-pile'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-09-24T09:59:55.654Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:55.655Z] Checked if tokens are valid: true, expires at: 1758711030903
+[debug] [2025-09-24T09:59:55.655Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/hadiwijaya-bore-pile/versions [none]
+[debug] [2025-09-24T09:59:55.655Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/hadiwijaya-bore-pile/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase--project-idx","firebase-web-framework":"astro"}}
+[debug] [2025-09-24T09:59:56.503Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/hadiwijaya-bore-pile/versions 200
+[debug] [2025-09-24T09:59:56.504Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/hadiwijaya-bore-pile/versions {"name":"projects/541533140951/sites/hadiwijaya-bore-pile/versions/559b9186fa6c5a65","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase--project-idx","firebase-web-framework":"astro"}}
+[info] i  hosting[hadiwijaya-bore-pile]: beginning deploy... 
+[info] i  hosting[hadiwijaya-bore-pile]: found 44 files in .firebase/hadiwijaya-bore-pile/hosting 
+[debug] [2025-09-24T09:59:56.584Z] [hosting] uploading with 200 concurrency
