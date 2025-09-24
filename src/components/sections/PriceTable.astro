@@ -1,46 +1,119 @@
+---
+// Mengambil data harga dari API, secara eksklusif dari environment variable.
+// Pastikan variabel API_URL sudah dikonfigurasi di file .env Anda.
+const apiUrl = import.meta.env.API_URL;
+let pricingData: any[] = [];
+let error = null;
+
+// Cek jika apiUrl tidak terdefinisi
+if (!apiUrl) {
+  error = "Konfigurasi API_URL tidak ditemukan. Mohon atur variabel ini di file .env Anda dan restart server.";
+  console.error(error);
+} else {
+  try {
+    const response = await fetch(`${apiUrl}/api/v2/pricing-tables`);
+    if (response.ok) {
+      pricingData = await response.json();
+      console.log("Data tabel harga berhasil dimuat.");
+    } else {
+      error = `Gagal memuat data dari ${apiUrl}. Status: ${response.status}`;
+      console.error(`API Error (PriceTable.astro): ${error}`);
+    }
+  } catch (e: any) {
+    error = `Tidak dapat terhubung ke server di ${apiUrl}. Pastikan URL benar dan server sedang berjalan.`;
+    console.error(`Fetch Error (PriceTable.astro): ${e.message}`);
+  }
+}
+
+// Helper untuk merender konten sel: harga atau ikon 'x'
+const renderCell = (content: string | null) => {
+  // Tambahkan class 'price-unavailable' untuk styling
+  return content ? content : '<i class="fas fa-times price-unavailable"></i>';
+};
+---
+
 <section class="price-table-section">
   <div class="container">
     <h2 class="fade-in-on-scroll">Tabel Harga Jasa Bore Pile Per Meter</h2>
 
-    <!-- Desktop Table -->
-    <div class="table-responsive desktop-view fade-in-on-scroll">
-      <table class="price-table">
-        <thead>
-          <tr>
-            <th>Diameter (Ø cm)</th>
-            <th>Alat Berat Hydraulic</th>
-            <th>Mini Crane</th>
-            <th>Strauss Pile</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>30 cm</td><td><i class="fas fa-times"></i></td><td>Rp130.000 per meter¹</td><td>Rp85.000 per meter¹</td></tr>
-          <tr><td>40 cm</td><td>Rp190.000 per meter¹</td><td>Rp150.000 per meter¹</td><td>Rp95.000 per meter¹</td></tr>
-          <tr><td>50 cm</td><td>Rp280.000 per meter¹</td><td>Rp240.000 per meter¹</td><td><i class="fas fa-times"></i></td></tr>
-          <tr><td>60 cm</td><td>Rp350.000 per meter¹</td><td>Rp280.000 per meter¹</td><td><i class="fas fa-times"></i></td></tr>
-          <tr><td>80 cm</td><td>Rp450.000 per meter¹</td><td>Rp300.000 per meter¹</td><td><i class="fas fa-times"></i></td></tr>
-          <tr><td>100 cm</td><td>Rp600.000 per meter¹</td><td><i class="fas fa-times"></i></td><td><i class="fas fa-times"></i></td></tr>
-          <tr><td>150 cm</td><td>Rp1.200.000 per meter¹</td><td><i class="fas fa-times"></i></td><td><i class="fas fa-times"></i></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Mobile Accordion (Pure HTML/CSS) -->
-    <div class="mobile-view stagger-children">
-      <div class="accordion">
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 30 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> <i class="fas fa-times"></i></p><p><strong>Mini Crane:</strong> Rp130.000 per meter¹</p><p><strong>Strauss Pile:</strong> Rp85.000 per meter¹</p></div></details>
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 40 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> Rp190.000 per meter¹</p><p><strong>Mini Crane:</strong> Rp150.000 per meter¹</p><p><strong>Strauss Pile:</strong> Rp95.000 per meter¹</p></div></details>
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 50 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> Rp280.000 per meter¹</p><p><strong>Mini Crane:</strong> Rp240.000 per meter¹</p><p><strong>Strauss Pile:</strong> <i class="fas fa-times"></i></p></div></details>
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 60 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> Rp350.000 per meter¹</p><p><strong>Mini Crane:</strong> Rp280.000 per meter¹</p><p><strong>Strauss Pile:</strong> <i class="fas fa-times"></i></p></div></details>
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 80 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> Rp450.000 per meter¹</p><p><strong>Mini Crane:</strong> Rp300.000 per meter¹</p><p><strong>Strauss Pile:</strong> <i class="fas fa-times"></i></p></div></details>
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 100 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> Rp600.000 per meter¹</p><p><strong>Mini Crane:</strong> <i class="fas fa-times"></i></p><p><strong>Strauss Pile:</strong> <i class="fas fa-times"></i></p></div></details>
-        <details class="accordion-item"><summary class="accordion-header"><span>Diameter 150 cm</span><i class="fas fa-chevron-down accordion-icon"></i></summary><div class="accordion-body"><p><strong>Alat Berat Hydraulic:</strong> Rp1.200.000 per meter¹</p><p><strong>Mini Crane:</strong> <i class="fas fa-times"></i></p><p><strong>Strauss Pile:</strong> <i class="fas fa-times"></i></p></div></details>
+    {error && (
+      <div class="error-message">
+        <p>Maaf, terjadi kesalahan saat memuat tabel harga.</p>
+        <p><em>{error}</em></p>
       </div>
-    </div>
+    )}
+
+    {!error && pricingData.length > 0 && (
+      <>
+        <!-- Desktop Table -->
+        <div class="table-responsive desktop-view fade-in-on-scroll">
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>Diameter (Ø cm)</th>
+                <th>Alat Berat Hydraulic</th>
+                <th>Mini Crane</th>
+                <th>Strauss Pile</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pricingData.map((item) => (
+                <tr>
+                  <td>{item.size}</td>
+                  <td set:html={renderCell(item.alat_berat_hydraulic)} />
+                  <td set:html={renderCell(item.mini_crane)} />
+                  <td set:html={renderCell(item.straus_pile)} />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Accordion -->
+        <div class="mobile-view stagger-children">
+          <div class="accordion">
+            {pricingData.map((item) => (
+              <details class="accordion-item">
+                <summary class="accordion-header">
+                  <span>Diameter {item.size}</span>
+                  <i class="fas fa-chevron-down accordion-icon"></i>
+                </summary>
+                <div class="accordion-body">
+                  <p><strong>Alat Berat Hydraulic:</strong> <span set:html={renderCell(item.alat_berat_hydraulic)}></span></p>
+                  <p><strong>Mini Crane:</strong> <span set:html={renderCell(item.mini_crane)}></span></p>
+                  <p><strong>Strauss Pile:</strong> <span set:html={renderCell(item.straus_pile)}></span></p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </>
+    )}
 
     <p class="table-disclaimer fade-in-on-scroll">Dapatkan <strong>harga jasa bore pile</strong> yang transparan...</p>
   </div>
 </section>
+
+<style is:global>
+  /* PERUBAHAN: Aturan global untuk ikon X */
+  .price-unavailable {
+    color: #dc3545; /* Warna merah */
+    font-size: 1.5rem;
+  }
+  
+  /* PERUBAHAN: Aturan untuk membuat X di tengah sel tabel desktop */
+  .price-table td .price-unavailable {
+    display: block;
+    text-align: center;
+  }
+
+  /* PERUBAHAN: Aturan untuk membuat X di tengah pada tampilan mobile */
+  .accordion-body p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
 
 <style>
   /* General Styles */
@@ -49,11 +122,25 @@
   .price-table { width: 100%; border-collapse: collapse; margin: 2rem 0; background-color: white; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05); border-radius: 12px; overflow: hidden; }
   .price-table th, .price-table td { padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid #e9ecef; white-space: nowrap; }
   .price-table th { background-color: var(--secondary-color); color: white; font-weight: 600; }
-  .price-table td:first-child, .price-table th:first-child { font-weight: 700; color: var(--secondary-color); }
-  .price-table .fa-times { color: #dc3545; font-size: 1.5rem; text-align: center; display: block; }
+  .price-table td:first-child { font-weight: 700; color: var(--secondary-color); }
+  .price-table th:first-child { font-weight: 700; color: white !important; }
+  /* Aturan lama untuk .fa-times dihapus dari sini */
   .table-disclaimer { text-align: center; font-style: italic; color: #555; max-width: 800px; margin: 2rem auto 0 auto; }
   .desktop-view { display: block; } 
   .mobile-view { display: none; }
+
+  .error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #c62828;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem auto;
+    text-align: center;
+    max-width: 800px;
+  }
+  .error-message p { margin: 0; }
+  .error-message em { font-size: 0.9rem; opacity: 0.8; }
 
   /* Mobile Accordion Styles */
   @media (max-width: 768px) {
@@ -74,7 +161,7 @@
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      list-style: none; /* Hide default marker */
+      list-style: none;
     }
     .accordion-header::-webkit-details-marker { display: none; }
     .accordion-header:hover { background: #ececec; }
@@ -83,7 +170,6 @@
       transition: transform 0.3s ease-in-out; 
     }
 
-    /* Rotate icon when the <details> element is open */
     .accordion-item[open] > .accordion-header .accordion-icon {
         transform: rotate(180deg);
     }
@@ -97,7 +183,8 @@
       padding: 10px 20px 20px 20px;
     }
 
-    .accordion-body p { margin-bottom: 0; }
+    /* Aturan lama untuk .fa-times di mobile dihapus */
+    .accordion-body p:last-child { margin-bottom: 0; }
     .accordion-body strong { color: var(--secondary-color); }
   }
 </style>
