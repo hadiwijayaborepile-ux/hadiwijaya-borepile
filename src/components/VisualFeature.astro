@@ -26,7 +26,7 @@
         <div class="tool-card">
           <div class="card-content">
             <div class="card-header">
-              <i class="fas fa-users-cog card-icon"></i>
+              <img src="/assets/svg/straus.svg" alt="Icon Strauss Pile" class="card-icon" />
               <h4>Alat Bore Pile Manual (Strauss Pile)</h4>
             </div>
             <p><strong>Cocok untuk:</strong> Proyek kecil seperti rumah tinggal di area padat.</p>
@@ -48,7 +48,7 @@
         <div class="tool-card active">
            <div class="card-content">
             <div class="card-header">
-              <i class="fas fa-cogs card-icon"></i>
+              <img src="/assets/svg/minicrane.svg" alt="Icon Mini Crane" class="card-icon" />
               <h4>Alat Mesin Mini Crane (Gawangan)</h4>
             </div>
             <p><strong>Cocok untuk:</strong> Ruko atau gudang di area sempit dengan akses terbatas.</p>
@@ -70,7 +70,7 @@
         <div class="tool-card">
           <div class="card-content">
             <div class="card-header">
-              <i class="fas fa-truck-monster card-icon"></i>
+              <img src="/assets/svg/hydraulic.svg" alt="Icon Hydraulic Drilling Rig" class="card-icon" />
               <h4>Alat Berat Bore Pile (Drilling Rig)</h4>
             </div>
             <p><strong>Cocok untuk:</strong> Proyek skala besar seperti gedung bertingkat dan jembatan.</p>
@@ -91,9 +91,8 @@
 
       <!-- Post-grid CTA -->
       <div class="post-grid-cta fade-in-on-scroll">
-        <h3>Bingung Memilih Metode yang Tepat?</h3>
-        <p>Tim ahli kami siap menganalisis kebutuhan Anda dan merekomendasikan solusi pondasi yang paling efisien.</p>
-        <a href="/contact?subject=Konsultasi%20Metode%20Bore%20Pile" class="cta-button">Dapatkan Konsultasi Gratis</a>
+        <p>Bingung memilih metode bore pile yang tepat? <strong>Kami siap membantu.</strong></p>
+        <a href="/contact?subject=Konsultasi%20Metode%20Bore%20Pile" class="cta-button">Konsultasi Gratis Sekarang !!!</a>
       </div>
 
     </div>
@@ -200,9 +199,9 @@
     min-height: 80px; 
   }
   .card-icon {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    flex-shrink: 0; 
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
   }
   .tool-card h4 {
     font-size: 1.3rem;
@@ -270,22 +269,22 @@
     padding: 2.5rem;
     background-color: #ffffff;
     border-radius: 12px;
-    text-align: center;
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-  }
-  .post-grid-cta h3 {
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    margin-top: 0;
-    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
   }
   .post-grid-cta p {
-    font-size: 1.1rem;
-    color: #555;
-    max-width: 550px;
-    margin: 0 auto 1.5rem auto;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin: 0;
+    text-align: left;
   }
   .post-grid-cta .cta-button {
+    flex-shrink: 0;
     display: inline-block;
     padding: 0.9rem 2.2rem;
     border-radius: 8px;
@@ -300,6 +299,17 @@
   .post-grid-cta .cta-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+  }
+
+  @media (max-width: 992px) {
+    .post-grid-cta {
+        flex-direction: column;
+        text-align: center;
+    }
+    .post-grid-cta p {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
   }
 
   @media (max-width: 768px) {
