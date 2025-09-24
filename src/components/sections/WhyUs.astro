@@ -6,6 +6,8 @@
         >REPUTASI</strong
       >.
     </p>
+
+    <!-- Baris Atas: 2 Kartu -->
     <div class="reasons-grid stagger-children">
       <div class="reason-item">
         <i class="fas fa-file-signature"></i>
@@ -25,7 +27,11 @@
           bore pile terpercaya.
         </p>
       </div>
-      <div class="reason-item">
+    </div>
+
+    <!-- Baris Bawah: 1 Kartu Lebar -->
+    <div class="reason-item reason-item-full stagger-children">
+      <div class="commitment-content">
         <i class="fas fa-star"></i>
         <h3>Komitmen & Kualitas</h3>
         <p>
@@ -34,13 +40,22 @@
           Jadikan proyek Anda prioritas kami.
         </p>
       </div>
+      <hr class="divider">
+      <div class="reviews-content">
+        <h4>Ulasan Asli dari Google</h4>
+        <!-- Elfsight Google Reviews -->
+        <script src="https://elfsightcdn.com/platform.js" async defer></script>
+        <div class="elfsight-app-ecaf5a19-1ff7-4982-a22a-e1816d13d45d" data-elfsight-app-lazy></div>
+      </div>
     </div>
+
   </div>
 </section>
 
 <style>
   .why-us-section {
     background-color: #fff;
+    padding-bottom: 4rem; /* Add padding to the bottom */
   }
   .why-us-section .section-intro {
     text-align: center;
@@ -52,14 +67,16 @@
   }
   .reasons-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+    margin-bottom: 2rem;
   }
   .reason-item {
     text-align: center;
     padding: 2.5rem 2rem;
     border: 1px solid #e9ecef;
     border-radius: 12px;
+    background-color: #f8f9fa;
     transition: all 0.3s ease;
   }
   .reason-item:hover {
@@ -83,9 +100,35 @@
     margin: 0;
   }
 
+  .reason-item-full {
+    padding: 2.5rem;
+  }
+
+  .commitment-content {
+    margin-bottom: 2rem;
+  }
+
+  .divider {
+    border: none;
+    height: 1px;
+    background-color: #e0e5ee;
+    margin: 0 auto 2rem auto;
+    width: 80%;
+  }
+
+  .reviews-content h4 {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+  }
+
   @media (max-width: 992px) {
     .reasons-grid {
       grid-template-columns: 1fr;
+      margin-bottom: 1rem;
+    }
+    .reason-item-full {
+        margin-top: 1rem;
     }
   }
 </style>
