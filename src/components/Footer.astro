@@ -5,13 +5,32 @@ const socialLinks = [
   { name: 'LinkedIn', icon: 'fab fa-linkedin-in', href: '#' },
   { name: 'Twitter', icon: 'fab fa-twitter', href: '#' },
 ];
+
+const navLinks = [
+    { name: 'Beranda', href: '/' },
+    { name: 'Services', href: '/services/jasa-bore-pile' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Contact', href: '/contact' },
+];
+
+const blogLinks = [
+    { name: 'Memilih Jenis Pondasi yang Tepat', href: '#' },
+    { name: 'Studi Kasus Proyek Terbaru', href: '#' },
+    { name: 'Tips Perawatan Pondasi Rumah', href: '#' },
+];
+
+const legalLinks = [
+    { name: 'Privacy Policy', href: '/privacy-policy' },
+    { name: 'Return & Refund Policy', href: '/return-policy' },
+];
 ---
 <footer>
     <div class="footer-container">
         <div class="footer-about">
             <img src="/assets/img/hbp-logo.png" alt="Hadiwijaya Pondasi Persada Logo" class="footer-logo">
-            <p>Hadiwijaya Bore Pile - Partner Konstruksi Bore Pile dengan Reputasi Terbaik</p>
+            <p>Hadiwijaya Bore Pile - Partner Konstruksi Bore Pile dengan Reputasi Terbaik.</p>
         </div>
+
         <div class="footer-contact">
             <h4>Kontak Kami</h4>
             <p><strong>Grobogan Head Office:</strong></p>
@@ -19,17 +38,28 @@ const socialLinks = [
             <p><i class="fas fa-phone"></i> 0812-3362-4549</p>
             <p><i class="fas fa-envelope"></i> info@hadiningratcorp.com</p>
         </div>
+
         <div class="footer-links">
             <h4>Navigasi</h4>
             <ul>
-                <li><a href="/">Beranda</a></li>
-                <li><a href="/services/jasa-bore-pile">Services</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/privacy-policy">Privacy Policy</a></li>
-                <li><a href="/return-policy">Return & Refund Policy</a></li>
+                {navLinks.map(link => <li><a href={link.href}>{link.name}</a></li>)}
             </ul>
         </div>
+        
+        <div class="footer-links">
+            <h4>Blog</h4>
+            <ul>
+                {blogLinks.map(link => <li><a href={link.href}>{link.name}</a></li>)}
+            </ul>
+        </div>
+
+        <div class="footer-links">
+            <h4>Legal</h4>
+            <ul>
+                {legalLinks.map(link => <li><a href={link.href}>{link.name}</a></li>)}
+            </ul>
+        </div>
+
         <div class="footer-social">
             <h4>Ikuti Kami</h4>
             <div class="social-icons">
@@ -50,14 +80,14 @@ const socialLinks = [
     footer {
         background-color: var(--secondary-color);
         color: #e0e0e0;
-        padding: 4rem 2rem 0;
+        padding: 5rem 2rem 0;
         font-size: 0.95rem;
     }
     .footer-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        max-width: 1200px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 3rem;
+        max-width: 1300px;
         margin: 0 auto;
         padding-bottom: 3rem;
     }
@@ -67,6 +97,9 @@ const socialLinks = [
         background-color: white;
         padding: 5px;
         border-radius: 5px;
+    }
+    .footer-about {
+        max-width: 300px; /* Prevent it from getting too wide */
     }
     .footer-about p {
         line-height: 1.6;
@@ -98,7 +131,7 @@ const socialLinks = [
         padding: 0;
     }
     .footer-links li {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.85rem;
     }
     .footer-links a {
         color: #e0e0e0;
@@ -111,6 +144,7 @@ const socialLinks = [
     }
     .social-icons {
         display: flex;
+        flex-wrap: wrap; /* Allow icons to wrap */
         gap: 1rem;
     }
     .social-icons a {
