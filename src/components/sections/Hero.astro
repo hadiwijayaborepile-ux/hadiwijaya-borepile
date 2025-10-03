@@ -106,7 +106,6 @@ if (API_BASE_URL) {
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
-    transition: all 0.3s ease;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -117,7 +116,6 @@ if (API_BASE_URL) {
   }
   .cta-primary:hover {
     background-color: #e65200;
-    transform: translateY(-3px);
   }
   .scroll-down-arrow {
     position: absolute;
@@ -127,19 +125,16 @@ if (API_BASE_URL) {
     color: white;
     font-size: 2rem;
     z-index: 3;
-    animation: bounce 2s infinite;
     cursor: pointer;
   }
   .scroll-down-arrow:hover {
     color: var(--primary-color);
   }
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-    40% { transform: translateX(-50%) translateY(-20px); }
-    60% { transform: translateX(-50%) translateY(-10px); }
-  }
   @media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
     .hero p { font-size: 1.1rem; }
     .scroll-down-arrow { font-size: 1.5rem; }
   }

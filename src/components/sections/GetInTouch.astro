@@ -1,4 +1,4 @@
-<section class="get-in-touch-section fade-in-on-scroll">
+<section class="get-in-touch-section">
   <div class="container">
     <h2>Hubungi Kami</h2>
     <div class="contact-wrapper">
@@ -14,7 +14,6 @@
           <input type="text" id="homepage-subject" name="subject" placeholder="Subjek Pesan" required />
           <textarea id="homepage-message" name="message" rows="6" placeholder="Pesan Anda" required></textarea>
           
-          <!-- TOMBOL DIPERBAIKI: Ikon WhatsApp dikembalikan, warna tetap oranye -->
           <button type="submit" class="cta-primary">
             <i class="fab fa-whatsapp"></i> Kirim via WhatsApp
           </button>
@@ -25,10 +24,15 @@
         <h3>Informasi Kontak</h3>
         <p>Kami siap membantu mewujudkan proyek Anda. Hubungi kami melalui detail di bawah ini.</p>
         <ul>
-          <li><i class="fas fa-map-marker-alt"></i>Jalan Cempaka No. 34, Manggihan, Kec. Godong Kab. Grobogan” diubah menjadi “Manggihan, RT.02/RW.03, Sambung, Kec. Godong, Kabupaten Grobogan, Jawa Tengah 58162, Indonesia</li>
+          <li><i class="fas fa-map-marker-alt"></i>Manggihan, RT.02/RW.03, Sambung, Kec. Godong, Kabupaten Grobogan, Jawa Tengah 58162, Indonesia</li>
           <li id="homepage-phone-number"><i class="fas fa-phone"></i>0812-3362-4549</li>
           <li><i class="fas fa-envelope"></i>info@hadiningratcorp.com</li>
         </ul>
+
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8383.037437584808!2d110.74139457372077!3d-7.066029234586458!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x490336cdce072b8f%3A0x1f48794632c8ef6e!2sHadiwijaya%20Bore%20Pile%20-%20Jasa%20Bore%20Pile%20dan%20Strauss%20Pile%20Manual!5e1!3m2!1sid!2skr!4v1758705712147!5m2!1sid!2skr" width="100%" height="250" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
         <div class="contact-social">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
           <a href="#"><i class="fab fa-instagram"></i></a>
@@ -100,23 +104,28 @@
     font-weight: 700;
     background-color: var(--primary-color);
     color: white;
-    transition: background-color 0.3s, transform 0.2s;
   }
   .cta-primary:hover {
     background-color: #e65200;
-    transform: translateY(-2px);
   }
   .cta-primary i {
-    font-size: 1.3rem; /* Sedikit memperbesar ikon WhatsApp */
+    font-size: 1.3rem;
   }
 
   .contact-info { background-color: var(--secondary-color); color: white; padding: 3rem; display: flex; flex-direction: column; }
   .contact-info h3 { color: white; font-size: 1.8rem; margin-top: 0; }
   .contact-info p { color: rgba(255, 255, 255, 0.85); }
-  .contact-info ul { list-style: none; padding: 0; margin-bottom: 2rem; flex-grow: 1; }
-  .contact-info li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; font-size: 1.05rem; }
-  .contact-info li i { font-size: 1.5rem; color: white; width: 25px; text-align: center; }
-  .contact-social a { color: white; font-size: 1.8rem; margin-right: 1.5rem; text-decoration: none; transition: color 0.3s; }
+  .contact-info ul { list-style: none; padding: 0; margin: 0; }
+  .contact-info li { display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem; font-size: 1.05rem; }
+  .contact-info li i { font-size: 1.2rem; color: white; width: 25px; text-align: center; margin-top: 4px; }
+  
+  .map-container {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+  }
+
+  .contact-social { margin-top: auto; }
+  .contact-social a { color: white; font-size: 1.8rem; margin-right: 1.5rem; text-decoration: none; }
   .contact-social a:hover { color: var(--primary-color); }
 
   @media (max-width: 992px) { .contact-wrapper { grid-template-columns: 1fr; } }

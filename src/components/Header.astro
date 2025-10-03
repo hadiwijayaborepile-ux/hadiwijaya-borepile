@@ -14,6 +14,7 @@ const navLinks = [
       { name: "Bore Pile Hydraulic", href: "/services/hydraulic" },
     ],
   },
+  { name: "Portofolio", href: "/portfolio" },
   { name: "Tentang Kami", href: "/about" },
   { name: "Kontak", href: "/contact" },
 ];
@@ -45,7 +46,6 @@ const navLinks = [
                   {...(link.isDropdown ? { "data-dropdown-toggle": true } : {})}
                 >
                   {link.name}
-                  {link.isDropdown && <i class="fas fa-chevron-down" />}
                 </a>
                 {link.isDropdown && (
                   <ul class="dropdown-menu hidden">
@@ -345,8 +345,13 @@ const navLinks = [
       max-width: none;
     }
     
+    .logo {
+      gap: 0.6rem;
+    }
+
     .logo-text {
-      display: none;
+      display: inline;
+      font-size: 1rem;
     }
     
     .nav-links,

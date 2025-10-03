@@ -2,7 +2,6 @@
 import { SEO } from 'astro-seo';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
 	title: string;
@@ -26,7 +25,6 @@ const {
 		<meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-    <link rel="stylesheet" href="/styles/animations.css" />
 
     <SEO
       title={title}
@@ -45,7 +43,6 @@ const {
         link: [{ rel: 'canonical', href: Astro.url.href }]
       }}
     />
-		<ViewTransitions />
 	</head>
 	<body>
 
@@ -86,7 +83,6 @@ const {
     
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
-    <!-- SCRIPT GLOBAL VERSI FINAL, LENGKAP, DAN UTUH -->
     <script is:inline>
       function initAll() {
         initNavbar();
@@ -193,7 +189,7 @@ const {
       }
 
       document.addEventListener('astro:page-load', initAll);
-      initAll(); // Fallback for initial load
+      initAll();
 
     </script>
 	</body>
@@ -209,15 +205,10 @@ const {
     --fancybox-toolbar-color: #fff;
     --fancybox-toolbar-bg: transparent;
 	}
-  /* HERO - base styles for page-level hero slot
-     Pages should render their hero inside the named slot:
-     <div slot="hero" class="hero hero--service">...</div>
-     Supported modifiers: .hero--service, .hero--product, .hero--blog
-  */
-  /* default hero: blue tone for most pages */
+
   .hero {
     background: linear-gradient(180deg, rgba(34,42,122,0.12), rgba(34,42,122,0.04));
-    padding: 4rem 0; /* default vertical spacing */
+    padding: 4rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,24 +219,20 @@ const {
   .hero .title { font-size: 2.6rem; color: var(--secondary-color); margin: 0 0 0.75rem; }
   .hero .subtitle { color: #475569; font-size: 1.05rem; max-width: 900px; margin: 0 auto; }
 
-  /* larger hero for product/details pages */
   .hero--product {
-    padding-top: 6rem; /* more space above */
+    padding-top: 6rem;
     padding-bottom: 5rem;
     background: linear-gradient(180deg, rgba(34,42,122,0.02), rgba(248,249,250,0.02));
   }
   .hero--product .title { font-size: 1.35rem; color: rgba(255,255,255,0.95); margin-bottom: 0.6rem; }
 
-  /* service pages: blue variant (per request) */
   .hero--service { background: linear-gradient(90deg, rgba(34,42,122,0.14), rgba(34,42,122,0.06)); color: white; }
 
-  /* blog / article hero */
   .hero--blog { padding: 3.5rem 0; background: #fff; }
 
 	html {
 		font-family: system-ui, sans-serif;
 		background: var(--background-color);
-    scroll-behavior: smooth;
 	}
 	body {
 		margin: 0;
@@ -256,15 +243,14 @@ const {
   section { padding: 5rem 0; }
   section h2 { font-size: 2.8rem; color: var(--secondary-color); margin-bottom: 3rem; text-align: center; }
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-  .modal-content { position: relative; background-color: #fefefe; padding: 2.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.25); width: 90%; max-width: 500px; animation: slide-down 0.4s ease-out; }
-  @keyframes slide-down { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-content { position: relative; background-color: #fefefe; padding: 2.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.25); width: 90%; max-width: 500px; }
   .close-button { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
   .modal-content h2 { margin-top: 0; font-size: 2rem; text-align: left; }
   #booking-form .form-group { margin-bottom: 1.2rem; }
   #booking-form label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; text-align: left; }
   #booking-form input { width: 100%; padding: 0.8rem 1rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
-  #booking-form .cta-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; border-radius: 8px; font-weight: 700; background-color: var(--primary-color); color: white; transition: background-color 0.3s, transform 0.2s; }
-  #booking-form .cta-button:hover { background-color: #e65200; transform: translateY(-2px); }
+  #booking-form .cta-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; border-radius: 8px; font-weight: 700; background-color: var(--primary-color); color: white; }
+  #booking-form .cta-button:hover { background-color: #e65200; }
   #booking-form .cta-button i { font-size: 1.2rem; }
   .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25D366; color: #FFF; border-radius: 50px; text-align: center; font-size: 38px; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; }
 </style>

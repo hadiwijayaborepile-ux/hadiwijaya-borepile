@@ -34,7 +34,7 @@ if (API_BASE_URL) {
     </div>
     <div class="faq-accordion">
       {faqs.map((faq, index) => (
-        <details class="faq-item" data-aos="fade-up" data-aos-delay={index * 100}>
+        <details class="faq-item">
           <summary class="faq-question">
             <span>{faq.question}</span>
             <i class="fas fa-chevron-down faq-icon"></i>
@@ -76,7 +76,6 @@ if (API_BASE_URL) {
     justify-content: space-between; 
     align-items: center; 
     color: var(--secondary-color); 
-    transition: background-color 0.3s ease; 
     list-style: none; /* Hide default marker */
   }
 
@@ -85,7 +84,6 @@ if (API_BASE_URL) {
   .faq-question:hover { background-color: #fdf2e9; }
 
   .faq-icon { 
-    transition: transform 0.3s ease; 
   }
 
   /* Rotate icon when the <details> element is open */
@@ -96,12 +94,18 @@ if (API_BASE_URL) {
   .faq-answer { 
     background: #fff; 
     padding: 0 20px 20px 20px;
-    transition: all 0.4s ease-out;
   }
 
   .faq-answer p { 
     margin: 0; 
     color: #555; 
     line-height: 1.6; 
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
   }
 </style>

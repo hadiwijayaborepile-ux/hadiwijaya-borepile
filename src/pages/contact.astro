@@ -80,18 +80,20 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
         const subject = document.getElementById('subject').value;
         const message = document.getElementById('message').value;
         
-        const phoneElement = document.getElementById('contact-phone-number');
-        let phoneNumber = '6281233624549'; // Fallback phone number
-        if (phoneElement) {
-          phoneNumber = phoneElement.textContent.trim().replace(/^0/, '62').replace(/\D/g, '');
-        }
+        const phoneNumber = '6281233624549';
 
-        let whatsappMessage = `*Pesan dari Halaman Kontak Website*\n\n`;
-        whatsappMessage += `*Nama:* ${name}\n`;
+        let whatsappMessage = `*Pesan dari Halaman Kontak Website*
+
+`;
+        whatsappMessage += `*Nama:* ${name}
+`;
         if (email) {
-          whatsappMessage += `*Email:* ${email}\n`;
+          whatsappMessage += `*Email:* ${email}
+`;
         }
-        whatsappMessage += `*Subjek:* ${subject}\n\n`;
+        whatsappMessage += `*Subjek:* ${subject}
+
+`;
         whatsappMessage += `${message}`;
 
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;

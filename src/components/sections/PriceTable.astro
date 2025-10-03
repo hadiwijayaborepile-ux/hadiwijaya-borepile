@@ -34,7 +34,7 @@ const renderCell = (content: string | null) => {
 
 <section class="price-table-section">
   <div class="container">
-    <h2 class="fade-in-on-scroll">Tabel Harga Jasa Bore Pile Per Meter</h2>
+    <h2>Tabel Harga Jasa Bore Pile Per Meter</h2>
 
     {error && (
       <div class="error-message">
@@ -46,7 +46,7 @@ const renderCell = (content: string | null) => {
     {!error && pricingData.length > 0 && (
       <>
         <!-- Desktop Table -->
-        <div class="table-responsive desktop-view fade-in-on-scroll">
+        <div class="table-responsive desktop-view">
           <table class="price-table">
             <thead>
               <tr>
@@ -70,7 +70,7 @@ const renderCell = (content: string | null) => {
         </div>
 
         <!-- Mobile Accordion -->
-        <div class="mobile-view stagger-children">
+        <div class="mobile-view">
           <div class="accordion">
             {pricingData.map((item) => (
               <details class="accordion-item">
@@ -90,7 +90,7 @@ const renderCell = (content: string | null) => {
       </>
     )}
 
-    <p class="table-disclaimer fade-in-on-scroll">Dapatkan <strong>harga jasa bore pile</strong> yang transparan...</p>
+    <p class="table-disclaimer">Dapatkan <strong>harga jasa bore pile</strong> yang transparan...</p>
   </div>
 </section>
 
@@ -144,6 +144,10 @@ const renderCell = (content: string | null) => {
 
   /* Mobile Accordion Styles */
   @media (max-width: 768px) {
+    .price-table-section h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
     .desktop-view { display: none; }
     .mobile-view { display: block; }
 
@@ -167,7 +171,6 @@ const renderCell = (content: string | null) => {
     .accordion-header:hover { background: #ececec; }
 
     .accordion-icon { 
-      transition: transform 0.3s ease-in-out; 
     }
 
     .accordion-item[open] > .accordion-header .accordion-icon {
@@ -176,7 +179,6 @@ const renderCell = (content: string | null) => {
 
     .accordion-body { 
       padding: 0 20px; 
-      transition: padding 0.4s ease-out;
     }
 
     .accordion-item[open] > .accordion-body {

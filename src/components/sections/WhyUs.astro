@@ -1,12 +1,12 @@
 <section class="why-us-section">
     <div class="container">
-        <h2 class="fade-in-on-scroll">Mengapa Hadiwijaya Bore Pile adalah Kontraktor yang Tepat?</h2>
-        <p class="section-intro fade-in-on-scroll">
+        <h2>Mengapa Hadiwijaya Bore Pile adalah Kontraktor yang Tepat?</h2>
+        <p class="section-intro">
             Kami tidak cuma membangun pondasi. Lebih dari itu, kami membangun <strong>REPUTASI</strong>.
         </p>
 
         <!-- Baris Atas: 2 Kartu -->
-        <div class="reasons-grid stagger-children">
+        <div class="reasons-grid">
             <div class="reason-item">
                 <i class="fas fa-file-signature"></i>
                 <h3>Legalitas Jelas</h3>
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Baris Bawah: 1 Kartu Lebar -->
-        <div class="reason-item reason-item-full stagger-children">
+        <div class="reason-item reason-item-full">
             <div class="commitment-content">
                 <i class="fas fa-star"></i>
                 <h3>Ini Bukti Bukan Sekedar Janji</h3>
@@ -73,12 +73,9 @@
         border: 1px solid #e9ecef;
         border-radius: 12px;
         background-color: #f8f9fa;
-        transition: all 0.3s ease;
     }
 
     .reason-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
         border-color: var(--primary-color);
     }
 
@@ -130,6 +127,13 @@
 
         .reason-item-full {
             margin-top: 1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .why-us-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
         }
     }
 </style>

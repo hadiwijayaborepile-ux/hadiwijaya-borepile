@@ -10,16 +10,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.5.1",
-    "@astrojs/tailwind": "^5.1.5",
+    "@astrojs/tailwind": "^6.0.2",
     "@iconify-json/mdi": "^1.2.3",
+    "@tailwindcss/typography": "^0.5.18",
     "astro": "^4.16.19",
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
     "swiper": "^11.2.10",
-    "@tailwindcss/typography": "^0.5.18",
-    "tailwindcss": "^3.4.17"
-  },
-  "devDependencies": {
-    
+    "tailwindcss": "^3.4.18"
   }
 }

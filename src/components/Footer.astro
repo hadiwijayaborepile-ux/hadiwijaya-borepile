@@ -13,13 +13,9 @@ const navLinks = [
     { name: 'Contact', href: '/contact' },
 ];
 
-const blogLinks = [
-    { name: 'Memilih Jenis Pondasi yang Tepat', href: '#' },
-    { name: 'Studi Kasus Proyek Terbaru', href: '#' },
-    { name: 'Tips Perawatan Pondasi Rumah', href: '#' },
-];
-
-const legalLinks = [
+const layananLinks = [
+    { name: 'Jasa', href: '/services/jasa-bore-pile' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Privacy Policy', href: '/privacy-policy' },
     { name: 'Return & Refund Policy', href: '/return-policy' },
 ];
@@ -47,16 +43,9 @@ const legalLinks = [
         </div>
         
         <div class="footer-links">
-            <h4>Blog</h4>
+            <h4>Layanan</h4>
             <ul>
-                {blogLinks.map(link => <li><a href={link.href}>{link.name}</a></li>)}
-            </ul>
-        </div>
-
-        <div class="footer-links">
-            <h4>Legal</h4>
-            <ul>
-                {legalLinks.map(link => <li><a href={link.href}>{link.name}</a></li>)}
+                {layananLinks.map(link => <li><a href={link.href}>{link.name}</a></li>)}
             </ul>
         </div>
 
