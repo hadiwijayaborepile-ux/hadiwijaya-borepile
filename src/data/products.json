@@ -1,0 +1,34 @@
+{
+  "bore-pile": {
+    "slug": "bore-pile",
+    "name": "Bore Pile Standard",
+    "price": 1500000,
+    "sku": "BP-STD-001",
+    "images": ["/assets/img/proyek/1.png"],
+    "description": "<p>Bore pile standar untuk kebutuhan pondasi rumah dan bangunan kecil hingga menengah.</p><ul><li>Kedalaman hingga 12m</li><li>Diameter 300-600mm</li></ul>"
+  },
+  "bore-pile-surabaya": {
+    "slug": "bore-pile-surabaya",
+    "name": "Bore Pile Surabaya Package",
+    "price": 1750000,
+    "sku": "BP-SBY-002",
+    "images": ["/assets/img/proyek/2.png"],
+    "description": "<p>Paket khusus Surabaya: termasuk mobilisasi alat, tenaga ahli, dan material standar.</p>"
+  },
+  "bore-pile-jogja": {
+    "slug": "bore-pile-jogja",
+    "name": "Bore Pile Jogja Package",
+    "price": 1600000,
+    "sku": "BP-JOG-003",
+    "images": ["/assets/img/proyek/3.png"],
+    "description": "<p>Paket Jogja: penawaran khusus untuk proyek di area Yogyakarta.</p>"
+  },
+  "bore-pile-semarang": {
+    "slug": "bore-pile-semarang",
+    "name": "Bore Pile Semarang",
+    "price": 1650000,
+    "sku": "BP-SMG-004",
+    "images": ["/assets/img/proyek/4.png"],
+    "description": "<p>Layanan bore pile untuk Semarang dan sekitarnya dengan dukungan teknis lokal.</p>"
+  }
+}

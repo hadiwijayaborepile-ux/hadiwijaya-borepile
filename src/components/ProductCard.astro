@@ -1,0 +1,16 @@
+---
+const { product } = Astro.props;
+---
+
+<article class="product-card">
+  <img src={product.images && product.images[0] ? product.images[0].src : '/assets/img/default-placeholder.png'} alt={product.name} loading="lazy" />
+  <div class="product-body">
+    <h3>{product.name}</h3>
+    <p class="price">{product.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.price)) : product.regular_price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.regular_price)) : 'Harga belum tersedia'}</p>
+    <p class="product-excerpt">{product.short_description ? (product.short_description.replace(/(<([^>]+)>)/gi, '').slice(0, 140) + (product.short_description.length > 140 ? '…' : '')) : ''}</p>
+    <div style="display:flex;gap:.5rem;margin-top:auto;">
+      <a class="btn" href={`/products/${product.slug || product.id}`}>Lihat Produk</a>
+      <button class="btn order-now" type="button" data-name={product.name} data-price={product.price || product.regular_price || ''}>Pesan Sekarang</button>
+    </div>
+  </div>
+</article>

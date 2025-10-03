@@ -6,88 +6,103 @@ import ReadAlsoCard from '../../components/ReadAlsoCard.astro';
 import RecommendedPosts from '../../components/RecommendedPosts.astro';
 
 export async function getStaticPaths() {
-  const API_URL = import.meta.env.API_URL;
-  if (!API_URL) return [];
-  
-  let allBlogs = [];
-  let nextUrl = `${API_URL}/api/v2/blogs`;
-  while (nextUrl) {
+  const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
+  const API_URL = import.meta.env.API_URL || null;
+  if (!POSTS_BASE && !API_URL) return [];
+  const perPage = 50;
+  let page = 1;
+  const slugs: string[] = [];
+  while (true) {
+    const url = POSTS_BASE ? `${POSTS_BASE}?per_page=${perPage}&page=${page}` : `${API_URL}/api/v2/blogs?limit=${perPage}&page=${page}`;
     try {
-      const response = await fetch(nextUrl);
-      if (!response.ok) break;
-      const jsonData = await response.json();
-      const posts = jsonData.data || jsonData;
-      if (Array.isArray(posts)) {
-        allBlogs.push(...posts);
-      }
-      nextUrl = jsonData.links ? jsonData.links.next : null;
-    } catch (error) {
+      const res = await fetch(url);
+      if (!res.ok) break;
+      const posts = await res.json();
+      const items = Array.isArray(posts) ? posts : (posts.data || posts);
+      if (!Array.isArray(items) || items.length === 0) break;
+      items.forEach((p: any) => slugs.push(p.slug));
+      if (items.length < perPage) break;
+      page += 1;
+    } catch (err) {
       break;
     }
   }
-  return allBlogs.map(blog => ({ params: { slug: blog.slug } }));
+  return slugs.map(s => ({ params: { slug: s } }));
 }
 
-// --- 2. PERBAIKAN PENGAMBILAN DATA ---
-const API_URL = import.meta.env.API_URL;
 const { slug } = Astro.params;
 
-const singlePostEndpoint = `${API_URL}/api/v2/blogs/${slug}`;
-const allPostsEndpoint = `${API_URL}/api/v2/blogs?limit=100`;
+const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
+if (!POSTS_BASE) {
+  return Astro.redirect('/404');
+}
 
-let blogPost = null;
-let allPostsData = [];
-
+// Fetch single post and a set of other posts for recommendations
+  let blogPost: any = null;
+let allPostsData: any[] = [];
 try {
-  const [singlePostRes, allPostsRes] = await Promise.all([
-    fetch(singlePostEndpoint),
-    fetch(allPostsEndpoint)
-  ]);
+  const API_URL = import.meta.env.API_URL || null;
 
-  // Pemeriksaan yang benar: pastikan KEDUA request berhasil
-  if (!singlePostRes.ok || !allPostsRes.ok) {
-    throw new Error('Gagal mengambil data blog.');
+  // Try WordPress REST first: query by slug (WP returns an array)
+  const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
+  const listUrl = `${POSTS_BASE}?per_page=100&_embed`;
+  let singleRes: Response | { ok: boolean } = await fetch(singleUrl).catch(() => ({ ok: false }));
+  let listRes: Response | { ok: boolean } = await fetch(listUrl).catch(() => ({ ok: false }));
+
+  // Fallback to API_URL proxy if WordPress REST didn't return OK
+  if ((!singleRes || !singleRes.ok) && API_URL) {
+    const proxySingle = `${API_URL}/api/v2/blogs/${slug}`;
+    singleRes = await fetch(proxySingle).catch(() => ({ ok: false }));
+  }
+  if ((!listRes || !listRes.ok) && API_URL) {
+    const proxyList = `${API_URL}/api/v2/blogs?limit=100`;
+    listRes = await fetch(proxyList).catch(() => ({ ok: false }));
   }
 
-  const singleJson = await singlePostRes.json();
-  const allJson = await allPostsRes.json();
+  if (!('ok' in singleRes) || !singleRes.ok) throw new Error('single fetch failed');
+  const rawSingle = await (singleRes as Response).json();
+  const singleJson = Array.isArray(rawSingle) ? rawSingle[0] : rawSingle;
+  const listJson = ('ok' in listRes && listRes.ok) ? await (listRes as Response).json() : [];
 
-  // Logika parsing yang aman, seperti kode lama Anda
-  blogPost = singleJson.data || singleJson;
-  allPostsData = allJson.data || allJson || [];
+  // normalize fields
+  blogPost = {
+    title: singleJson.title?.rendered || '',
+    excerpt: singleJson.excerpt?.rendered || '',
+    body: singleJson.content?.rendered || '',
+    date: singleJson.date,
+    category: singleJson.categories && singleJson.categories.length ? String(singleJson.categories[0]) : '',
+    tags: singleJson.tags || [],
+    headline_img: singleJson._embedded && singleJson._embedded['wp:featuredmedia'] && singleJson._embedded['wp:featuredmedia'][0]
+      ? singleJson._embedded['wp:featuredmedia'][0].source_url
+      : null,
+    slug: singleJson.slug,
+  };
+
+  allPostsData = Array.isArray(listJson) ? listJson.map((p: any) => ({ slug: p.slug, title: p.title?.rendered || '', date: p.date, headline_img: p._embedded && p._embedded['wp:featuredmedia'] && p._embedded['wp:featuredmedia'][0] ? p._embedded['wp:featuredmedia'][0].source_url : null })) : [];
 
 } catch (error) {
-  console.error("Error fetching blog data:", error);
-  // Jika ada kesalahan (termasuk fetch atau parsing), redirect ke 404
+  console.error('Error fetching WordPress post(s):', error);
   return Astro.redirect('/404');
 }
 
-if (!blogPost || !Array.isArray(allPostsData)) {
-  return Astro.redirect('/404');
-}
+if (!blogPost) return Astro.redirect('/404');
 
-// --- 3. LOGIKA REKOMENDASI (SAMA SEPERTI SEBELUMNYA) ---
 const otherPosts = allPostsData.filter(p => p.slug !== slug);
 let readAlsoPost = null;
-if (otherPosts.length > 0) {
-  const randomIndex = Math.floor(Math.random() * otherPosts.length);
-  readAlsoPost = otherPosts[randomIndex];
-}
-const recommendedPosts = otherPosts.slice(0, 3);
+if (otherPosts.length > 0) readAlsoPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
+const recommendedPosts = otherPosts.slice(0, 3).map(p => p);
 
-const articleContent = blogPost.body || blogPost.content || "<p></p>";
+const articleContent = blogPost.body || "<p></p>";
 const paragraphs = articleContent.split('</p>');
 let contentPart1 = articleContent;
 let contentPart2 = null;
-
-if (paragraphs.length > 3) { 
+if (paragraphs.length > 3) {
   contentPart1 = paragraphs.slice(0, 2).join('</p>') + '</p>';
   contentPart2 = paragraphs.slice(2).join('</p>');
 }
 
-// --- 4. PERSIAPAN VARIABEL (SAMA SEPERTI SEBELUMNYA) ---
 const { title, excerpt, tags, date, category, headline_img } = blogPost;
-const fullImageUrl = `${API_URL}${headline_img}`;
+const fullImageUrl = headline_img || '/assets/img/hero.jpg';
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
 const enhancedKeywords = [...new Set([...(tags || []), category, title, "Hadiwijaya Pondasi Persada"])];

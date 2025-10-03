@@ -1,0 +1,85 @@
+/* Small product page tweaks: add a bit of top spacing and nicer layout for detail pages */
+
+:root {
+  /* increase default top spacing so product pages sit lower on the page */
+  --product-top-space: 4rem; /* was 2.25rem */
+}
+
+.product-detail {
+  margin-top: var(--product-top-space);
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .product-detail {
+    margin-top: 6rem; /* was 3.5rem */
+  }
+}
+
+/* Slightly lift the aside card visually */
+.product-detail aside {
+  box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.product-detail aside:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(15,23,42,0.09);
+}
+
+/* Ensure images don't hug the top of viewport on small screens */
+.product-detail img {
+  margin-top: 0.5rem;
+  border-radius: 12px;
+}
+
+/* Breadcrumb */
+.breadcrumb ol { list-style: none; display: flex; gap: 0.5rem; padding: 0; margin: 0; align-items: center; color: #64748b; }
+.breadcrumb li { font-size: 0.95rem; }
+.breadcrumb li + li:before { content: '/'; margin: 0 0.6rem; color: #cbd5e1; }
+.breadcrumb a { color: #475569; text-decoration: none; }
+
+/* Product content typography coming from WordPress / WooCommerce */
+.product-content {
+  margin-top: 1rem;
+  color: #0f172a;
+  line-height: 1.9;
+}
+.product-content h1, .product-content h2, .product-content h3, .product-content h4 { color: var(--secondary-color); margin: 1.4rem 0 0.8rem; }
+.product-content p { margin: 0.8rem 0; }
+.product-content strong, .product-content b { font-weight: 700; }
+.product-content ul, .product-content ol { margin: 0.8rem 0 0.8rem 1.25rem; }
+.product-content li { margin: 0.5rem 0; }
+.product-content img { max-width: 100%; height: auto; border-radius: 8px; }
+
+/* Shopee-like product title & price */
+.product-detail .product-main-title {
+  font-size: 1.9rem; /* mobile */
+  font-weight: 800;
+  color: var(--primary-color);
+  margin: 0.6rem 0 0.4rem;
+  line-height: 1.08;
+}
+@media (min-width: 768px) {
+  .product-detail .product-main-title {
+    font-size: 2.4rem; /* desktop */
+  }
+}
+
+.product-detail aside .price-large {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--primary-color);
+  margin: 0.25rem 0 0.75rem;
+}
+.product-detail aside .price-old {
+  color: #94a3b8;
+  text-decoration: line-through;
+  font-size: 0.95rem;
+  margin-left: 0.5rem;
+}
+
+/* compact metadata row similar to ecommerce sites */
+.product-meta { display:flex; gap:1rem; align-items:center; margin-top:0.5rem; color:#64748b; font-size:0.95rem; }
+.product-buy-cta { display:flex; gap:.5rem; margin-top:1rem; }
+.product-buy-cta .btn { padding: .75rem 1rem; border-radius:8px; }
+

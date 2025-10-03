@@ -1,0 +1,12 @@
+---
+const { service } = Astro.props;
+---
+
+<a href={service.href} class="service-card">
+  <img src={service.imgSrc} alt={service.title} class="card-bg" loading="lazy" />
+  <div class="card-content">
+    <h3>{service.title}</h3>
+    <p>{service.description}</p>
+    <span class="cta">Pelajari Lebih Lanjut <i class="fas fa-arrow-right"></i></span>
+  </div>
+</a>

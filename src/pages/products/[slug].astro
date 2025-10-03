@@ -1,0 +1,80 @@
+---
+import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/product-ecom.css';
+import '../../styles/product.css';
+import { fetchAllProductSlugs, fetchProductBySlug } from '../../lib/woocommerce';
+
+const { params } = Astro;
+const slug: any = (params as any).slug;
+
+export async function getStaticPaths() {
+  try {
+    const slugs = await fetchAllProductSlugs(100);
+    return slugs.map((s: string) => ({ params: { slug: s } }));
+  } catch (err) {
+    console.warn('getStaticPaths: failed to fetch slugs', err);
+    return [];
+  }
+}
+
+// build-time fetch product by slug
+let product = null;
+try {
+  product = await fetchProductBySlug(slug);
+} catch (err) {
+  try {
+    const res = await fetch(`/api/woo.json?slug=${encodeURIComponent(slug)}`);
+    if (res.ok) product = await res.json();
+  } catch (e) {
+    console.warn('PRODUCT_PAGE: fallback proxy fetch failed', e);
+  }
+}
+
+const title = product ? product.name : 'Produk';
+const description = product ? (product.short_description || '').replace(/(<([^>]+)>)/gi, '') : '';
+
+// Build a frontmatter object compatible with ServicePageLayout so the product page follows the site's template
+const frontmatter = product
+  ? {
+      title: product.name,
+      subtitle: product.short_description ? product.short_description.replace(/(<([^>]+)>)/gi, '') : '',
+      mainIcon: product.images && product.images[0] ? (product.images[0].src && String(product.images[0].src).startsWith('http') ? product.images[0].src : `https:${product.images[0].src}`) : '/assets/img/default-placeholder.png',
+      price: product.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.price)) : undefined,
+      price_number: product.price ? Number(product.price) : undefined,
+      regular_price: product.regular_price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.regular_price)) : undefined,
+      regular_price_number: product.regular_price ? Number(product.regular_price) : undefined,
+      key_features: [],
+      process: product.meta_data && product.meta_data.process ? product.meta_data.process : (product.process || []),
+      specs: product.attributes && product.attributes.length ? product.attributes.map((a: any) => ({ key: a.name, value: a.options ? a.options.join(', ') : '' })) : [],
+      gallery_images: product.images ? product.images.map((i: any) => (i.src && String(i.src).startsWith('http') ? i.src : `https:${i.src}`)) : [],
+      breadcrumb: [
+        { label: 'Home', url: '/' },
+        { label: 'Layanan', url: '/services/jasa-bore-pile' },
+        { label: product.name }
+      ],
+      hide_gallery: true,
+    }
+  : null;
+
+const contentHtml = product ? product.description || '' : '<p>Produk tidak ditemukan.</p>';
+const keywords: string[] = product && product.categories ? product.categories.map((c: any) => c.name) : [];
+---
+
+{product ? (
+  <ServicePageLayout
+    frontmatter={frontmatter}
+    title={title}
+    description={description}
+    keywords={keywords}
+    contentHtml={contentHtml}
+  />
+ ) : (
+  <Layout title={title} description={description}>
+    <main class="container">
+      <h1>Produk tidak ditemukan</h1>
+      <p>Maaf, produk dengan slug "{slug}" tidak ditemukan.</p>
+      <p><a href="/services/jasa-bore-pile">Kembali ke Layanan</a></p>
+    </main>
+  </Layout>
+)}

@@ -1,5 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import '../../styles/services-jasa-bore-pile.css';
+import OrderModal from '../../components/OrderModal.astro';
 
 const title = "Layanan Jasa Bore Pile: Manual, Mini Crane & Hydraulic | Hadiwijaya";
 const description = "Hadiwijaya Pondasi Persada menyediakan layanan jasa bore pile lengkap: manual untuk akses terbatas, mini crane untuk efisiensi, dan hydraulic untuk proyek besar. Temukan metode pondasi yang tepat untuk Anda.";
@@ -31,13 +35,52 @@ const services = [
     imgSrc: '/assets/img/gallery/4.png'
   }
 ];
+
+// --- WooCommerce / Ecommerce features (uses env vars from .env; do not modify .env) ---
+const WOOCOMMERCE_API_URL = import.meta.env.WOOCOMMERCE_API_URL;
+const WOOCOMMERCE_CONSUMER_KEY = import.meta.env.WOOCOMMERCE_CONSUMER_KEY;
+const WOOCOMMERCE_CONSUMER_SECRET = import.meta.env.WOOCOMMERCE_CONSUMER_SECRET;
+
+let wcProducts = [];
+if (WOOCOMMERCE_API_URL && WOOCOMMERCE_CONSUMER_KEY && WOOCOMMERCE_CONSUMER_SECRET) {
+  try {
+    // Prefer the internal proxy if available (keeps keys server-side). If proxy fails, fall back to direct fetch.
+    try {
+      const proxyRes = await fetch('/api/woo.json?page=1&per_page=12');
+      if (proxyRes.ok) {
+        wcProducts = await proxyRes.json();
+      } else {
+        // fallback to direct
+        throw new Error('proxy_failed');
+      }
+    } catch (proxyErr) {
+      const base = WOOCOMMERCE_API_URL.replace(/\/+$/, '');
+      const endpoint = `${base}/products?per_page=12&consumer_key=${WOOCOMMERCE_CONSUMER_KEY}&consumer_secret=${WOOCOMMERCE_CONSUMER_SECRET}`;
+      const res = await fetch(endpoint);
+      if (res.ok) wcProducts = await res.json();
+      else console.error('WOO_ERROR: Failed to fetch products', res.status, await res.text());
+    }
+  } catch (err) {
+    console.error('WOO_ERROR: Exception fetching products', err);
+  }
+} else {
+  // environment missing; leave wcProducts empty
+}
+
+// helper: format price to Indonesian Rupiah
+const formatPrice = (val: any) => {
+  const n = Number(val);
+  if (!isFinite(n)) return 'Harga belum tersedia';
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+}
+
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
   <div class="services-hub-page">
 
-    <!-- 1. Hero Section -->
-    <section class="hero">
+    <!-- 1. Hero Section (moved to layout slot so each page uses the global hero styles) -->
+    <section slot="hero" class="hero hero--service" style="background-image: url('/assets/img/herobg.webp'); background-size: cover; background-position: center;">
       <div class="hero-content">
         <h1 class="title">Solusi Pondasi untuk Setiap Skala</h1>
         <p class="subtitle">Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda.</p>
@@ -48,15 +91,8 @@ const services = [
     <section class="showcase">
       <div class="container">
         <div class="showcase-grid">
-          {services.map(service => (
-            <a href={service.href} class="service-card">
-              <img src={service.imgSrc} alt={service.title} class="card-bg" loading="lazy" />
-              <div class="card-content">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <span class="cta">Pelajari Lebih Lanjut <i class="fas fa-arrow-right"></i></span>
-              </div>
-            </a>
+          {services.map((s) => (
+            <ServiceCard service={s} />
           ))}
         </div>
       </div>
@@ -112,6 +148,27 @@ const services = [
       </div>
     </section>
 
+    <!-- 4. Fitur Ecommerce (dari WooCommerce) -->
+    <section class="ecom-features">
+      <div class="container">
+        <h2>Fitur Ecommerce — Produk Terkait</h2>
+        <p class="lead">Berikut produk dan layanan yang tersedia melalui toko online kami. Data diambil dari WooCommerce.</p>
+
+        {wcProducts.length === 0 ? (
+          <p class="muted">Tidak ada produk yang tersedia atau koneksi ke API belum diatur.</p>
+        ) : (
+          <div class="products-grid">
+            {wcProducts.map((p: any) => (
+              <ProductCard product={p} />
+            ))}
+          </div>
+        )}
+
+      </div>
+    </section>
+
+    <OrderModal />
+
     <!-- 4. Final CTA -->
     <section class="final-cta">
       <div class="container">
@@ -124,61 +181,4 @@ const services = [
   </div>
 </Layout>
 
-<style>
-  /* 1. Hero Section */
-  .hero {
-    background-color: var(--secondary-color);
-    color: white;
-    text-align: center;
-    padding: 6rem 2rem;
-  }
-  .hero-content { max-width: 900px; margin: 0 auto; }
-  .hero .title { font-size: 3.2rem; font-weight: 800; margin-bottom: 1rem; }
-  .hero .subtitle { font-size: 1.3rem; opacity: 0.9; font-weight: 300; }
-
-  /* Shared */
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-  section { padding: 5rem 0; }
-  h2 { font-size: 2.8rem; color: var(--secondary-color); text-align: center; margin-bottom: 3rem; }
-
-  /* 2. Showcase */
-  .showcase { background: #f8f9fa; }
-  .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-  .service-card {
-    display: flex; flex-direction: column; justify-content: flex-end;
-    position: relative; height: 400px; border-radius: 12px; overflow: hidden;
-    text-decoration: none; color: white; transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-  .service-card .card-bg {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover; z-index: 1; transition: transform 0.4s ease;
-  }
-  .service-card:hover .card-bg { transform: scale(1.1); }
-  .service-card .card-content {
-    position: relative; z-index: 2; padding: 1.5rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
-  }
-  .service-card h3 { font-size: 1.8rem; margin: 0 0 0.5rem; }
-  .service-card p { margin: 0 0 1rem; font-size: 1rem; opacity: 0.9; }
-  .service-card .cta { font-weight: 700; }
-  .service-card .cta i { transition: transform 0.3s ease; }
-  .service-card:hover .cta i { transform: translateX(5px); }
-
-  /* 3. Comparison */
-  .comparison-table-wrapper { overflow-x: auto; }
-  .comparison-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 1.1rem; }
-  .comparison-table th, .comparison-table td { padding: 1.5rem 1rem; border-bottom: 1px solid #eee; }
-  .comparison-table th { color: var(--secondary-color); font-size: 1.2rem; }
-  .comparison-table td:first-child { text-align: left; font-weight: 600; color: #333; }
-  .comparison-table td { color: #555; }
-  .comparison-table tbody tr:hover { background-color: #f8f9fa; }
-  .comparison-table .fa { color: var(--primary-color); margin-right: 0.5rem; }
-
-  /* 4. Final CTA */
-  .final-cta { background-color: var(--secondary-color); color: white; text-align: center; }
-  .final-cta h2, .final-cta p { color: white; }
-  .final-cta p { max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
-  .cta-button { background-color: var(--primary-color); color: white; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 700; transition: background-color 0.3s ease; }
-  .cta-button:hover { background-color: #e65200; }
-</style>
+<!-- styles moved to src/styles/services-jasa-bore-pile.css -->

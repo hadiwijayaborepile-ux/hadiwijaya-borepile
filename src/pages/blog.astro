@@ -1,42 +1,45 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const API_URL = import.meta.env.API_URL;
+// Use the WordPress REST endpoint from .env (variable name kept for backwards compatibility)
+const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
 
-// --- PERBAIKAN: Logika Paginasi dengan Logging & Fallback ---
 let allBlogs = [];
-if (!API_URL) {
-  console.error("BLOG_ERROR: Variabel lingkungan API_URL tidak disetel. Tidak dapat mengambil data blog.");
+if (!POSTS_BASE) {
+  console.error('BLOG_ERROR: WORDPRESS REST endpoint not set (WORDPRESS_GRAPHQL_ENDPOINT).');
 } else {
-  let nextUrl = `${API_URL}/api/v2/blogs`;
-  console.log(`Mulai mengambil blog dari: ${nextUrl}`);
-
-  while (nextUrl) {
+  // Paginate through WordPress REST API using page & per_page
+  const perPage = 20;
+  let page = 1;
+  while (true) {
+    const url = `${POSTS_BASE}?_embed&per_page=${perPage}&page=${page}`;
     try {
-      const response = await fetch(nextUrl);
-      console.log(`Mengambil dari ${nextUrl} - Status: ${response.status}`);
-
-      if (!response.ok) {
-        console.error(`PAGINATION_ERROR (blog.astro): Gagal mengambil data. Status: ${response.status}`);
+      const res = await fetch(url);
+      if (!res.ok) {
+        // no more pages or error
         break;
       }
+      const posts = await res.json();
+      if (!Array.isArray(posts) || posts.length === 0) break;
 
-      const jsonData = await response.json();
-      
-      if (jsonData.data && Array.isArray(jsonData.data) && jsonData.data.length > 0) {
-        allBlogs.push(...jsonData.data);
-        console.log(`Berhasil menambahkan ${jsonData.data.length} artikel. Total sekarang: ${allBlogs.length}`);
-      } else {
-        console.warn("Peringatan: Respons API tidak berisi data artikel yang valid atau array data kosong.");
-      }
-      
-      nextUrl = jsonData.links ? jsonData.links.next : null;
-      if (!nextUrl) {
-        console.log("Tidak ada halaman selanjutnya. Selesai mengambil data.");
-      }
-
-    } catch (error) {
-      console.error(`PAGINATION_CRITICAL (blog.astro): Terjadi error saat menghubungi ${nextUrl}.`, error);
+      // Map to a friendly shape used by templates
+      const mapped = posts.map(p => {
+        const headline_img = p._embedded && p._embedded['wp:featuredmedia'] && p._embedded['wp:featuredmedia'][0]
+          ? p._embedded['wp:featuredmedia'][0].source_url
+          : null;
+        return {
+          slug: p.slug,
+          title: p.title?.rendered || '',
+          excerpt: p.excerpt?.rendered || '',
+          date: p.date,
+          headline_img,
+        };
+      });
+      allBlogs.push(...mapped);
+      if (posts.length < perPage) break; // last page
+      page += 1;
+    } catch (err) {
+      console.error('Error fetching posts from WordPress REST:', err);
       break;
     }
   }
@@ -79,10 +82,10 @@ const keywords = [
             <div class="featured-section">
               <h2>Artikel Unggulan</h2>
               <div class="featured-grid">
-                {featuredBlogs.map(blog => (
+                {featuredBlogs.map((blog: any) => (
                   <a href={`/blog/${blog.slug}`} class="blog-card">
                     <div class="card-image-wrapper">
-                      <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="card-image" loading="lazy" />
+                      <img src={blog.headline_img || '/assets/img/hero.jpg'} alt={blog.title} class="card-image" loading="lazy" />
                     </div>
                     <div class="card-content">
                       <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
@@ -100,10 +103,10 @@ const keywords = [
             <div class="other-articles-section">
               <h2>Artikel Lainnya</h2>
               <div class="other-articles-list">
-                {otherBlogs.map(blog => (
+                {otherBlogs.map((blog: any) => (
                   <a href={`/blog/${blog.slug}`} class="other-article-item">
                     <div class="other-article-image-wrapper">
-                      <img src={`${API_URL}${blog.headline_img}`} alt={blog.title} class="other-article-image" loading="lazy" />
+                      <img src={blog.headline_img || '/assets/img/hero.jpg'} alt={blog.title} class="other-article-image" loading="lazy" />
                     </div>
                     <div class="other-article-content">
                       <p class="card-date">{new Date(blog.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
