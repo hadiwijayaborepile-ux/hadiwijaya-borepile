@@ -5,7 +5,6 @@ import ShareButtons from '../../components/ShareButtons.astro';
 import ReadAlsoCard from '../../components/ReadAlsoCard.astro';
 import RecommendedPosts from '../../components/RecommendedPosts.astro';
 
-// --- 1. STATIC PATHS (TIDAK BERUBAH) ---
 export async function getStaticPaths() {
   const API_URL = import.meta.env.API_URL;
   if (!API_URL) return [];
