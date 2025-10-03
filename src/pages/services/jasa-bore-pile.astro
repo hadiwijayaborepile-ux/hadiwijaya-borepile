@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import OrderModal from '../../components/OrderModal.astro';
 import PageHero from '../../components/PageHero.astro';
 import '../../styles/services-jasa-bore-pile.css';
 
@@ -21,12 +20,6 @@ const services = [
     title: 'Bore Pile Mini Crane',
     description: 'Efisiensi mesin untuk proyek skala menengah.',
     href: '/services/mini-crane',
-    imgSrc: '/assets/img/gallery/1.jpg'
-  },
-    {
-    title: 'Bore Pile Mini Hydraulic',
-    description: 'Kekuatan hidrolik dalam paket yang lebih ringkas.',
-    href: '/services/mini-hydraulic',
     imgSrc: '/assets/img/gallery/1.jpg'
   },
   {
@@ -105,7 +98,6 @@ const formatPrice = (val: any) => {
                 <th>Kriteria</th>
                 <th>Manual</th>
                 <th>Mini Crane</th>
-                <th>Mini Hydraulic</th>
                 <th>Hydraulic</th>
               </tr>
             </thead>
@@ -114,28 +106,24 @@ const formatPrice = (val: any) => {
                 <td><i class="fas fa-road"></i> Akses Lokasi</td>
                 <td>Sangat Sempit</td>
                 <td>Cukup Luas</td>
-                <td>Agak Terbatas</td>
                 <td>Sangat Luas</td>
               </tr>
               <tr>
                 <td><i class="fas fa-bolt"></i> Kecepatan</td>
                 <td>Standar</td>
                 <td>Cepat</td>
-                <td>Sangat Cepat</td>
                 <td>Superior</td>
               </tr>
               <tr>
                 <td><i class="fas fa-weight-hanging"></i> Kekuatan</td>
                 <td>Standar</td>
                 <td>Tinggi</td>
-                <td>Sangat Tinggi</td>
                 <td>Maksimal</td>
               </tr>
               <tr>
                 <td><i class="fas fa-building"></i> Skala Proyek</td>
                 <td>Kecil</td>
                 <td>Menengah</td>
-                <td>Menengah-Besar</td>
                 <td>Besar & Masif</td>
               </tr>
             </tbody>
@@ -162,8 +150,6 @@ const formatPrice = (val: any) => {
 
       </div>
     </section>
-
-    <OrderModal />
 
     <!-- Final CTA -->
     <section class="final-cta">

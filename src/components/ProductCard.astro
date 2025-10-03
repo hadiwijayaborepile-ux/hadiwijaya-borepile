@@ -4,7 +4,7 @@ const { product } = Astro.props;
 // Helper to format price to Indonesian Rupiah
 const formatPrice = (val: any) => {
   const n = Number(val);
-  if (!isFinite(n) || n === 0) return 'Harga tersedia via inquiry'; // Updated message
+  if (!isFinite(n) || n === 0) return 'Harga tersedia via inquiry';
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
 }
 
@@ -16,6 +16,9 @@ const imageUrl = (product.images && product.images.length > 0)
 // Sanitize description: remove HTML and limit length
 let description = product.short_description || product.description || '';
 description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
+
+// Build the internal link using the product slug
+const productUrl = `/products/${product.slug}`;
 ---
 
 <div class="product-card">
@@ -27,8 +30,7 @@ description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
     <p class="product-price">{formatPrice(product.price)}</p>
     <p class="product-desc">{description}</p>
     <div class="card-actions">
-      <a href={product.permalink} target="_blank" class="btn btn-primary">Lihat Produk</a>
-      <!-- Tombol "Pesan Sekarang" dihilangkan -->
+      <a href={productUrl} class="btn btn-secondary">Lihat Produk</a>
     </div>
   </div>
 </div>
@@ -49,10 +51,9 @@ description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
     box-shadow: 0 12px 24px rgba(0,0,0,0.1);
   }
 
-  /* New styles for portrait image */
   .card-image-wrapper {
     width: 100%;
-    padding-top: 125%; /* Aspect ratio 4:5 (potrait) */
+    padding-top: 125%; /* Aspect ratio 4:5 (portrait) */
     position: relative;
     background-color: #f0f0f0;
   }
@@ -63,17 +64,17 @@ description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the area, might crop */
+    object-fit: cover;
   }
 
   .card-content {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Allows content to fill space */
+    flex-grow: 1;
   }
 
-  .card-content h4 {
+  h4 {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--secondary-color);
@@ -92,19 +93,18 @@ description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
     font-size: 0.95rem;
     color: #555;
     line-height: 1.6;
-    flex-grow: 1; /* Pushes the button to the bottom */
+    flex-grow: 1;
     margin-bottom: 1.5rem;
   }
 
   .card-actions {
-    margin-top: auto; /* Pushes actions to the very bottom */
-    display: flex;
-    gap: 0.5rem;
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr; /* DIUBAH: Hanya satu kolom */
+    gap: 0.75rem;
   }
 
   .btn {
-    display: block; /* Make button full width */
-    width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid transparent;
     border-radius: 8px;
@@ -112,16 +112,22 @@ description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
     text-decoration: none;
     font-weight: 600;
     transition: all 0.2s ease;
+    width: 100%;
   }
 
   .btn-primary {
     background-color: var(--primary-color);
     color: white;
-    border-color: var(--primary-color);
   }
-
   .btn-primary:hover {
     background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
+  }
+
+  .btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  .btn-secondary:hover {
+    background-color: #e0e0e0;
   }
 </style>

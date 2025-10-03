@@ -1,24 +1,26 @@
 ---
-import ServicePageLayout from '../../layouts/ServicePageLayout.astro';
 import Layout from '../../layouts/Layout.astro';
-import '../../styles/product-ecom.css';
-import '../../styles/product.css';
+import PageHero from '../../components/PageHero.astro';
 import { fetchAllProductSlugs, fetchProductBySlug } from '../../lib/woocommerce';
 
 const { params } = Astro;
 const slug: any = (params as any).slug;
+
+const formatPrice = (val: any) => {
+  const n = Number(val);
+  if (!isFinite(n) || n === 0) return 'Harga tersedia via inquiry';
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+}
 
 export async function getStaticPaths() {
   try {
     const slugs = await fetchAllProductSlugs(100);
     return slugs.map((s: string) => ({ params: { slug: s } }));
   } catch (err) {
-    console.warn('getStaticPaths: failed to fetch slugs', err);
     return [];
   }
 }
 
-// build-time fetch product by slug
 let product = null;
 try {
   product = await fetchProductBySlug(slug);
@@ -26,55 +28,110 @@ try {
   try {
     const res = await fetch(`/api/woo.json?slug=${encodeURIComponent(slug)}`);
     if (res.ok) product = await res.json();
-  } catch (e) {
-    console.warn('PRODUCT_PAGE: fallback proxy fetch failed', e);
-  }
+  } catch (e) {}
 }
 
-const title = product ? product.name : 'Produk';
-const description = product ? (product.short_description || '').replace(/(<([^>]+)>)/gi, '') : '';
-
-// Build a frontmatter object compatible with ServicePageLayout so the product page follows the site's template
-const frontmatter = product
-  ? {
-      title: product.name,
-      subtitle: product.short_description ? product.short_description.replace(/(<([^>]+)>)/gi, '') : '',
-      mainIcon: product.images && product.images[0] ? (product.images[0].src && String(product.images[0].src).startsWith('http') ? product.images[0].src : `https:${product.images[0].src}`) : '/assets/img/default-placeholder.png',
-      price: product.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.price)) : undefined,
-      price_number: product.price ? Number(product.price) : undefined,
-      regular_price: product.regular_price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.regular_price)) : undefined,
-      regular_price_number: product.regular_price ? Number(product.regular_price) : undefined,
-      key_features: [],
-      process: product.meta_data && product.meta_data.process ? product.meta_data.process : (product.process || []),
-      specs: product.attributes && product.attributes.length ? product.attributes.map((a: any) => ({ key: a.name, value: a.options ? a.options.join(', ') : '' })) : [],
-      gallery_images: product.images ? product.images.map((i: any) => (i.src && String(i.src).startsWith('http') ? i.src : `https:${i.src}`)) : [],
-      breadcrumb: [
-        { label: 'Home', url: '/' },
-        { label: 'Layanan', url: '/services/jasa-bore-pile' },
-        { label: product.name }
-      ],
-      hide_gallery: true,
-    }
-  : null;
-
-const contentHtml = product ? product.description || '' : '<p>Produk tidak ditemukan.</p>';
+const title = product ? product.name : 'Produk Tidak Ditemukan';
+const description = product ? (product.short_description || '').replace(/(<([^>]+)>)/gi, '') : 'Deskripsi tidak tersedia.';
 const keywords: string[] = product && product.categories ? product.categories.map((c: any) => c.name) : [];
+const mainImage = (product?.images?.length > 0) ? product.images[0].src : '/assets/img/default-product.png';
 ---
 
-{product ? (
-  <ServicePageLayout
-    frontmatter={frontmatter}
-    title={title}
-    description={description}
-    keywords={keywords}
-    contentHtml={contentHtml}
+<Layout title={title} description={description} keywords={keywords}>
+  <PageHero 
+    title={product ? product.name : 'Produk Detail'} 
+    subtitle="Detail informasi produk dan layanan kami"
   />
- ) : (
-  <Layout title={title} description={description}>
-    <main class="container">
+
+  {product ? (
+    <div class="product-page-content">
+      <main class="container">
+        <nav class="breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/services/jasa-bore-pile">Layanan</a>
+          <span>/</span>
+          <span aria-current="page">{product.name}</span>
+        </nav>
+
+        <div class="product-layout-grid">
+          <div class="product-image-container">
+            <img src={mainImage} alt={product.name} class="main-product-image" />
+          </div>
+
+          <div class="product-info-container">
+            <h1 class="product-title-in-page">{product.name}</h1>
+            <div class="product-price">{formatPrice(product.price)}</div>
+            {product.short_description && (
+              <div class="product-short-description" set:html={product.short_description} />
+            )}
+            <button 
+              class="btn btn-primary book-now-btn" 
+              data-action="open-booking-modal" 
+              data-service-name={product.name}
+            >
+              Pesan Sekarang
+            </button>
+          </div>
+        </div>
+
+        {product.description && (
+          <section class="product-full-description">
+            <div set:html={product.description}></div>
+          </section>
+        )}
+
+      </main>
+    </div>
+  ) : (
+    <div class="container not-found">
       <h1>Produk tidak ditemukan</h1>
-      <p>Maaf, produk dengan slug "{slug}" tidak ditemukan.</p>
-      <p><a href="/services/jasa-bore-pile">Kembali ke Layanan</a></p>
-    </main>
-  </Layout>
-)}
+      <p>Maaf, produk "{slug}" tidak ditemukan.</p>
+      <a href="/services/jasa-bore-pile" class="btn btn-primary">Kembali ke Layanan</a>
+    </div>
+  )}
+  
+</Layout>
+
+<style>
+  .product-page-content { background-color: #fff; padding-bottom: 3rem; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+  .breadcrumb { padding: 1.5rem 0; font-size: 0.9rem; color: #666; }
+  .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 0.5rem; }
+  .breadcrumb span[aria-current="page"] { font-weight: 600; color: #111; }
+  .product-layout-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  @media (min-width: 768px) { .product-layout-grid { grid-template-columns: 4fr 5fr; gap: 3rem; } }
+  .main-product-image { width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); aspect-ratio: 1 / 1; object-fit: cover; }
+  .product-info-container { padding-top: 1rem; }
+  .product-title-in-page { font-size: 2.2rem; font-weight: 700; color: var(--secondary-color); line-height: 1.2; margin: 0 0 1rem; }
+  .product-price { font-size: 1.8rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1.5rem; }
+  .product-short-description { font-size: 1.05rem; line-height: 1.7; color: #555; margin-bottom: 2rem; }
+  
+  .btn { display: inline-block; padding: 0.75rem 1.5rem; border: 1px solid transparent; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 600; transition: all 0.2s ease; cursor: pointer; }
+  .btn-primary { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: var(--secondary-color); border-color: var(--secondary-color); }
+  .book-now-btn { width: 100%; max-width: 300px; padding: 1rem; font-size: 1.1rem; }
+
+  .product-full-description { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; }
+
+  .product-full-description :global(h1), .product-full-description :global(h2), .product-full-description :global(h3) { color: var(--secondary-color); margin: 2.5rem 0 1rem; line-height: 1.3; font-weight: 600; }
+  .product-full-description :global(h1) { font-size: 1.8em; }
+  .product-full-description :global(h2) { font-size: 1.6em; }
+  .product-full-description :global(h3) { font-size: 1.4em; }
+  .product-full-description :global(p) { margin-bottom: 1rem; line-height: 1.8; }
+  .product-full-description :global(ul), .product-full-description :global(ol) { margin: 1rem 0 1rem 1.5rem; }
+  .product-full-description :global(li) { margin-bottom: 0.75rem; line-height: 1.8; }
+  .product-full-description :global(strong) { font-weight: 700; }
+  .product-full-description :global(em) { font-style: italic; }
+  .product-full-description :global(u) { text-decoration: underline; }
+  .product-full-description :global(a) { color: var(--primary-color); text-decoration: underline; }
+  .product-full-description :global(table) { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .product-full-description :global(th), .product-full-description :global(td) { border: 1px solid #ddd; padding: 12px 15px; text-align: left; }
+  .product-full-description :global(thead tr) { background-color: #f5f5f5; }
+  .product-full-description :global(th) { font-weight: 600; color: var(--secondary-color); }
+  .product-full-description :global(tbody tr:nth-child(even)) { background-color: #fafafa; }
+
+  .not-found { text-align: center; padding: 4rem 1rem; }
+</style>
