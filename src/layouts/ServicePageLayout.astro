@@ -1,100 +1,60 @@
 ---
 import Layout from './Layout.astro';
-const { frontmatter, title, description, keywords, contentHtml } = Astro.props;
+import PageHero from '../components/PageHero.astro';
 
-const price = frontmatter.price;
-const serviceName = frontmatter.title;
-const mainIcon = frontmatter.mainIcon;
-const isImageIcon = mainIcon && (mainIcon.startsWith('/') || mainIcon.startsWith('http'));
-// helper numbers for price/discount calculation (product pages may pass numeric values)
-const priceNumber = frontmatter.price_number ?? (frontmatter.price ? Number(String(frontmatter.price).replace(/[^0-9.-]+/g, '')) : undefined);
-const regularPriceNumber = frontmatter.regular_price_number ?? (frontmatter.regular_price ? Number(String(frontmatter.regular_price).replace(/[^0-9.-]+/g, '')) : undefined);
-const onSale = typeof priceNumber === 'number' && typeof regularPriceNumber === 'number' && regularPriceNumber > priceNumber;
-const discountPercent = onSale ? Math.round(((regularPriceNumber - priceNumber) / regularPriceNumber) * 100) : undefined;
+const { frontmatter, title, description, keywords, contentHtml } = Astro.props;
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+
+  <PageHero title={frontmatter.title} subtitle={frontmatter.subtitle} />
+
   <article class="service-page">
-    <!-- breadcrumb will render below the hero and above the product detail (moved for spacing) -->
 
-    <!-- 1. Product-style Hero Section -->
-    <section class="product-hero">
-      {frontmatter.breadcrumb && frontmatter.breadcrumb.length ? (
-        <div class="container hero-breadcrumb-container">
-          <nav aria-label="Breadcrumb" class="breadcrumb">
-            <ol>
-              {frontmatter.breadcrumb.map((item: any) => (
-                item.url ? <li><a href={item.url}>{item.label}</a></li> : <li aria-current="page">{item.label}</li>
-              ))}
-            </ol>
-          </nav>
-        </div>
-      ) : null}
-      <div class="container product-grid">
-        <div class="product-image">
-          {isImageIcon ? (
-            <img src={mainIcon} alt={frontmatter.title} class="service-icon-image" />
-          ) : (
-            <i class={`fas ${mainIcon || 'fa-hard-hat'}`}></i>
-          )}
-        </div>
-        <div class="product-details">
-          <h1 class="title">{frontmatter.title}</h1>
-          <p class="subtitle">{frontmatter.subtitle}</p>
-
-          {onSale ? (
-            <div class="price-row-hero">
-              <div class="price">{frontmatter.price}</div>
-              <div class="price-old">{frontmatter.regular_price}</div>
-              <div class="price-badge">-{discountPercent}%</div>
-            </div>
-          ) : (
-            price && <div class="price">{price}</div>
-          )}
-
-          <!-- CTA button positioned immediately under the price for better UX -->
-          <div class="hero-cta">
-            <button 
-              class="cta-button" 
-              data-action="open-booking-modal" 
-              data-service-name={serviceName}
-            >
-              <i class="fab fa-whatsapp"></i> Book Now
-            </button>
-          </div>
-
-          {frontmatter.key_features && frontmatter.key_features.length ? (
-            <div class="key-features-list">
-              <h4>Keunggulan Utama:</h4>
-              <ul>
-                {frontmatter.key_features.map((feature: any) => (
-                  <li><i class={`fas ${feature.icon || 'fa-check-circle'}`}></i><div><strong>{feature.title}:</strong> {feature.description}</div></li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </div>
+    <!-- Breadcrumb -->
+    {frontmatter.breadcrumb && frontmatter.breadcrumb.length ? (
+      <div class="container breadcrumb-container">
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+          <ol>
+            {frontmatter.breadcrumb.map((item: any) => (
+              item.url ? <li><a href={item.url}>{item.label}</a></li> : <li aria-current="page">{item.label}</li>
+            ))}
+          </ol>
+        </nav>
       </div>
-    </section>
-    <!-- breadcrumb will be rendered inside the hero (above the product image) -->
+    ) : null}
 
-    <!-- 2. Detailed Info & Process Section -->
+    <!-- Detailed Info & Process Section -->
     <section class="detailed-info">
       {frontmatter.process && frontmatter.process.length ? (
         <div class="container grid-two">
-          <div class="prose" set:html={contentHtml} />
+          <div class="main-content">
+            <div class="prose" set:html={contentHtml} />
+            
+            <!-- Key Features Moved Here -->
+            {frontmatter.key_features && frontmatter.key_features.length ? (
+              <div class="key-features-list">
+                <h3>Keunggulan Utama</h3>
+                <ul>
+                  {frontmatter.key_features.map((feature: any) => (
+                    <li><i class={`fas ${feature.icon || 'fa-check-circle'}`}></i><div><strong>{feature.title}:</strong> {feature.description}</div></li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
           <div class="process-infographic">
               <h3>Proses Kerja Kami</h3>
               <ol>
-          {frontmatter.process.map((step: any) => (
-            <li>
-              <div class="step-number">{step.step}</div>
-              <div class="step-content">
-                <h4>{step.title}</h4>
-                <p>{step.description}</p>
-              </div>
-            </li>
-          ))}
+                {frontmatter.process.map((step: any) => (
+                  <li>
+                    <div class="step-number">{step.step}</div>
+                    <div class="step-content">
+                      <h4>{step.title}</h4>
+                      <p>{step.description}</p>
+                    </div>
+                  </li>
+                ))}
               </ol>
           </div>
         </div>
@@ -117,23 +77,23 @@ const discountPercent = onSale ? Math.round(((regularPriceNumber - priceNumber) 
       )}
     </section>
 
-    <!-- 4. Mini Gallery -->
+    <!-- Gallery -->
     {!(frontmatter.hide_gallery) ? (
       <section class="gallery">
           <div class="container">
               <h2>Galeri Proyek</h2>
               <div class="gallery-grid">
-          {frontmatter.gallery_images.map((image: any) => (
-            <a href={image} data-fancybox="gallery" class="gallery-item">
-              <img src={image} alt={`Galeri proyek ${frontmatter.title}`} loading="lazy" />
-            </a>
-          ))}
+                {frontmatter.gallery_images.map((image: any) => (
+                  <a href={image} data-fancybox="gallery" class="gallery-item">
+                    <img src={image} alt={`Galeri proyek ${frontmatter.title}`} loading="lazy" />
+                  </a>
+                ))}
               </div>
           </div>
       </section>
     ) : null}
 
-    <!-- 5. Final CTA -->
+    <!-- Final CTA -->
     <section class="final-cta">
       <div class="container">
         <h2>Siap Memulai Pondasi Kokoh Anda?</h2>
@@ -145,200 +105,67 @@ const discountPercent = onSale ? Math.round(((regularPriceNumber - priceNumber) 
   </article>
 
   <style>
-  .breadcrumb { padding: 1rem 0; }
-  .breadcrumb ol { display:flex; gap:0.5rem; list-style:none; padding:0; margin:0; align-items:center; }
-  .breadcrumb li { color: #6b7280; }
-  .breadcrumb li a { color: #374151; text-decoration: none; }
-  .breadcrumb li + li:before { content: '/'; margin: 0 0.5rem; color: #9ca3af; }
     .service-page { background-color: #fff; }
 
-    /* 1. Product Hero Section */
-    .product-hero { 
-      padding: 6rem 0 4rem; /* top space kept but breadcrumb will sit above container */
-      background-color: var(--background-color);
-      position: relative;
-      z-index: 1;
-    }
-  /* Breadcrumb: align left and tighten spacing to follow the main template */
-  .breadcrumb { padding: 0.45rem 0; margin-top: 0.25rem; }
-  .breadcrumb ol { display:flex; gap:0.5rem; list-style:none; padding:0; margin:0; align-items:center; justify-content:flex-start; }
-  .breadcrumb li { color: #6b7280; font-size:0.95rem }
-  .breadcrumb li a { color: #374151; text-decoration: none; }
-  .breadcrumb li + li:before { content: '/'; margin: 0 0.5rem; color: #9ca3af; }
-    .hero-cta { margin-top: 1rem; }
-  .breadcrumb--below-hero { margin-top: 1.25rem; margin-bottom: 0.75rem }
-  .hero-breadcrumb-container { position: relative; margin-bottom: 0.75rem }
-  /* keep breadcrumb inside hero visible and below fixed header */
-  .product-hero .hero-breadcrumb-container { margin-top: 0.6rem }
-    .product-grid { 
-      display: grid; 
-      grid-template-columns: 1fr 1.5fr; /* Two columns */
-      gap: 4rem; 
-      align-items: center; 
-    }
-    .product-image { 
-      background-color: #fff; 
-      border-radius: 20px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      height: 400px; /* Use fixed height */
-      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-      overflow: hidden; 
-    }
-    .product-image i {
-      font-size: 15rem; /* Large icon */
-      color: var(--primary-color);
-      text-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
-    }
-    .product-image img.service-icon-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .product-details .title { font-size: 3.2rem; font-weight: 800; color: var(--secondary-color); margin-bottom: 0.5rem; line-height: 1.2; }
-    .product-details .subtitle { font-size: 1.3rem; opacity: 0.8; margin-bottom: 2rem; }
-    .product-details .price { 
-      font-size: 2.5rem; 
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-      display: inline-block;
-    }
-    .price-old { text-decoration: line-through; color:#777; margin-left:1rem; font-size:1.1rem; display:inline-block; vertical-align:middle }
-    .price-row-hero { display:flex; align-items:center; gap:1rem; }
-    .price-badge { background:#ff4d4f; color:white; padding:0.25rem 0.6rem; border-radius:6px; font-weight:700; font-size:0.95rem }
-
-    .key-features-list h4 { 
-      font-size: 1.2rem; 
-      color: var(--secondary-color); 
-      margin-bottom: 1rem; 
-    }
-    .key-features-list ul { 
-      list-style: none; 
-      padding: 0; 
-      margin: 0 0 2.5rem 0;
-    }
-    .key-features-list li { 
-      display: flex; 
-      align-items: center; 
-      gap: 1rem; 
-      margin-bottom: 1rem; 
-      font-size: 1.1rem; 
-    }
-    .key-features-list i { 
-      color: var(--primary-color); 
-      font-size: 1.4rem; 
-      flex-shrink: 0; 
-    }
-
-    .product-details .cta-button { 
-      background-color: var(--primary-color); 
-      color: white; 
-      padding: 1rem 2.5rem; 
-      border-radius: 50px; 
-      text-decoration: none; 
-      font-size: 1.2rem; 
-      font-weight: 700; 
-      transition: all 0.3s ease;
-      border: none; 
-      cursor: pointer; 
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .product-details .cta-button:hover { background-color: #e65200; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(255, 107, 0, 0.3); }
-
+    /* Breadcrumb */
+    .breadcrumb-container { padding: 1.5rem 2rem 0; }
+    .breadcrumb ol { display:flex; gap:0.5rem; list-style:none; padding:0; margin:0; align-items:center; }
+    .breadcrumb li { color: #6b7280; font-size: 0.95rem; }
+    .breadcrumb li a { color: #374151; text-decoration: none; }
+    .breadcrumb li + li:before { content: '/'; margin: 0 0.5rem; color: #9ca3af; }
 
     /* Shared Styles */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-    section { padding: 5rem 0; }
+    section { padding: 4rem 0; }
     h2 { font-size: 2.8rem; color: var(--secondary-color); text-align: center; margin-bottom: 3rem; }
+    h3 { font-size: 2rem; color: var(--secondary-color); text-align: left; margin-bottom: 1.5rem; }
 
-    /* 2. Detailed Info */
-    .detailed-info { background-color: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+    /* Key Features (Moved from Hero) */
+    .key-features-list { margin-top: 3rem; }
+    .key-features-list ul { list-style: none; padding: 0; margin: 0; }
+    .key-features-list li { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; font-size: 1.05rem; }
+    .key-features-list i { color: var(--primary-color); font-size: 1.2rem; flex-shrink: 0; margin-top: 0.25rem; }
+    .key-features-list strong { display: block; margin-bottom: 0.25rem; color: var(--secondary-color); }
+
+    /* Detailed Info */
+    .detailed-info { background-color: white; padding-top: 2rem; border-bottom: 1px solid #eee; }
     .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
     .prose { font-size: 1.1rem; line-height: 1.8; color: #333; }
-    .prose h2 { text-align: left; font-size: 2rem; margin-bottom: 1.5rem; }
+    .prose h2, .prose h3 { margin-bottom: 1.5rem; }
 
-    .process-infographic h3 { font-size: 1.8rem; color: var(--secondary-color); margin-bottom: 2rem; }
-    .process-infographic ol { list-style: none; padding: 0; position: relative; border-left: 2px solid var(--primary-color); }
+    .process-infographic h3 { font-size: 1.8rem; }
+    .process-infographic ol { list-style: none; padding: 0; position: relative; border-left: 2px solid var(--primary-color); margin-left: 0.5rem; }
     .process-infographic li { position: relative; margin-bottom: 2.5rem; padding-left: 2.5rem; }
     .process-infographic .step-number { position: absolute; left: -21px; top: 0; background: var(--primary-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: bold; font-size: 1.2rem; }
     .process-infographic h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0 0 0.5rem; }
     .process-infographic p { font-size: 1rem; color: #555; margin: 0; }
 
-    /* 4. Mini Gallery - PERUBAHAN */
-    .gallery {
-      background-color: var(--background-color);
-    }
-    .gallery-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); /* DIUBAH: Ukuran minimum lebih besar */
-      gap: 1.5rem; 
-    }
-    .gallery-item {
-      background-color: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      aspect-ratio: 3 / 4; /* Rasio potrait */
-      box-shadow: 0 8px 15px rgba(0,0,0,0.07);
-      transition: all 0.3s ease;
-    }
-    .gallery-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
-    }
-    .gallery-grid img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      transition: transform 0.3s ease; 
-    }
+    /* Gallery */
+    .gallery { background-color: var(--background-color); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+    .gallery-item { background-color: #fff; border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 4; box-shadow: 0 8px 15px rgba(0,0,0,0.07); transition: all 0.3s ease; }
+    .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+    .gallery-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .gallery-grid a:hover img { transform: scale(1.05); }
+
+    .specs-table-wrap { margin-top: 2rem; }
     .spec-table { width:100%; border-collapse: collapse; margin-top:1rem; }
     .spec-table th { text-align:left; padding:0.75rem; background:#f3f4f6; width:34%; vertical-align:top }
     .spec-table td { padding:0.75rem; border-bottom:1px solid #eee }
-    .gallery-grid a:hover img { 
-      transform: scale(1.05); 
-    }
 
-    /* 5. Final CTA */
+    /* Final CTA */
     .final-cta { background-color: var(--primary-color); color: white; text-align: center; }
     .final-cta h2, .final-cta p { color: white; }
     .final-cta p { max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
-    .final-cta .cta-button {
-        background-color: white;
-        color: var(--primary-color);
-        border-radius: 50px;
-        text-decoration: none;
-        font-size: 1.1rem;
-        font-weight: 700;
-        transition: all 0.3s ease;
-        padding: 1rem 2.5rem; 
-        border: 2px solid white;
-    }
-    .final-cta .cta-button:hover { 
-        background-color: transparent; 
-        color: white; 
-    }
+    .final-cta .cta-button { background-color: white; color: var(--primary-color); border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 700; transition: all 0.3s ease; padding: 1rem 2.5rem; border: 2px solid white; }
+    .final-cta .cta-button:hover { background-color: transparent; color: white; }
 
     /* Responsive */
-    @media (max-width: 992px) {
-      .product-grid { grid-template-columns: 1fr; }
-      .product-image { height: auto; min-height: 250px; margin-bottom: 2rem; }
-      .product-image i { font-size: 10rem; }
-      .product-image img.service-icon-image { max-height: 250px; width: auto; }
-      .product-details .title { font-size: 2.5rem; }
-    }
+    @media (max-width: 992px) { .grid-two { grid-template-columns: 1fr; gap: 3rem;} }
     @media (max-width: 768px) {
-      .grid-two { grid-template-columns: 1fr; }
-      section { padding: 3.5rem 0; }
+      section { padding: 3rem 0; }
       h2 { font-size: 2.2rem; }
-      .product-details .price { font-size: 2rem; }
-      .gallery-grid { 
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Kembali ke ukuran lebih kecil di mobile */
-      }
+      .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
     }
   </style>
 </Layout>

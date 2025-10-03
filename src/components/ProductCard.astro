@@ -1,16 +1,127 @@
 ---
 const { product } = Astro.props;
+
+// Helper to format price to Indonesian Rupiah
+const formatPrice = (val: any) => {
+  const n = Number(val);
+  if (!isFinite(n) || n === 0) return 'Harga tersedia via inquiry'; // Updated message
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+}
+
+// Safely get the image URL
+const imageUrl = (product.images && product.images.length > 0) 
+  ? product.images[0].src 
+  : '/assets/img/default-product.png'; // Fallback image
+
+// Sanitize description: remove HTML and limit length
+let description = product.short_description || product.description || '';
+description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
 ---
 
-<article class="product-card">
-  <img src={product.images && product.images[0] ? product.images[0].src : '/assets/img/default-placeholder.png'} alt={product.name} loading="lazy" />
-  <div class="product-body">
-    <h3>{product.name}</h3>
-    <p class="price">{product.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.price)) : product.regular_price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(Number(product.regular_price)) : 'Harga belum tersedia'}</p>
-    <p class="product-excerpt">{product.short_description ? (product.short_description.replace(/(<([^>]+)>)/gi, '').slice(0, 140) + (product.short_description.length > 140 ? '…' : '')) : ''}</p>
-    <div style="display:flex;gap:.5rem;margin-top:auto;">
-      <a class="btn" href={`/products/${product.slug || product.id}`}>Lihat Produk</a>
-      <button class="btn order-now" type="button" data-name={product.name} data-price={product.price || product.regular_price || ''}>Pesan Sekarang</button>
+<div class="product-card">
+  <div class="card-image-wrapper">
+    <img src={imageUrl} alt={product.name} class="product-image" loading="lazy" />
+  </div>
+  <div class="card-content">
+    <h4>{product.name}</h4>
+    <p class="product-price">{formatPrice(product.price)}</p>
+    <p class="product-desc">{description}</p>
+    <div class="card-actions">
+      <a href={product.permalink} target="_blank" class="btn btn-primary">Lihat Produk</a>
+      <!-- Tombol "Pesan Sekarang" dihilangkan -->
     </div>
   </div>
-</article>
+</div>
+
+<style>
+  .product-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  }
+
+  /* New styles for portrait image */
+  .card-image-wrapper {
+    width: 100%;
+    padding-top: 125%; /* Aspect ratio 4:5 (potrait) */
+    position: relative;
+    background-color: #f0f0f0;
+  }
+
+  .product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the area, might crop */
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows content to fill space */
+  }
+
+  .card-content h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+
+  .product-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+  }
+
+  .product-desc {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    flex-grow: 1; /* Pushes the button to the bottom */
+    margin-bottom: 1.5rem;
+  }
+
+  .card-actions {
+    margin-top: auto; /* Pushes actions to the very bottom */
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    display: block; /* Make button full width */
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+  }
+</style>

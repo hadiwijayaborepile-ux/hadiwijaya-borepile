@@ -1,10 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { Icon } from 'astro-icon/components';
+import PageHero from '../../components/PageHero.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
-import ReadAlsoCard from '../../components/ReadAlsoCard.astro';
-import RecommendedPosts from '../../components/RecommendedPosts.astro';
+import BacaJuga from '../../components/BacaJuga.astro';
 
+// getStaticPaths remains the same as it correctly gathers all slugs
 export async function getStaticPaths() {
   const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
   const API_URL = import.meta.env.API_URL || null;
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
       const posts = await res.json();
       const items = Array.isArray(posts) ? posts : (posts.data || posts);
       if (!Array.isArray(items) || items.length === 0) break;
-      items.forEach((p: any) => slugs.push(p.slug));
+      items.forEach((p: any) => { if(p.slug) slugs.push(p.slug) });
       if (items.length < perPage) break;
       page += 1;
     } catch (err) {
@@ -31,127 +31,135 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-
 const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
-if (!POSTS_BASE) {
-  return Astro.redirect('/404');
-}
+if (!POSTS_BASE) return Astro.redirect('/404');
 
-// Fetch single post and a set of other posts for recommendations
-  let blogPost: any = null;
+let blogPost: any = null;
 let allPostsData: any[] = [];
+
 try {
   const API_URL = import.meta.env.API_URL || null;
-
-  // Try WordPress REST first: query by slug (WP returns an array)
   const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
-  const listUrl = `${POSTS_BASE}?per_page=100&_embed`;
+  const listUrl = `${POSTS_BASE}?per_page=20&_embed`; // Fetch fewer posts for efficiency
+
   let singleRes: Response | { ok: boolean } = await fetch(singleUrl).catch(() => ({ ok: false }));
   let listRes: Response | { ok: boolean } = await fetch(listUrl).catch(() => ({ ok: false }));
 
-  // Fallback to API_URL proxy if WordPress REST didn't return OK
   if ((!singleRes || !singleRes.ok) && API_URL) {
-    const proxySingle = `${API_URL}/api/v2/blogs/${slug}`;
-    singleRes = await fetch(proxySingle).catch(() => ({ ok: false }));
+    singleRes = await fetch(`${API_URL}/api/v2/blogs/${slug}`).catch(() => ({ ok: false }));
   }
   if ((!listRes || !listRes.ok) && API_URL) {
-    const proxyList = `${API_URL}/api/v2/blogs?limit=100`;
-    listRes = await fetch(proxyList).catch(() => ({ ok: false }));
+    listRes = await fetch(`${API_URL}/api/v2/blogs?limit=20`).catch(() => ({ ok: false }));
   }
 
-  if (!('ok' in singleRes) || !singleRes.ok) throw new Error('single fetch failed');
+  if (!('ok' in singleRes) || !singleRes.ok) throw new Error('Single post fetch failed');
   const rawSingle = await (singleRes as Response).json();
   const singleJson = Array.isArray(rawSingle) ? rawSingle[0] : rawSingle;
   const listJson = ('ok' in listRes && listRes.ok) ? await (listRes as Response).json() : [];
 
-  // normalize fields
-  blogPost = {
-    title: singleJson.title?.rendered || '',
-    excerpt: singleJson.excerpt?.rendered || '',
-    body: singleJson.content?.rendered || '',
-    date: singleJson.date,
-    category: singleJson.categories && singleJson.categories.length ? String(singleJson.categories[0]) : '',
-    tags: singleJson.tags || [],
-    headline_img: singleJson._embedded && singleJson._embedded['wp:featuredmedia'] && singleJson._embedded['wp:featuredmedia'][0]
-      ? singleJson._embedded['wp:featuredmedia'][0].source_url
-      : null,
-    slug: singleJson.slug,
+  const normalizePost = (p: any) => {
+    if (!p) return null;
+    // Helper to safely extract rendered content
+    const getRendered = (field: any) => (field && typeof field === 'object' && 'rendered' in field) ? field.rendered : field || '';
+    // Helper to get featured image
+    const getImage = (post: any) => post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
+    // Helper to strip HTML
+    const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '') : '';
+
+    return {
+      title: getRendered(p.title),
+      excerpt: stripHtml(getRendered(p.excerpt)),
+      body: getRendered(p.content),
+      date: p.date,
+      slug: p.slug,
+      url: `/blog/${p.slug}`,
+      image: getImage(p)
+    };
   };
 
-  allPostsData = Array.isArray(listJson) ? listJson.map((p: any) => ({ slug: p.slug, title: p.title?.rendered || '', date: p.date, headline_img: p._embedded && p._embedded['wp:featuredmedia'] && p._embedded['wp:featuredmedia'][0] ? p._embedded['wp:featuredmedia'][0].source_url : null })) : [];
+  blogPost = normalizePost(singleJson);
+  allPostsData = Array.isArray(listJson) ? listJson.map(normalizePost).filter(Boolean) : [];
 
 } catch (error) {
-  console.error('Error fetching WordPress post(s):', error);
+  console.error('[Astro Page Error] Failed to fetch blog data:', error);
   return Astro.redirect('/404');
 }
 
-if (!blogPost) return Astro.redirect('/404');
-
-const otherPosts = allPostsData.filter(p => p.slug !== slug);
-let readAlsoPost = null;
-if (otherPosts.length > 0) readAlsoPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
-const recommendedPosts = otherPosts.slice(0, 3).map(p => p);
-
-const articleContent = blogPost.body || "<p></p>";
-const paragraphs = articleContent.split('</p>');
-let contentPart1 = articleContent;
-let contentPart2 = null;
-if (paragraphs.length > 3) {
-  contentPart1 = paragraphs.slice(0, 2).join('</p>') + '</p>';
-  contentPart2 = paragraphs.slice(2).join('</p>');
+if (!blogPost) {
+  console.error(`[Astro Page Error] No blog post found for slug: ${slug}`);
+  return Astro.redirect('/404');
 }
 
-const { title, excerpt, tags, date, category, headline_img } = blogPost;
-const fullImageUrl = headline_img || '/assets/img/hero.jpg';
+// --- Prepare Related Posts ---
+const otherPosts = allPostsData.filter(p => p.slug !== slug);
+const relatedPostsForSection = [...otherPosts].sort(() => 0.5 - Math.random()).slice(0, 4);
+
+const { title, date, image, body, excerpt } = blogPost;
 const pageTitle = `${title} | Blog Hadiwijaya`;
-const pageDescription = excerpt || `Baca artikel lengkap tentang ${title}.`;
-const enhancedKeywords = [...new Set([...(tags || []), category, title, "Hadiwijaya Pondasi Persada"])];
+const pageDescription = excerpt.substring(0, 160);
 ---
 
-<Layout title={pageTitle} description={pageDescription} keywords={enhancedKeywords}>
-  <section class="page-header">
-    <h1>{title}</h1>
-    <p class="breadcrumb"><a href="/">Beranda</a> &rarr; <a href="/blog">Blog</a></p>
-  </section>
+<Layout title={pageTitle} description={pageDescription}>
+  
+  <PageHero 
+    title={title} 
+    subtitle={new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+  />
 
   <section class="page-body">
     <div class="container">
       <article>
-        <div class="article-meta">
-          <!-- <span><Icon name="mdi:calendar" class="icon" /> {new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span> -->
-          <span><Icon name="mdi:tag" class="icon" /> {category}</span>
-        </div>
-
-        <img class="featured-image" src={fullImageUrl} alt={title} />
+        {image && <img class="featured-image" src={image} alt={title} />}
 
         <ShareButtons title={title} />
 
-        <div class="prose max-w-none" set:html={contentPart1} />
-
-        {readAlsoPost && <ReadAlsoCard post={readAlsoPost} />}
-
-        {contentPart2 && <div class="prose max-w-none" set:html={contentPart2} />}
+        <!-- Display the full content without splitting -->
+        <div class="prose max-w-none" set:html={body} />
         
       </article>
     </div>
   </section>
 
-  <RecommendedPosts posts={recommendedPosts} />
+  <!-- "Baca Juga" Section -->
+  {relatedPostsForSection.length > 0 && <BacaJuga relatedPosts={relatedPostsForSection} />}
 
 </Layout>
 
 <style is:inline>
-  .page-header { background-color: var(--secondary-color); color: white; text-align: center; padding: 7rem 2rem 4rem; }
-  .page-header h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.3; max-width: 900px; margin: 0 auto 1rem; }
-  .page-header .breadcrumb { font-size: 1.1rem; opacity: 0.9; }
-  .page-header .breadcrumb a { color: white; text-decoration: none; }
-  .page-header .breadcrumb a:hover { text-decoration: underline; }
-  .page-body { padding: 4rem 0 0; background-color: white; }
+  .page-body { padding: 4rem 0; background-color: white; }
   .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
-  .article-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; color: #555; font-size: 1rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
-  .article-meta span { display: flex; align-items: center; gap: 0.5rem; }
-  .article-meta .icon { width: 1.2rem; height: 1.2rem; color: var(--primary-color); }
-  .featured-image { width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 12px; margin-bottom: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+  .featured-image { 
+    width: 100%; 
+    height: auto; 
+    max-height: 450px; 
+    object-fit: cover; 
+    border-radius: 12px; 
+    /* Adjusted margin to give space after hero */
+    margin-top: -2rem;
+    margin-bottom: 2.5rem; 
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 10;
+  }
+  .prose {
+    font-size: 1.12rem;
+    line-height: 1.8;
+  }
+  .prose img { 
+    border-radius: 8px; 
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+  }
+  .prose h2, .prose h3 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
   
-  @media (max-width: 768px) { .page-header h1 { font-size: 2.2rem; } }
+  @media (max-width: 768px) {
+    .featured-image {
+      margin-top: -1.5rem;
+      margin-bottom: 2rem;
+    }
+  }
 </style>

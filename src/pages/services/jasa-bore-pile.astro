@@ -2,8 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import '../../styles/services-jasa-bore-pile.css';
 import OrderModal from '../../components/OrderModal.astro';
+import PageHero from '../../components/PageHero.astro';
+import '../../styles/services-jasa-bore-pile.css';
 
 const title = "Layanan Jasa Bore Pile: Manual, Mini Crane & Hydraulic | Hadiwijaya";
 const description = "Hadiwijaya Pondasi Persada menyediakan layanan jasa bore pile lengkap: manual untuk akses terbatas, mini crane untuk efisiensi, dan hydraulic untuk proyek besar. Temukan metode pondasi yang tepat untuk Anda.";
@@ -44,13 +45,11 @@ const WOOCOMMERCE_CONSUMER_SECRET = import.meta.env.WOOCOMMERCE_CONSUMER_SECRET;
 let wcProducts = [];
 if (WOOCOMMERCE_API_URL && WOOCOMMERCE_CONSUMER_KEY && WOOCOMMERCE_CONSUMER_SECRET) {
   try {
-    // Prefer the internal proxy if available (keeps keys server-side). If proxy fails, fall back to direct fetch.
     try {
       const proxyRes = await fetch('/api/woo.json?page=1&per_page=12');
       if (proxyRes.ok) {
         wcProducts = await proxyRes.json();
       } else {
-        // fallback to direct
         throw new Error('proxy_failed');
       }
     } catch (proxyErr) {
@@ -79,15 +78,12 @@ const formatPrice = (val: any) => {
 <Layout title={title} description={description} keywords={keywords}>
   <div class="services-hub-page">
 
-    <!-- 1. Hero Section (moved to layout slot so each page uses the global hero styles) -->
-    <section slot="hero" class="hero hero--service" style="background-image: url('/assets/img/herobg.webp'); background-size: cover; background-position: center;">
-      <div class="hero-content">
-        <h1 class="title">Solusi Pondasi untuk Setiap Skala</h1>
-        <p class="subtitle">Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda.</p>
-      </div>
-    </section>
+    <PageHero 
+      title="Solusi Pondasi untuk Setiap Skala"
+      subtitle="Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda."
+    />
 
-    <!-- 2. Services Showcase -->
+    <!-- Services Showcase -->
     <section class="showcase">
       <div class="container">
         <div class="showcase-grid">
@@ -98,7 +94,7 @@ const formatPrice = (val: any) => {
       </div>
     </section>
 
-    <!-- 3. Comparison Section -->
+    <!-- Comparison Section -->
     <section class="comparison">
       <div class="container">
         <h2>Metode Mana yang Tepat untuk Anda?</h2>
@@ -148,7 +144,7 @@ const formatPrice = (val: any) => {
       </div>
     </section>
 
-    <!-- 4. Fitur Ecommerce (dari WooCommerce) -->
+    <!-- E-commerce Features -->
     <section class="ecom-features">
       <div class="container">
         <h2>Fitur Ecommerce — Produk Terkait</h2>
@@ -169,7 +165,7 @@ const formatPrice = (val: any) => {
 
     <OrderModal />
 
-    <!-- 4. Final CTA -->
+    <!-- Final CTA -->
     <section class="final-cta">
       <div class="container">
         <h2>Punya Pertanyaan atau Proyek Spesifik?</h2>
@@ -181,4 +177,4 @@ const formatPrice = (val: any) => {
   </div>
 </Layout>
 
-<!-- styles moved to src/styles/services-jasa-bore-pile.css -->
+<!-- styles are in src/styles/services-jasa-bore-pile.css -->

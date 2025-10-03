@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SEO } from 'astro-seo';
+import PageHero from '../components/PageHero.astro';
 
 interface Project {
   title: string;
@@ -38,13 +38,13 @@ const description = "Jelajahi galeri proyek bore pile dan strauss pile yang tela
 ---
 
 <Layout title={title} description={description}>
-  <section class="portfolio-page">
-    <div class="container">
-      <div class="page-header">
-        <h1>Portofolio Proyek</h1>
-        <p>Keahlian kami tercermin dalam setiap proyek yang kami selesaikan. Berikut adalah sebagian dari pekerjaan pondasi bore pile dan strauss pile yang telah kami tangani di berbagai lokasi.</p>
-      </div>
+  <PageHero 
+    title="Portofolio Proyek"
+    subtitle="Keahlian kami tercermin dalam setiap proyek yang kami selesaikan. Berikut adalah sebagian dari pekerjaan pondasi bore pile dan strauss pile yang telah kami tangani di berbagai lokasi."
+  />
 
+  <section class="portfolio-gallery">
+    <div class="container">
       {projects.length > 0 ? (
         <div class="project-grid">
           {projects.map((project) => (
@@ -72,24 +72,9 @@ const description = "Jelajahi galeri proyek bore pile dan strauss pile yang tela
 </Layout>
 
 <style>
-  .portfolio-page {
+  .portfolio-gallery {
     padding: 5rem 0;
-    background-color: var(--background-color);
-  }
-  .page-header {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 4rem auto;
-  }
-  .page-header h1 {
-    font-size: 2.8rem;
-    color: var(--secondary-color);
-    margin-bottom: 1rem;
-  }
-  .page-header p {
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.7;
+    background-color: white;
   }
   .project-grid {
     display: grid;
@@ -104,13 +89,13 @@ const description = "Jelajahi galeri proyek bore pile dan strauss pile yang tela
     text-align: left;
     display: flex;
     flex-direction: column;
+    border: 1px solid #eee;
   }
   .card-image-wrapper {
     width: 100%;
     padding-top: 133.33%; /* Aspect ratio 3:4 */
     position: relative;
     display: block;
-    border-radius: 12px 12px 0 0;
   }
   .project-card img {
     position: absolute;
@@ -140,11 +125,5 @@ const description = "Jelajahi galeri proyek bore pile dan strauss pile yang tela
     font-size: 1.1rem;
     color: #777;
     padding: 3rem;
-  }
-
-  @media (max-width: 768px) {
-    .page-header h1 {
-        font-size: 2.2rem;
-    }
   }
 </style>
