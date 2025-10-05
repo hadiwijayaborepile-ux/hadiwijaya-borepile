@@ -69,6 +69,45 @@ const formatPrice = (val: any) => {
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "serviceType": "Jasa Bore Pile",
+          "provider": {
+            "@type": "ProfessionalService",
+            "name": "Hadiwijaya Bore Pile"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Indonesia"
+          },
+          "description": "Layanan jasa bore pile profesional dengan metode manual, mini crane, dan hydraulic untuk berbagai skala proyek di seluruh Indonesia.",
+          "name": "Jasa Bore Pile"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://hadiwijayaborepile.com/"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Layanan",
+            "item": "https://hadiwijayaborepile.com/services/jasa-bore-pile"
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Jasa Bore Pile"
+          }]
+        }
+      ]
+    }
+  </script>
   <div class="services-hub-page">
 
     <PageHero 

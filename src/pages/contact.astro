@@ -8,6 +8,44 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ContactPage",
+          "name": "Kontak & Penawaran Jasa Bore Pile",
+          "description": "Halaman kontak untuk Hadiwijaya Bore Pile. Hubungi kami untuk konsultasi, penawaran harga, dan informasi lebih lanjut mengenai layanan bore pile.",
+          "url": "https://hadiwijayaborepile.com/contact",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://hadiwijayaborepile.com/contact"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Hadiwijaya Bore Pile",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://hadiwijayaborepile.com/assets/img/hbp-logo.png"
+            }
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://hadiwijayaborepile.com/"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Kontak"
+          }]
+        }
+      ]
+    }
+  </script>
   <PageHero 
     title="Hubungi Kami"
     subtitle="Kami siap mendengar dari Anda. Baik untuk pertanyaan, penawaran, maupun konsultasi proyek."

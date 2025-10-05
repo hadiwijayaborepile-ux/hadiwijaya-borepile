@@ -20,6 +20,38 @@ const keywords = [
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Corporation",
+          "name": "Hadiwijaya Bore Pile",
+          "alternateName": "PT. Jowo Land Construction",
+          "url": "https://hadiwijayaborepile.com/",
+          "logo": "https://hadiwijayaborepile.com/assets/img/hbp-logo.png",
+          "founder": {
+            "@type": "Person",
+            "name": "Achmad Fikri Ibnu Hadi"
+          },
+          "description": "Hadiwijaya Bore Pile adalah kontraktor spesialis jasa bore pile di Indonesia. Kami menawarkan solusi pondasi bore pile manual, mini crane, hingga hydraulic dengan harga kompetitif."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://hadiwijayaborepile.com/"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tentang Kami"
+          }]
+        }
+      ]
+    }
+    </script>
 
     <PageHero 
         title="Tentang Hadiwijaya Bore Pile"

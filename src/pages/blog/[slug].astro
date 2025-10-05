@@ -30,7 +30,7 @@ export async function getStaticPaths() {
   return slugs.map(s => ({ params: { slug: s } }));
 }
 
-const { slug } = Astro.params;
+const { slug, url } = Astro.params;
 const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
 if (!POSTS_BASE) return Astro.redirect('/404');
 
@@ -102,9 +102,63 @@ const relatedPostsForSection = [...otherPosts].sort(() => 0.5 - Math.random()).s
 const { title, date, image, body, excerpt } = blogPost;
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt.substring(0, 160);
+
+// --- SCHEMA.ORG ---
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": url.href
+      },
+      "headline": title,
+      "description": pageDescription,
+      "image": image,
+      "author": {
+        "@type": "Organization",
+        "name": "Hadiwijaya Bore Pile",
+        "url": "https://hadiwijayaborepile.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hadiwijaya Bore Pile",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://hadiwijayaborepile.com/assets/img/hbp-logo.png"
+        }
+      },
+      "datePublished": date
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://hadiwijayaborepile.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://hadiwijayaborepile.com/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": title
+        }
+      ]
+    }
+  ]
+};
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
   
   <PageHero 
     title={title} 
