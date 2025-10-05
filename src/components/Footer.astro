@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/img/hbp-logo.png';
+
 const socialLinks = [
   { name: 'Facebook', icon: 'fab fa-facebook-f', href: '#' },
   { name: 'Instagram', icon: 'fab fa-instagram', href: '#' },
@@ -23,7 +26,7 @@ const layananLinks = [
 <footer>
     <div class="footer-container">
         <div class="footer-about">
-            <img src="/assets/img/hbp-logo.png" alt="Hadiwijaya Pondasi Persada Logo" class="footer-logo">
+            <Image src={logo} alt="Hadiwijaya Bore Pile Logo" class="footer-logo" width={150} height={50} />
             <p>Hadiwijaya Bore Pile - Partner Konstruksi Bore Pile dengan Reputasi Terbaik.</p>
         </div>
 
@@ -61,7 +64,7 @@ const layananLinks = [
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Hadiwijaya Pondasi Persada. All Rights Reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Hadiwijaya Bore Pile. All Rights Reserved.</p>
     </div>
 </footer>
 

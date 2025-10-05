@@ -62,7 +62,12 @@ try {
     // Helper to safely extract rendered content
     const getRendered = (field: any) => (field && typeof field === 'object' && 'rendered' in field) ? field.rendered : field || '';
     // Helper to get featured image
-    const getImage = (post: any) => post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
+    const getImage = (post: any) => {
+      const featured = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
+      if (featured) return featured;
+      const match = post.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
+      return match ? match[1] : null;
+    }
     // Helper to strip HTML
     const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '') : '';
 

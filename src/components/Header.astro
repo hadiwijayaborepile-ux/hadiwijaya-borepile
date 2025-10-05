@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/img/hbp-logo.png';
+
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
@@ -23,9 +26,11 @@ const navLinks = [
 <header id="main-header">
   <div class="nav-container">
     <a href="/" class="logo">
-      <img
-        src="/assets/img/hbp-logo.png"
-        alt="Hadiwijaya Pondasi Persada Logo"
+      <Image
+        src={logo}
+        alt="Hadiwijaya Bore Pile Logo"
+        width={40}
+        height={40}
       />
       <span class="logo-text">
         Hadiwijaya <span class="logo-text-primary">Bore Pile</span>

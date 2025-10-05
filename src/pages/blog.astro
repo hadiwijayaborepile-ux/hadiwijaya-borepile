@@ -24,15 +24,24 @@ if (!POSTS_BASE) {
 
       // Map to a friendly shape used by templates
       const mapped = posts.map(p => {
-        const headline_img = p._embedded && p._embedded['wp:featuredmedia'] && p._embedded['wp:featuredmedia'][0]
+        const headline_img = p._embedded && p._embedded['wp:featuredmedia'] && p._embedded['wp:featuredmedia'][0] && p._embedded['wp:featuredmedia'][0].source_url
           ? p._embedded['wp:featuredmedia'][0].source_url
           : null;
+        
+        let imageFromContent = null;
+        if (!headline_img) {
+          const match = p.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
+          if (match) {
+            imageFromContent = match[1];
+          }
+        }
+
         return {
           slug: p.slug,
           title: p.title?.rendered || '',
           excerpt: p.excerpt?.rendered || '',
           date: p.date,
-          headline_img,
+          headline_img: headline_img || imageFromContent,
         };
       });
       allBlogs.push(...mapped);
@@ -48,7 +57,7 @@ if (!POSTS_BASE) {
 const featuredBlogs = allBlogs.slice(0, 3);
 const otherBlogs = allBlogs.slice(3);
 
-const title = "Blog & Artikel | Hadiwijaya Pondasi Persada";
+const title = "Blog & Artikel | Hadiwijaya Bore Pile";
 const description = "Dapatkan insight terbaru seputar dunia konstruksi, fondasi, dan teknologi bore pile dari para ahli kami.";
 const keywords = [
   "blog konstruksi",
