@@ -6,23 +6,33 @@ import BacaJuga from '../../components/BacaJuga.astro';
 
 export async function getStaticPaths() {
   const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
-  const API_URL = import.meta.env.API_URL || null;
-  if (!POSTS_BASE && !API_URL) return [];
+  if (!POSTS_BASE) {
+    console.error('---------------------------------------------------');
+    console.error('FATAL: Blog post paths could not be generated.');
+    console.error('REASON: The WORDPRESS_REST_ENDPOINT environment variable is not set.');
+    console.error('ACTION: Please set this variable in your deployment environment.');
+    console.error('---------------------------------------------------');
+    return [];
+  }
+
   const perPage = 50;
   let page = 1;
   const slugs: string[] = [];
   while (true) {
-    const url = POSTS_BASE ? `${POSTS_BASE}?per_page=${perPage}&page=${page}` : `${API_URL}/api/v2/blogs?limit=${perPage}&page=${page}`;
+    const url = `${POSTS_BASE}?per_page=${perPage}&page=${page}`;
     try {
       const res = await fetch(url);
-      if (!res.ok) break;
+      if (!res.ok) {
+        if (page === 1) console.error(`Failed to fetch initial post list from ${url}. Status: ${res.status}`);
+        break;
+      }
       const posts = await res.json();
-      const items = Array.isArray(posts) ? posts : (posts.data || posts);
-      if (!Array.isArray(items) || items.length === 0) break;
-      items.forEach((p: any) => { if(p.slug) slugs.push(p.slug) });
-      if (items.length < perPage) break;
+      if (!Array.isArray(posts) || posts.length === 0) break;
+      posts.forEach((p: any) => { if(p.slug) slugs.push(p.slug) });
+      if (posts.length < perPage) break;
       page += 1;
     } catch (err) {
+      console.error(`Error fetching post list from URL: ${url}`, err);
       break;
     }
   }
@@ -31,63 +41,54 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
-if (!POSTS_BASE) return Astro.redirect('/404');
 
 let blogPost: any = null;
 let allPostsData: any[] = [];
 
 try {
-  const API_URL = import.meta.env.API_URL || null;
-  const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
-  const listUrl = `${POSTS_BASE}?per_page=20&_embed`;
+    const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
+    const listUrl = `${POSTS_BASE}?per_page=20&_embed`;
 
-  let singleRes: Response | { ok: boolean } = await fetch(singleUrl).catch(() => ({ ok: false }));
-  let listRes: Response | { ok: boolean } = await fetch(listUrl).catch(() => ({ ok: false }));
+    const singleRes = await fetch(singleUrl);
+    const listRes = await fetch(listUrl);
 
-  if ((!singleRes || !singleRes.ok) && API_URL) {
-    singleRes = await fetch(`${API_URL}/api/v2/blogs/${slug}`).catch(() => ({ ok: false }));
-  }
-  if ((!listRes || !listRes.ok) && API_URL) {
-    listRes = await fetch(`${API_URL}/api/v2/blogs?limit=20`).catch(() => ({ ok: false }));
-  }
+    if (!singleRes.ok) throw new Error(`Single post fetch failed with status ${singleRes.status}`);
+    
+    const rawSingle = await singleRes.json();
+    const singleJson = Array.isArray(rawSingle) ? rawSingle[0] : rawSingle;
+    const listJson = listRes.ok ? await listRes.json() : [];
 
-  if (!('ok' in singleRes) || !singleRes.ok) throw new Error('Single post fetch failed');
-  const rawSingle = await (singleRes as Response).json();
-  const singleJson = Array.isArray(rawSingle) ? rawSingle[0] : rawSingle;
-  const listJson = ('ok' in listRes && listRes.ok) ? await (listRes as Response).json() : [];
+    const normalizePost = (p: any) => {
+        if (!p) return null;
+        const getRendered = (field: any) => (field && typeof field === 'object' && 'rendered' in field) ? field.rendered : field || '';
+        const getImage = (post: any) => {
+            const featured = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
+            if (featured) return featured;
+            const match = post.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
+            return match ? match[1] : null;
+        };
+        const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '') : '';
 
-  const normalizePost = (p: any) => {
-    if (!p) return null;
-    const getRendered = (field: any) => (field && typeof field === 'object' && 'rendered' in field) ? field.rendered : field || '';
-    const getImage = (post: any) => {
-      const featured = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
-      if (featured) return featured;
-      const match = post.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
-      return match ? match[1] : null;
+        return {
+            title: getRendered(p.title),
+            excerpt: stripHtml(getRendered(p.excerpt)),
+            body: getRendered(p.content),
+            date: p.date,
+            slug: p.slug,
+            url: `/blog/${p.slug}`,
+            image: getImage(p)
+        };
     };
-    const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '') : '';
 
-    return {
-      title: getRendered(p.title),
-      excerpt: stripHtml(getRendered(p.excerpt)),
-      body: getRendered(p.content),
-      date: p.date,
-      slug: p.slug,
-      url: `/blog/${p.slug}`,
-      image: getImage(p)
-    };
-  };
-
-  blogPost = normalizePost(singleJson);
-  allPostsData = Array.isArray(listJson) ? listJson.map(normalizePost).filter(Boolean) : [];
+    blogPost = normalizePost(singleJson);
+    allPostsData = Array.isArray(listJson) ? listJson.map(normalizePost).filter(Boolean) : [];
 
 } catch (error) {
-  console.error('[Astro Page Error] Failed to fetch blog data:', error);
+  console.error(`[Astro Page Error] Failed to fetch blog data for slug: ${slug}`, error);
   return Astro.redirect('/404');
 }
 
 if (!blogPost) {
-  console.error(`[Astro Page Error] No blog post found for slug: ${slug}`);
   return Astro.redirect('/404');
 }
 
@@ -99,26 +100,10 @@ const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt.substring(0, 160);
 
 const breadcrumb = {
-    "@type": "BreadcrumbList",
     "itemListElement": [
-        {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://hadiwijayaborepile.com/"
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Blog",
-            "item": "https://hadiwijayaborepile.com/blog"
-        },
-        {
-            "@type": "ListItem",
-            "position": 3,
-            "name": title,
-            "item": Astro.url.href
-        }
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hadiwijayaborepile.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://hadiwijayaborepile.com/blog" },
+        { "@type": "ListItem", "position": 3, "name": title, "item": Astro.url.href }
     ]
 };
 ---
