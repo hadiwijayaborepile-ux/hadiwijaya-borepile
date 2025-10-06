@@ -30,7 +30,6 @@ const services = [
   }
 ];
 
-// --- WooCommerce / Ecommerce features (uses env vars from .env; do not modify .env) ---
 const WOOCOMMERCE_API_URL = import.meta.env.WOOCOMMERCE_API_URL;
 const WOOCOMMERCE_CONSUMER_KEY = import.meta.env.WOOCOMMERCE_CONSUMER_KEY;
 const WOOCOMMERCE_CONSUMER_SECRET = import.meta.env.WOOCOMMERCE_CONSUMER_SECRET;
@@ -55,60 +54,59 @@ if (WOOCOMMERCE_API_URL && WOOCOMMERCE_CONSUMER_KEY && WOOCOMMERCE_CONSUMER_SECR
   } catch (err) {
     console.error('WOO_ERROR: Exception fetching products', err);
   }
-} else {
-  // environment missing; leave wcProducts empty
 }
 
-// helper: format price to Indonesian Rupiah
 const formatPrice = (val: any) => {
   const n = Number(val);
   if (!isFinite(n)) return 'Harga belum tersedia';
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
 }
 
+const breadcrumb = {
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://hadiwijayaborepile.com/"
+    },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Layanan",
+        "item": "https://hadiwijayaborepile.com/services/jasa-bore-pile"
+    }]
+}
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <script type="application/ld+json" slot="head">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Service",
-          "serviceType": "Jasa Bore Pile",
-          "provider": {
-            "@type": "ProfessionalService",
-            "name": "Hadiwijaya Bore Pile"
-          },
-          "areaServed": {
-            "@type": "Country",
-            "name": "Indonesia"
-          },
-          "description": "Layanan jasa bore pile profesional dengan metode manual, mini crane, dan hydraulic untuk berbagai skala proyek di seluruh Indonesia.",
-          "name": "Jasa Bore Pile"
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://hadiwijayaborepile.com/"
-          },{
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Layanan",
-            "item": "https://hadiwijayaborepile.com/services/jasa-bore-pile"
-          },{
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Jasa Bore Pile"
-          }]
-        }
-      ]
-    }
-  </script>
-  <div class="services-hub-page">
+  <div class="services-hub-page" itemscope itemtype="https://schema.org/Service">
+    <meta itemprop="serviceType" content="Jasa Bore Pile" />
+    <div itemprop="provider" itemscope itemtype="https://schema.org/ProfessionalService">
+        <meta itemprop="name" content="Hadiwijaya Bore Pile" />
+    </div>
+    <div itemprop="areaServed" itemscope itemtype="https://schema.org/Country">
+        <meta itemprop="name" content="Indonesia" />
+    </div>
+    <meta itemprop="description" content="Layanan jasa bore pile profesional dengan metode manual, mini crane, dan hydraulic untuk berbagai skala proyek di seluruh Indonesia." />
+    <meta itemprop="name" content="Jasa Bore Pile" />
+    
+    <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" class="container" style="padding: 1.5rem 1rem 0;">
+        <ol style="list-style: none; display: flex; padding: 0;">
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
+            <a itemprop="item" href={breadcrumb.itemListElement[0].item}>
+              <span itemprop="name">{breadcrumb.itemListElement[0].name}</span>
+            </a>
+            <meta itemprop="position" content="1" />
+            <span style="margin: 0 0.5rem;">/</span>
+          </li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
+            <a itemprop="item" href={breadcrumb.itemListElement[1].item}>
+              <span itemprop="name">{breadcrumb.itemListElement[1].name}</span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </li>
+        </ol>
+    </nav>
 
     <PageHero 
       title="Solusi Pondasi untuk Setiap Skala"
@@ -129,7 +127,7 @@ const formatPrice = (val: any) => {
     <!-- Comparison Section -->
     <section class="comparison">
       <div class="container">
-        <h2>Metode Mana yang Tepat untuk Anda?</h2>
+        <h2 itemprop="name">Metode Mana yang Tepat untuk Anda?</h2>
         <div class="comparison-table-wrapper">
           <table class="comparison-table">
             <thead>

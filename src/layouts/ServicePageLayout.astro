@@ -3,89 +3,80 @@ import Layout from './Layout.astro';
 import PageHero from '../components/PageHero.astro';
 
 const { frontmatter, title, description, keywords, contentHtml } = Astro.props;
+const breadcrumb = frontmatter.breadcrumb;
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
 
   <PageHero title={frontmatter.title} subtitle={frontmatter.subtitle} />
 
-  <article class="service-page">
+  <article class="service-page" itemscope itemtype="https://schema.org/Service">
+    <meta itemprop="serviceType" content={frontmatter.title} />
+    <meta itemprop="provider" content="Hadiwijaya Bore Pile" />
+    <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+      <meta itemprop="priceCurrency" content="IDR" />
+      <meta itemprop="price" content={frontmatter.price.replace(/[^0-9]/g, '')} />
+    </div>
 
-    <!-- Breadcrumb -->
-    {frontmatter.breadcrumb && frontmatter.breadcrumb.length ? (
-      <div class="container breadcrumb-container">
-        <nav aria-label="Breadcrumb" class="breadcrumb">
+    <!-- Breadcrumb using Microdata -->
+    <div class="container breadcrumb-container">
+        <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
           <ol>
-            {frontmatter.breadcrumb.map((item: any) => (
-              item.url ? <li><a href={item.url}>{item.label}</a></li> : <li aria-current="page">{item.label}</li>
+            {breadcrumb.map((item: any, index: number) => (
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a itemprop="item" href={item.url}>
+                  <span itemprop="name">{item.label}</span>
+                </a>
+                <meta itemprop="position" content={(index + 1).toString()} />
+              </li>
             ))}
           </ol>
         </nav>
-      </div>
-    ) : null}
+    </div>
 
     <!-- Detailed Info & Process Section -->
     <section class="detailed-info">
-      {frontmatter.process && frontmatter.process.length ? (
-        <div class="container grid-two">
-          <div class="main-content">
-            <div class="prose" set:html={contentHtml} />
-            
-            <!-- Key Features Moved Here -->
-            {frontmatter.key_features && frontmatter.key_features.length ? (
-              <div class="key-features-list">
-                <h3>Keunggulan Utama</h3>
-                <ul>
-                  {frontmatter.key_features.map((feature: any) => (
-                    <li><i class={`fas ${feature.icon || 'fa-check-circle'}`}></i><div><strong>{feature.title}:</strong> {feature.description}</div></li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-          <div class="process-infographic">
-              <h3>Proses Kerja Kami</h3>
-              <ol>
-                {frontmatter.process.map((step: any) => (
-                  <li>
-                    <div class="step-number">{step.step}</div>
-                    <div class="step-content">
-                      <h4>{step.title}</h4>
-                      <p>{step.description}</p>
-                    </div>
-                  </li>
+      <div class="container grid-two">
+        <div class="main-content">
+          <div class="prose" itemprop="description" set:html={contentHtml} />
+          
+          {frontmatter.key_features && frontmatter.key_features.length ? (
+            <div class="key-features-list">
+              <h3>Keunggulan Utama</h3>
+              <ul>
+                {frontmatter.key_features.map((feature: any) => (
+                  <li><i class={`fas ${feature.icon || 'fa-check-circle'}`}></i><div><strong>{feature.title}:</strong> {feature.description}</div></li>
                 ))}
-              </ol>
-          </div>
-        </div>
-      ) : (
-        <div class="container">
-          <div class="prose" set:html={contentHtml} />
-          {frontmatter.specs && frontmatter.specs.length ? (
-            <div class="specs-table-wrap">
-              <h3>Spesifikasi</h3>
-              <table class="spec-table">
-                <tbody>
-                  {frontmatter.specs.map((row: any) => (
-                    <tr><th>{row.key}</th><td>{row.value}</td></tr>
-                  ))}
-                </tbody>
-              </table>
+              </ul>
             </div>
           ) : null}
         </div>
-      )}
+        <div class="process-infographic">
+            <h3>Proses Kerja Kami</h3>
+            <ol>
+              {frontmatter.process.map((step: any) => (
+                <li>
+                  <div class="step-number">{step.step}</div>
+                  <div class="step-content">
+                    <h4>{step.title}</h4>
+                    <p>{step.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+        </div>
+      </div>
     </section>
 
     <!-- Gallery -->
-    {!(frontmatter.hide_gallery) ? (
+    {!frontmatter.hide_gallery && frontmatter.gallery_images && frontmatter.gallery_images.length ? (
       <section class="gallery">
           <div class="container">
               <h2>Galeri Proyek</h2>
               <div class="gallery-grid">
                 {frontmatter.gallery_images.map((image: any) => (
                   <a href={image} data-fancybox="gallery" class="gallery-item">
-                    <img src={image} alt={`Galeri proyek ${frontmatter.title}`} loading="lazy" />
+                    <img src={image} alt={`Galeri proyek ${frontmatter.title}`} loading="lazy" itemprop="image" />
                   </a>
                 ))}
               </div>
@@ -103,69 +94,49 @@ const { frontmatter, title, description, keywords, contentHtml } = Astro.props;
     </section>
 
   </article>
-
-  <style>
-    .service-page { background-color: #fff; }
-
-    /* Breadcrumb */
-    .breadcrumb-container { padding: 1.5rem 2rem 0; }
-    .breadcrumb ol { display:flex; gap:0.5rem; list-style:none; padding:0; margin:0; align-items:center; }
-    .breadcrumb li { color: #6b7280; font-size: 0.95rem; }
-    .breadcrumb li a { color: #374151; text-decoration: none; }
-    .breadcrumb li + li:before { content: '/'; margin: 0 0.5rem; color: #9ca3af; }
-
-    /* Shared Styles */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-    section { padding: 4rem 0; }
-    h2 { font-size: 2.8rem; color: var(--secondary-color); text-align: center; margin-bottom: 3rem; }
-    h3 { font-size: 2rem; color: var(--secondary-color); text-align: left; margin-bottom: 1.5rem; }
-
-    /* Key Features (Moved from Hero) */
-    .key-features-list { margin-top: 3rem; }
-    .key-features-list ul { list-style: none; padding: 0; margin: 0; }
-    .key-features-list li { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; font-size: 1.05rem; }
-    .key-features-list i { color: var(--primary-color); font-size: 1.2rem; flex-shrink: 0; margin-top: 0.25rem; }
-    .key-features-list strong { display: block; margin-bottom: 0.25rem; color: var(--secondary-color); }
-
-    /* Detailed Info */
-    .detailed-info { background-color: white; padding-top: 2rem; border-bottom: 1px solid #eee; }
-    .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
-    .prose { font-size: 1.1rem; line-height: 1.8; color: #333; }
-    .prose h2, .prose h3 { margin-bottom: 1.5rem; }
-
-    .process-infographic h3 { font-size: 1.8rem; }
-    .process-infographic ol { list-style: none; padding: 0; position: relative; border-left: 2px solid var(--primary-color); margin-left: 0.5rem; }
-    .process-infographic li { position: relative; margin-bottom: 2.5rem; padding-left: 2.5rem; }
-    .process-infographic .step-number { position: absolute; left: -21px; top: 0; background: var(--primary-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: bold; font-size: 1.2rem; }
-    .process-infographic h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0 0 0.5rem; }
-    .process-infographic p { font-size: 1rem; color: #555; margin: 0; }
-
-    /* Gallery */
-    .gallery { background-color: var(--background-color); }
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
-    .gallery-item { background-color: #fff; border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 4; box-shadow: 0 8px 15px rgba(0,0,0,0.07); transition: all 0.3s ease; }
-    .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
-    .gallery-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-    .gallery-grid a:hover img { transform: scale(1.05); }
-
-    .specs-table-wrap { margin-top: 2rem; }
-    .spec-table { width:100%; border-collapse: collapse; margin-top:1rem; }
-    .spec-table th { text-align:left; padding:0.75rem; background:#f3f4f6; width:34%; vertical-align:top }
-    .spec-table td { padding:0.75rem; border-bottom:1px solid #eee }
-
-    /* Final CTA */
-    .final-cta { background-color: var(--primary-color); color: white; text-align: center; }
-    .final-cta h2, .final-cta p { color: white; }
-    .final-cta p { max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
-    .final-cta .cta-button { background-color: white; color: var(--primary-color); border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 700; transition: all 0.3s ease; padding: 1rem 2.5rem; border: 2px solid white; }
-    .final-cta .cta-button:hover { background-color: transparent; color: white; }
-
-    /* Responsive */
-    @media (max-width: 992px) { .grid-two { grid-template-columns: 1fr; gap: 3rem;} }
-    @media (max-width: 768px) {
-      section { padding: 3rem 0; }
-      h2 { font-size: 2.2rem; }
-      .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-    }
-  </style>
 </Layout>
+
+<style>
+  .service-page { background-color: #fff; }
+  .breadcrumb-container { padding: 1.5rem 2rem 0; }
+  .breadcrumb ol { display:flex; gap:0.5rem; list-style:none; padding:0; margin:0; align-items:center; }
+  .breadcrumb li { color: #6b7280; font-size: 0.95rem; }
+  .breadcrumb li a { color: #374151; text-decoration: none; }
+  .breadcrumb li + li:before { content: '/'; margin: 0 0.5rem; color: #9ca3af; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 4rem 0; }
+  h2 { font-size: 2.8rem; color: var(--secondary-color); text-align: center; margin-bottom: 3rem; }
+  h3 { font-size: 2rem; color: var(--secondary-color); text-align: left; margin-bottom: 1.5rem; }
+  .key-features-list { margin-top: 3rem; }
+  .key-features-list ul { list-style: none; padding: 0; margin: 0; }
+  .key-features-list li { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; font-size: 1.05rem; }
+  .key-features-list i { color: var(--primary-color); font-size: 1.2rem; flex-shrink: 0; margin-top: 0.25rem; }
+  .key-features-list strong { display: block; margin-bottom: 0.25rem; color: var(--secondary-color); }
+  .detailed-info { background-color: white; padding-top: 2rem; border-bottom: 1px solid #eee; }
+  .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
+  .prose { font-size: 1.1rem; line-height: 1.8; color: #333; }
+  .prose h2, .prose h3 { margin-bottom: 1.5rem; }
+  .process-infographic h3 { font-size: 1.8rem; }
+  .process-infographic ol { list-style: none; padding: 0; position: relative; border-left: 2px solid var(--primary-color); margin-left: 0.5rem; }
+  .process-infographic li { position: relative; margin-bottom: 2.5rem; padding-left: 2.5rem; }
+  .process-infographic .step-number { position: absolute; left: -21px; top: 0; background: var(--primary-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: bold; font-size: 1.2rem; }
+  .process-infographic h4 { font-size: 1.2rem; color: var(--secondary-color); margin: 0 0 0.5rem; }
+  .process-infographic p { font-size: 1rem; color: #555; margin: 0; }
+  .gallery { background-color: var(--background-color); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+  .gallery-item { background-color: #fff; border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 4; box-shadow: 0 8px 15px rgba(0,0,0,0.07); transition: all 0.3s ease; }
+  .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+  .gallery-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+  .gallery-grid a:hover img { transform: scale(1.05); }
+  .final-cta { background-color: var(--primary-color); color: white; text-align: center; }
+  .final-cta h2, .final-cta p { color: white; }
+  .final-cta p { max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
+  .final-cta .cta-button { background-color: white; color: var(--primary-color); border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 700; transition: all 0.3s ease; padding: 1rem 2.5rem; border: 2px solid white; }
+  .final-cta .cta-button:hover { background-color: transparent; color: white; }
+  @media (max-width: 992px) { .grid-two { grid-template-columns: 1fr; gap: 3rem;} }
+  @media (max-width: 768px) {
+    section { padding: 3rem 0; }
+    h2 { font-size: 2.2rem; }
+    .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  }
+</style>
