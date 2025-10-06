@@ -37,59 +37,43 @@ const keywords = [
   "jasa bore pile Yogyakarta",
   "jasa bore pile Solo"
 ];
-
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Hadiwijaya Bore Pile",
-  "image": "https://hadiwijayaborepile.com/src/assets/img/hbp-logo.png",
-  "@id": "https://hadiwijayaborepile.com/",
-  "url": "https://hadiwijayaborepile.com/",
-  "telephone": "+628122532442",
-  "priceRange": "Rp 500,000 - Rp 10,000,000",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Jl. Kyai Mukmin No.6",
-    "addressLocality": "Semarang",
-    "postalCode": "50249",
-    "addressCountry": "ID"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": -7.0175,
-    "longitude": 110.4198
-  },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ],
-    "opens": "00:00",
-    "closes": "23:59"
-  },
-  "sameAs": [
-    "https://www.facebook.com/hadiwijayaborepile",
-    "https://www.instagram.com/hadiwijayaborepile"
-  ]
-};
 ---
 
-<Layout title={title} description={description} keywords={keywords} schema={schema}>
-  <Hero slot="hero" />
-  <VisualFeature />
-  <Projects />
-  <Process />
-  <Planning />
-  <PriceTable />
-  <WhyUs />
-  <Faq />
-  <GetInTouch />
+<Layout title={title} description={description} keywords={keywords}>
+  <div itemscope itemtype="https://schema.org/ProfessionalService">
+    <meta itemprop="name" content="Hadiwijaya Bore Pile" />
+    <meta itemprop="image" content="https://hadiwijayaborepile.com/src/assets/img/hbp-logo.png" />
+    <meta itemprop="url" content="https://hadiwijayaborepile.com/" />
+    <meta itemprop="telephone" content="+628122532442" />
+    <meta itemprop="priceRange" content="Rp 500,000 - Rp 10,000,000" />
+    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+      <meta itemprop="streetAddress" content="Jl. Kyai Mukmin No.6" />
+      <meta itemprop="addressLocality" content="Semarang" />
+      <meta itemprop="postalCode" content="50249" />
+      <meta itemprop="addressCountry" content="ID" />
+    </div>
+    <div itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">
+      <meta itemprop="latitude" content="-7.0175" />
+      <meta itemprop="longitude" content="110.4198" />
+    </div>
+    <div itemprop="openingHoursSpecification" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
+      <meta itemprop="dayOfWeek" content="['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']" />
+      <meta itemprop="opens" content="00:00" />
+      <meta itemprop="closes" content="23:59" />
+    </div>
+    <link itemprop="sameAs" href="https://www.facebook.com/hadiwijayaborepile" />
+    <link itemprop="sameAs" href="https://www.instagram.com/hadiwijayaborepile" />
+
+    <Hero slot="hero" />
+    <VisualFeature />
+    <Projects />
+    <Process />
+    <Planning />
+    <PriceTable />
+    <WhyUs />
+    <Faq />
+    <GetInTouch />
+  </div>
 </Layout>
 
 <style>
