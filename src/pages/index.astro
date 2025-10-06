@@ -80,8 +80,7 @@ const schema = {
 };
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
+<Layout title={title} description={description} keywords={keywords} schema={schema}>
   <Hero slot="hero" />
   <VisualFeature />
   <Projects />

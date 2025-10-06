@@ -89,9 +89,7 @@ const schema = product ? {
 } : null;
 ---
 
-<Layout title={title} description={description} keywords={keywords}>
-  {product && <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />}
-  
+<Layout title={title} description={description} keywords={keywords} schema={schema}>
   <PageHero 
     title={product ? product.name : 'Produk Detail'} 
     subtitle="Detail informasi produk dan layanan kami"
