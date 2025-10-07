@@ -1,40 +1,11 @@
 ---
-// --- Data Fetching & Processing (Corrected .env variable & Error Handling) ---
-
-const API_BASE_URL = import.meta.env.API_URL;
-
 let heroData = {
-  title: "Pondasi Kuat Masa Depan Hemat",
-  subtitle: "Solusi bore pile profesional untuk proyek konstruksi Anda. Terpercaya dan berpengalaman.",
+  title: "Partner Konstruksi Bore Pile Terbaik",
+  subtitle: "Teman Terbaikmu untuk Membangun Masa Depan Di atas pondasi paling kokoh",
   button_text: "Konsultasi Sekarang",
   button_url: "/contact?subject=Konsultasi",
   background_image_url: "/assets/img/herobg.webp"
 };
-
-if (API_BASE_URL) {
-  try {
-    const apiUrl = `${API_BASE_URL}/api/v2/heroes`;
-    const response = await fetch(apiUrl, { cache: 'no-store' });
-
-    if (response.ok) {
-      const heroes = await response.json();
-      if (heroes && heroes.length > 0) {
-        heroData = { ...heroData, ...heroes[0] };
-      }
-    } else {
-      console.error(`[Hero Component] API request failed with status: ${response.status}. Using default data.`);
-    }
-  } catch (error) {
-    // **SOLUSI:** Periksa tipe error sebelum mengakses properti .message
-    if (error instanceof Error) {
-      console.error("[Hero Component] Gagal mengambil data dari API. Using default data. Error:", error.message);
-    } else {
-      console.error("[Hero Component] Terjadi error yang tidak diketahui saat fetch. Using default data.", error);
-    }
-  }
-} else {
-  console.warn("[Hero Component] Peringatan: Variabel API_URL tidak ditemukan di .env. Menggunakan data default.");
-}
 ---
 
 <section 
