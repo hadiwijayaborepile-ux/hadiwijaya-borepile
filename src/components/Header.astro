@@ -29,8 +29,8 @@ const navLinks = [
       <Image
         src={logo}
         alt="Hadiwijaya Bore Pile Logo"
-        width={40}
-        height={40}
+        width={150}
+        height={50}
       />
       <span class="logo-text">
         Hadiwijaya <span class="logo-text-primary">Bore Pile</span>
@@ -156,7 +156,7 @@ const navLinks = [
                       - {dropdownLink.name}
                     </a>
                   </li>
-                ))}
+                ))}\`
               </ul>
             )}
           </li>
@@ -219,8 +219,11 @@ const navLinks = [
     flex-shrink: 0;
   }
 
-  .logo img {
+  /* PERBAIKAN LOGO */
+  .logo :global(img) {
     height: 40px;
+    width: auto;
+    object-fit: contain;
     display: block;
   }
 
