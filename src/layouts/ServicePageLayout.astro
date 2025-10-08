@@ -20,7 +20,7 @@ const breadcrumb = frontmatter.breadcrumb;
 
     <!-- Breadcrumb using Microdata -->
     <div class="container breadcrumb-container">
-        <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+        <nav class="breadcrumb" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
           <ol>
             {breadcrumb.map((item: any, index: number) => (
               <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
