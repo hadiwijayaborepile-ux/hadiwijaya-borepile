@@ -90,7 +90,12 @@ const breadcrumb = {
     <meta itemprop="description" content="Layanan jasa bore pile profesional dengan metode manual, mini crane, dan hydraulic untuk berbagai skala proyek di seluruh Indonesia." />
     <meta itemprop="name" content="Jasa Bore Pile" />
     
-    <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" class="container" style="padding: 1.5rem 1rem 0;">
+    <PageHero 
+      title="Solusi Pondasi untuk Setiap Skala"
+      subtitle="Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda."
+    />
+
+    <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" class="container" style="padding: 1.5rem 1rem;">
         <ol style="list-style: none; display: flex; padding: 0;">
           <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
             <a itemprop="item" href={breadcrumb.itemListElement[0].item}>
@@ -107,11 +112,6 @@ const breadcrumb = {
           </li>
         </ol>
     </nav>
-
-    <PageHero 
-      title="Solusi Pondasi untuk Setiap Skala"
-      subtitle="Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda."
-    />
 
     <!-- Services Showcase -->
     <section class="showcase">
