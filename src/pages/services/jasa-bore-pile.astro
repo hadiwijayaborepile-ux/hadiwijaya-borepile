@@ -4,6 +4,7 @@ import ServiceCard from '../../components/ServiceCard.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import PageHero from '../../components/PageHero.astro';
 import '../../styles/services-jasa-bore-pile.css';
+import productsData from '../../data/products.json';
 
 const title = "Layanan Jasa Bore Pile: Manual, Mini Crane & Hydraulic | Hadiwijaya";
 const description = "Hadiwijaya Bore Pile menyediakan layanan jasa bore pile lengkap: manual untuk akses terbatas, mini crane untuk efisiensi, dan hydraulic untuk proyek besar. Temukan metode pondasi yang tepat untuk Anda.";
@@ -30,6 +31,8 @@ const services = [
   }
 ];
 
+const products = Object.values(productsData);
+
 const serviceSchema = {
   "@context": "https://schema.org",
   "@graph": {
@@ -39,7 +42,7 @@ const serviceSchema = {
     "description": "Hadiwijaya Bore Pile adalah kontraktor penyedia layanan jasa bore pile dan strauss pile manual dengan biaya murah namun tetap mengutamakan kualitas pekerjaan.",
     "url": "https://hadiwijayaborepile.co.id/",
     "serviceType": "Bore Pile",
-    "areaServed": [ { "@type": "City", "name": "Jakarta Pusat" }, { "@type": "City", "name": "Jakarta Utara" }, { "@type": "City", "name": "Jakarta Barat" }, { "@type": "City", "name": "Jakarta Selatan" }, { "@type": "City", "name": "Jakarta Timur" }, { "@type": "City", "name": "Kepulauan Seribu" }, { "@type": "City", "name": "Bandung" }, { "@type": "City", "name": "Bekasi" }, { "@type": "City", "name": "Bogor" }, { "@type": "City", "name": "Cimahi" }, { "@type": "City", "name": "Cirebon" }, { "@type": "City", "name": "Depok" }, { "@type": "City", "name": "Sukabumi" }, { "@type": "City", "name": "Tasikmalaya" }, { "@type": "City", "name": "Banjar" }, { "@type": "City", "name": "Cianjur" }, { "@type": "City", "name": "Garut" }, { "@type": "City", "name": "Indramayu" }, { "@type": "City", "name": "Karawang" }, { "@type": "City", "name": "Kuningan" }, { "@type": "City", "name": "Majalengka" }, { "@type": "City", "name": "Pangandaran" }, { "@type": "City", "name": "Purwakarta" }, { "@type": "City", "name": "Subang" }, { "@type": "City", "name": "Sumedang" }, { "@type": "City", "name": "Bandung Barat" }, { "@type": "City", "name": "Bandung" }, { "@type": "City", "name": "Bekasi" }, { "@type": "City", "name": "Bogor" }, { "@type": "City", "name": "Ciamis" }, { "@type": "City", "name": "Cianjur" }, { "@type": "City", "name": "Cirebon" }, { "@type": "City", "name": "Garut" }, { "@type": "City", "name": "Indramayu" }, { "@type": "City", "name": "Karawang" }, { "@type": "City", "name": "Kuningan" }, { "@type": "City", "name": "Majalengka" }, { "@type": "City", "name": "Purwakarta" }, { "@type": "City", "name": "Subang" }, { "@type": "City", "name": "Sukabumi" }, { "@type": "City", "name": "Sumedang" }, { "@type": "City", "name": "Tasikmalaya" }, { "@type": "City", "name": "Pangandaran" }, { "@type": "City", "name": "Cilegon" }, { "@type": "City", "name": "Serang" }, { "@type": "City", "name": "Tangerang" }, { "@type": "City", "name": "Tangerang Selatan" }, { "@type": "City", "name": "Lebak" }, { "@type": "City", "name": "Pandeglang" }, { "@type": "City", "name": "Serang" }, { "@type": "City", "name": "Tangerang" }, { "@type": "City", "name": "Semarang" }, { "@type": "City", "name": "Surakarta" }, { "@type": "City", "name": "Magelang" }, { "@type": "City", "name": "Pekalongan" }, { "@type": "City", "name": "Salatiga" }, { "@type": "City", "name": "Tegal" }, { "@type": "City", "name": "Cilacap" }, { "@type": "City", "name": "Pekalongan" }, { "@type": "City", "name": "Tegal" }, { "@type": "City", "name": "Brebes" }, { "@type": "City", "name": "Demak" }, { "@type": "City", "name": "Grobogan" }, { "@type": "City", "name": "Jepara" }, { "@type": "City", "name": "Kendal" }, { "@type": "City", "name": "Klaten" }, { "@type": "City", "name": "Kudus" }, { "@type": "City", "name": "Magelang" }, { "@type": "City", "name": "Pati" }, { "@type": "City", "name": "Rembang" }, { "@type": "City", "name": "Semarang" }, { "@type": "City", "name": "Sragen" }, { "@type": "City", "name": "Sukoharjo" }, { "@type": "City", "name": "Temanggung" }, { "@type": "City", "name": "Wonogiri" }, { "@type": "City", "name": "Wonosobo" }, { "@type": "City", "name": "Banjarnegara" }, { "@type": "City", "name": "Banyumas" }, { "@type": "City", "name": "Batang" }, { "@type": "City", "name": "Blora" }, { "@type": "City", "name": "Boyolali" }, { "@type": "City", "name": "Karanganyar" }, { "@type": "City", "name": "Kebumen" }, { "@type": "City", "name": "Purbalingga" }, { "@type": "City", "name": "Purworejo" }, { "@type": "City", "name": "Pemalang" }, { "@type": "City", "name": "Rembang" }, { "@type": "City", "name": "Wonogiri" }, { "@type": "City", "name": "Yogyakarta" }, { "@type": "City", "name": "Bantul" }, { "@type": "City", "name": "Gunung Kidul" }, { "@type": "City", "name": "Kulon Progo" }, { "@type": "City", "name": "Sleman" }, { "@type": "City", "name": "Surabaya" }, { "@type": "City", "name": "Malang" }, { "@type": "City", "name": "Kediri" }, { "@type": "City", "name": "Madiun" }, { "@type": "City", "name": "Mojokerto" }, { "@type": "City", "name": "Pasuruan" }, { "@type": "City", "name": "Probolinggo" }, { "@type": "City", "name": "Batu" }, { "@type": "City", "name": "Blitar" }, { "@type": "City", "name": "Banyuwangi" }, { "@type": "City", "name": "Blitar" }, { "@type": "City", "name": "Bojonegoro" }, { "@type": "City", "name": "Bondowoso" }, { "@type": "City", "name": "Gresik" }, { "@type": "City", "name": "Jember" }, { "@type": "City", "name": "Jombang" }, { "@type": "City", "name": "Kediri" }, { "@type": "City", "name": "Lamongan" }, { "@type": "City", "name": "Lumajang" }, { "@type": "City", "name": "Madiun" }, { "@type": "City", "name": "Magetan" }, { "@type": "City", "name": "Malang" }, { "@type": "City", "name": "Mojokerto" }, { "@type": "City", "name": "Nganjuk" }, { "@type": "City", "name": "Ngawi" }, { "@type": "City", "name": "Pacitan" }, { "@type": "City", "name": "Pamekasan" }, { "@type": "City", "name": "Pasuruan" }, { "@type": "City", "name": "Ponorogo" }, { "@type": "City", "name": "Probolinggo" }, { "@type": "City", "name": "Sampang" }, { "@type": "City", "name": "Sidoarjo" }, { "@type": "City", "name": "Situbondo" }, { "@type": "City", "name": "Sumenep" }, { "@type": "City", "name": "Trenggalek" }, { "@type": "City", "name": "Tuban" }, { "@type": "City", "name": "Tulungagung" }, { "@type": "City", "name": "Bangkalan" }, { "@type": "City", "name": "Denpasar" }, { "@type": "City", "name": "Badung" }, { "@type": "City", "name": "Bangli" }, { "@type": "City", "name": "Buleleng" }, { "@type": "City", "name": "Gianyar" }, { "@type": "City", "name": "Jembrana" }, { "@type": "City", "name": "Karangasem" }, { "@type": "City", "name": "Klungkung" }, { "@type": "City", "name": "Tabanan" } ],
+    "areaServed": [ { "@type": "City", "name": "Jakarta Pusat" } ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Metode Pengerjaan Bore Pile",
@@ -60,44 +63,6 @@ const serviceSchema = {
               },
               "priceCurrency": "IDR",
               "price": "80000"
-            }
-          ]
-        },
-        {
-          "@type": "OfferCatalog",
-          "name": "Bore Pile Mesin Mini Crane",
-          "description": "Pengerjaan bore pile menggunakan mesin mini crane yang efisien untuk proyek menengah di seluruh Jawa &amp; Bali. Mesin ini mampu mencapai kedalaman dan diameter yang lebih besar dibandingkan metode manual.",
-          "url": "https://hadiwijayaborepile.co.id/services/mini-crane",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Bore Pile Mini Crane",
-                "description": "Layanan bore pile menggunakan mesin mini crane untuk proyek menengah dengan akses terbatas namun membutuhkan kecepatan dan diameter 30-60 cm.",
-                "serviceType": "Bore Pile Mesin Mini Crane"
-              },
-              "priceCurrency": "IDR",
-              "price": "140000"
-            }
-          ]
-        },
-        {
-          "@type": "OfferCatalog",
-          "name": "Bore Pile Hydraulic (Alat Berat)",
-          "description": "Layanan bore pile dengan alat berat hydraulic untuk proyek skala besar dan pondasi dengan diameter serta kedalaman signifikan di seluruh Jawa &amp; Bali. Menjamin kecepatan dan presisi tinggi.",
-          "url": "https://hadiwijayaborepile.co.id/services/hydraulic",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Bore Pile Hydraulic",
-                "description": "Pengerjaan bore pile menggunakan alat berat hydraulic untuk proyek besar dengan kebutuhan diameter 60-120 cm ke atas dan kedalaman ekstrim.",
-                "serviceType": "Bore Pile Hydraulic (Alat Berat)"
-              },
-              "priceCurrency": "IDR",
-              "price": "190000"
             }
           ]
         }
@@ -127,7 +92,7 @@ const breadcrumb = {
   <div class="services-hub-page">
     
     <PageHero 
-      title="Solusi Pondasi untuk Setiap Skala"
+      title="Jasa Bore Pile untuk Setiap Skala"
       subtitle="Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda."
     />
 
@@ -203,6 +168,18 @@ const breadcrumb = {
       </div>
     </section>
 
+    <!-- Related Products Section -->
+    <section class="related-products">
+        <div class="container">
+            <h2>Area Layanan Yang Kami Sediakan</h2>
+            <div class="product-grid">
+                {products.map((p) => (
+                    <ProductCard product={p} />
+                ))}
+            </div>
+        </div>
+    </section>
+
     <!-- Final CTA -->
     <section class="final-cta">
       <div class="container">
@@ -215,4 +192,22 @@ const breadcrumb = {
   </div>
 </Layout>
 
-<!-- styles are in src/styles/services-jasa-bore-pile.css -->
+<style>
+  .related-products {
+    padding: 4rem 0;
+  }
+  .related-products h2 {
+      font-size: 2.2rem;
+      text-align: center;
+      color: var(--secondary-color);
+      margin-bottom: 2.5rem;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+</style>

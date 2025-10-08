@@ -182,4 +182,23 @@ const breadcrumb = {
   .prose { font-size: 1.12rem; line-height: 1.8; }
   .prose img { border-radius: 8px; max-width: 100%; height: auto; margin: 2rem 0; }
   .prose h2, .prose h3 { margin-top: 3rem; margin-bottom: 1.5rem; }
+
+  @media (max-width: 768px) {
+    .page-body {
+      padding: 2.5rem 0;
+    }
+    .container {
+      padding: 0 1rem;
+    }
+    .featured-image {
+      border-radius: 0;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      width: calc(100% + 2rem);
+      max-width: calc(100% + 2rem);
+    }
+    .prose {
+      font-size: 1rem;
+    }
+  }
 </style>
