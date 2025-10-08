@@ -41,7 +41,7 @@
               </div>
             </div>
           </div>
-          <a href="/contact?subject=Info%20Bore%20Pile%20Manual" class="cta-card">Pilih Metode Manual</a>
+          <a href="/services/manual" target="_blank" class="cta-card">Pilih Metode Manual <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="external-link-icon"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
         </div>
 
         <!-- Kartu 2: Mini Crane -->
@@ -63,7 +63,7 @@
               </div>
             </div>
           </div>
-          <a href="/contact?subject=Info%20Bore%20Pile%20Mini%20Crane" class="cta-card cta-main">Solusi Paling Populer</a>
+          <a href="/services/mini-crane" target="_blank" class="cta-card cta-main">Solusi Paling Populer <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="external-link-icon"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
         </div>
 
         <!-- Kartu 3: Drilling Rig -->
@@ -85,14 +85,14 @@
               </div>
             </div>
           </div>
-          <a href="/contact?subject=Info%20Bore%20Pile%20Alat%20Berat" class="cta-card">Konsultasi Proyek Besar</a>
+          <a href="/services/hydraulic" target="_blank" class="cta-card">Konsultasi Proyek Besar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="external-link-icon"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
         </div>
       </div>
 
       <!-- Post-grid CTA -->
       <div class="post-grid-cta fade-in-on-scroll">
         <p>Bingung memilih metode bore pile yang tepat? <strong>Kami siap membantu.</strong></p>
-        <a href="/contact?subject=Konsultasi%20Metode%20Bore%20Pile" class="cta-button">Konsultasi Gratis Sekarang !!!</a>
+        <a href="/contact?subject=Konsultasi%20Metode%20Bore%20Pile" target="_blank" class="cta-button">Konsultasi Gratis Sekarang !!! <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="external-link-icon"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
     </div>
@@ -242,7 +242,10 @@
     border-radius: 6px;
   }
   .cta-card {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     width: 100%;
     padding: 0.8rem 1rem;
     border-radius: 8px;
@@ -286,7 +289,10 @@
   }
   .post-grid-cta .cta-button {
     flex-shrink: 0;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
     padding: 0.9rem 2.2rem;
     border-radius: 8px;
     text-decoration: none;
@@ -298,6 +304,12 @@
   }
   .post-grid-cta .cta-button:hover {
     transform: translateY(-3px);
+  }
+
+  .external-link-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
   }
 
   @media (max-width: 992px) {
