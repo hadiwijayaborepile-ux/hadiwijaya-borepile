@@ -30,36 +30,80 @@ const services = [
   }
 ];
 
-const WOOCOMMERCE_API_URL = import.meta.env.WOOCOMMERCE_API_URL;
-const WOOCOMMERCE_CONSUMER_KEY = import.meta.env.WOOCOMMERCE_CONSUMER_KEY;
-const WOOCOMMERCE_CONSUMER_SECRET = import.meta.env.WOOCOMMERCE_CONSUMER_SECRET;
-
-let wcProducts = [];
-if (WOOCOMMERCE_API_URL && WOOCOMMERCE_CONSUMER_KEY && WOOCOMMERCE_CONSUMER_SECRET) {
-  try {
-    try {
-      const proxyRes = await fetch('/api/woo.json?page=1&per_page=12');
-      if (proxyRes.ok) {
-        wcProducts = await proxyRes.json();
-      } else {
-        throw new Error('proxy_failed');
-      }
-    } catch (proxyErr) {
-      const base = WOOCOMMERCE_API_URL.replace(/\/+$/, '');
-      const endpoint = `${base}/products?per_page=12&consumer_key=${WOOCOMMERCE_CONSUMER_KEY}&consumer_secret=${WOOCOMMERCE_CONSUMER_SECRET}`;
-      const res = await fetch(endpoint);
-      if (res.ok) wcProducts = await res.json();
-      else console.error('WOO_ERROR: Failed to fetch products', res.status, await res.text());
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": "Service",
+    "@id": "https://hadiwijayaborepile.co.id/#service",
+    "name": "Hadiwijaya Bore Pile - Jasa Bore Pile Dan Strauss Pile",
+    "description": "Hadiwijaya Bore Pile adalah kontraktor penyedia layanan jasa bore pile dan strauss pile manual dengan biaya murah namun tetap mengutamakan kualitas pekerjaan.",
+    "url": "https://hadiwijayaborepile.co.id/",
+    "serviceType": "Bore Pile",
+    "areaServed": [ { "@type": "City", "name": "Jakarta Pusat" }, { "@type": "City", "name": "Jakarta Utara" }, { "@type": "City", "name": "Jakarta Barat" }, { "@type": "City", "name": "Jakarta Selatan" }, { "@type": "City", "name": "Jakarta Timur" }, { "@type": "City", "name": "Kepulauan Seribu" }, { "@type": "City", "name": "Bandung" }, { "@type": "City", "name": "Bekasi" }, { "@type": "City", "name": "Bogor" }, { "@type": "City", "name": "Cimahi" }, { "@type": "City", "name": "Cirebon" }, { "@type": "City", "name": "Depok" }, { "@type": "City", "name": "Sukabumi" }, { "@type": "City", "name": "Tasikmalaya" }, { "@type": "City", "name": "Banjar" }, { "@type": "City", "name": "Cianjur" }, { "@type": "City", "name": "Garut" }, { "@type": "City", "name": "Indramayu" }, { "@type": "City", "name": "Karawang" }, { "@type": "City", "name": "Kuningan" }, { "@type": "City", "name": "Majalengka" }, { "@type": "City", "name": "Pangandaran" }, { "@type": "City", "name": "Purwakarta" }, { "@type": "City", "name": "Subang" }, { "@type": "City", "name": "Sumedang" }, { "@type": "City", "name": "Bandung Barat" }, { "@type": "City", "name": "Bandung" }, { "@type": "City", "name": "Bekasi" }, { "@type": "City", "name": "Bogor" }, { "@type": "City", "name": "Ciamis" }, { "@type": "City", "name": "Cianjur" }, { "@type": "City", "name": "Cirebon" }, { "@type": "City", "name": "Garut" }, { "@type": "City", "name": "Indramayu" }, { "@type": "City", "name": "Karawang" }, { "@type": "City", "name": "Kuningan" }, { "@type": "City", "name": "Majalengka" }, { "@type": "City", "name": "Purwakarta" }, { "@type": "City", "name": "Subang" }, { "@type": "City", "name": "Sukabumi" }, { "@type": "City", "name": "Sumedang" }, { "@type": "City", "name": "Tasikmalaya" }, { "@type": "City", "name": "Pangandaran" }, { "@type": "City", "name": "Cilegon" }, { "@type": "City", "name": "Serang" }, { "@type": "City", "name": "Tangerang" }, { "@type": "City", "name": "Tangerang Selatan" }, { "@type": "City", "name": "Lebak" }, { "@type": "City", "name": "Pandeglang" }, { "@type": "City", "name": "Serang" }, { "@type": "City", "name": "Tangerang" }, { "@type": "City", "name": "Semarang" }, { "@type": "City", "name": "Surakarta" }, { "@type": "City", "name": "Magelang" }, { "@type": "City", "name": "Pekalongan" }, { "@type": "City", "name": "Salatiga" }, { "@type": "City", "name": "Tegal" }, { "@type": "City", "name": "Cilacap" }, { "@type": "City", "name": "Pekalongan" }, { "@type": "City", "name": "Tegal" }, { "@type": "City", "name": "Brebes" }, { "@type": "City", "name": "Demak" }, { "@type": "City", "name": "Grobogan" }, { "@type": "City", "name": "Jepara" }, { "@type": "City", "name": "Kendal" }, { "@type": "City", "name": "Klaten" }, { "@type": "City", "name": "Kudus" }, { "@type": "City", "name": "Magelang" }, { "@type": "City", "name": "Pati" }, { "@type": "City", "name": "Rembang" }, { "@type": "City", "name": "Semarang" }, { "@type": "City", "name": "Sragen" }, { "@type": "City", "name": "Sukoharjo" }, { "@type": "City", "name": "Temanggung" }, { "@type": "City", "name": "Wonogiri" }, { "@type": "City", "name": "Wonosobo" }, { "@type": "City", "name": "Banjarnegara" }, { "@type": "City", "name": "Banyumas" }, { "@type": "City", "name": "Batang" }, { "@type": "City", "name": "Blora" }, { "@type": "City", "name": "Boyolali" }, { "@type": "City", "name": "Karanganyar" }, { "@type": "City", "name": "Kebumen" }, { "@type": "City", "name": "Purbalingga" }, { "@type": "City", "name": "Purworejo" }, { "@type": "City", "name": "Pemalang" }, { "@type": "City", "name": "Rembang" }, { "@type": "City", "name": "Wonogiri" }, { "@type": "City", "name": "Yogyakarta" }, { "@type": "City", "name": "Bantul" }, { "@type": "City", "name": "Gunung Kidul" }, { "@type": "City", "name": "Kulon Progo" }, { "@type": "City", "name": "Sleman" }, { "@type": "City", "name": "Surabaya" }, { "@type": "City", "name": "Malang" }, { "@type": "City", "name": "Kediri" }, { "@type": "City", "name": "Madiun" }, { "@type": "City", "name": "Mojokerto" }, { "@type": "City", "name": "Pasuruan" }, { "@type": "City", "name": "Probolinggo" }, { "@type": "City", "name": "Batu" }, { "@type": "City", "name": "Blitar" }, { "@type": "City", "name": "Banyuwangi" }, { "@type": "City", "name": "Blitar" }, { "@type": "City", "name": "Bojonegoro" }, { "@type": "City", "name": "Bondowoso" }, { "@type": "City", "name": "Gresik" }, { "@type": "City", "name": "Jember" }, { "@type": "City", "name": "Jombang" }, { "@type": "City", "name": "Kediri" }, { "@type": "City", "name": "Lamongan" }, { "@type": "City", "name": "Lumajang" }, { "@type": "City", "name": "Madiun" }, { "@type": "City", "name": "Magetan" }, { "@type": "City", "name": "Malang" }, { "@type": "City", "name": "Mojokerto" }, { "@type": "City", "name": "Nganjuk" }, { "@type": "City", "name": "Ngawi" }, { "@type": "City", "name": "Pacitan" }, { "@type": "City", "name": "Pamekasan" }, { "@type": "City", "name": "Pasuruan" }, { "@type": "City", "name": "Ponorogo" }, { "@type": "City", "name": "Probolinggo" }, { "@type": "City", "name": "Sampang" }, { "@type": "City", "name": "Sidoarjo" }, { "@type": "City", "name": "Situbondo" }, { "@type": "City", "name": "Sumenep" }, { "@type": "City", "name": "Trenggalek" }, { "@type": "City", "name": "Tuban" }, { "@type": "City", "name": "Tulungagung" }, { "@type": "City", "name": "Bangkalan" }, { "@type": "City", "name": "Denpasar" }, { "@type": "City", "name": "Badung" }, { "@type": "City", "name": "Bangli" }, { "@type": "City", "name": "Buleleng" }, { "@type": "City", "name": "Gianyar" }, { "@type": "City", "name": "Jembrana" }, { "@type": "City", "name": "Karangasem" }, { "@type": "City", "name": "Klungkung" }, { "@type": "City", "name": "Tabanan" } ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Metode Pengerjaan Bore Pile",
+      "itemListElement": [
+        {
+          "@type": "OfferCatalog",
+          "name": "Bore Pile Manual",
+          "description": "Layanan bore pile manual cocok untuk lokasi dengan akses terbatas atau proyek skala kecil di seluruh Jawa &amp; Bali. Metode ini mengandalkan tenaga ahli untuk penggalian lubang pondasi secara presisi.",
+          "url": "https://hadiwijayaborepile.co.id/services/manual",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Bore Pile Manual",
+                "description": "Pengerjaan bore pile manual untuk diameter kecil (20-40 cm) dengan kedalaman terbatas, ideal untuk rumah tinggal dan renovasi.",
+                "serviceType": "Bore Pile Manual"
+              },
+              "priceCurrency": "IDR",
+              "price": "80000"
+            }
+          ]
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Bore Pile Mesin Mini Crane",
+          "description": "Pengerjaan bore pile menggunakan mesin mini crane yang efisien untuk proyek menengah di seluruh Jawa &amp; Bali. Mesin ini mampu mencapai kedalaman dan diameter yang lebih besar dibandingkan metode manual.",
+          "url": "https://hadiwijayaborepile.co.id/services/mini-crane",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Bore Pile Mini Crane",
+                "description": "Layanan bore pile menggunakan mesin mini crane untuk proyek menengah dengan akses terbatas namun membutuhkan kecepatan dan diameter 30-60 cm.",
+                "serviceType": "Bore Pile Mesin Mini Crane"
+              },
+              "priceCurrency": "IDR",
+              "price": "140000"
+            }
+          ]
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Bore Pile Hydraulic (Alat Berat)",
+          "description": "Layanan bore pile dengan alat berat hydraulic untuk proyek skala besar dan pondasi dengan diameter serta kedalaman signifikan di seluruh Jawa &amp; Bali. Menjamin kecepatan dan presisi tinggi.",
+          "url": "https://hadiwijayaborepile.co.id/services/hydraulic",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Bore Pile Hydraulic",
+                "description": "Pengerjaan bore pile menggunakan alat berat hydraulic untuk proyek besar dengan kebutuhan diameter 60-120 cm ke atas dan kedalaman ekstrim.",
+                "serviceType": "Bore Pile Hydraulic (Alat Berat)"
+              },
+              "priceCurrency": "IDR",
+              "price": "190000"
+            }
+          ]
+        }
+      ]
     }
-  } catch (err) {
-    console.error('WOO_ERROR: Exception fetching products', err);
   }
-}
-
-const formatPrice = (val: any) => {
-  const n = Number(val);
-  if (!isFinite(n)) return 'Harga belum tersedia';
-  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
 }
 
 const breadcrumb = {
@@ -79,36 +123,26 @@ const breadcrumb = {
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <div class="services-hub-page" itemscope itemtype="https://schema.org/Service">
-    <meta itemprop="serviceType" content="Jasa Bore Pile" />
-    <div itemprop="provider" itemscope itemtype="https://schema.org/ProfessionalService">
-        <meta itemprop="name" content="Hadiwijaya Bore Pile" />
-    </div>
-    <div itemprop="areaServed" itemscope itemtype="https://schema.org/Country">
-        <meta itemprop="name" content="Indonesia" />
-    </div>
-    <meta itemprop="description" content="Layanan jasa bore pile profesional dengan metode manual, mini crane, dan hydraulic untuk berbagai skala proyek di seluruh Indonesia." />
-    <meta itemprop="name" content="Jasa Bore Pile" />
+    <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+  <div class="services-hub-page">
     
     <PageHero 
       title="Solusi Pondasi untuk Setiap Skala"
       subtitle="Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda."
     />
 
-    <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" class="container" style="padding: 1.5rem 1rem;">
+    <nav class="container" style="padding: 1.5rem 1rem;">
         <ol style="list-style: none; display: flex; padding: 0;">
-          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
-            <a itemprop="item" href={breadcrumb.itemListElement[0].item}>
-              <span itemprop="name">{breadcrumb.itemListElement[0].name}</span>
+          <li style="display: flex; align-items: center;">
+            <a href={breadcrumb.itemListElement[0].item}>
+              <span>{breadcrumb.itemListElement[0].name}</span>
             </a>
-            <meta itemprop="position" content="1" />
             <span style="margin: 0 0.5rem;">/</span>
           </li>
-          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
-            <a itemprop="item" href={breadcrumb.itemListElement[1].item}>
-              <span itemprop="name">{breadcrumb.itemListElement[1].name}</span>
+          <li style="display: flex; align-items: center;">
+            <a href={breadcrumb.itemListElement[1].item}>
+              <span>{breadcrumb.itemListElement[1].name}</span>
             </a>
-            <meta itemprop="position" content="2" />
           </li>
         </ol>
     </nav>
@@ -127,7 +161,7 @@ const breadcrumb = {
     <!-- Comparison Section -->
     <section class="comparison">
       <div class="container">
-        <h2 itemprop="name">Metode Mana yang Tepat untuk Anda?</h2>
+        <h2>Metode Mana yang Tepat untuk Anda?</h2>
         <div class="comparison-table-wrapper">
           <table class="comparison-table">
             <thead>
@@ -166,25 +200,6 @@ const breadcrumb = {
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
-
-    <!-- E-commerce Features -->
-    <section class="ecom-features">
-      <div class="container">
-        <h2>Fitur Ecommerce — Produk Terkait</h2>
-        <p class="lead">Berikut produk dan layanan yang tersedia melalui toko online kami. Data diambil dari WooCommerce.</p>
-
-        {wcProducts.length === 0 ? (
-          <p class="muted">Tidak ada produk yang tersedia atau koneksi ke API belum diatur.</p>
-        ) : (
-          <div class="products-grid">
-            {wcProducts.map((p: any) => (
-              <ProductCard product={p} />
-            ))}
-          </div>
-        )}
-
       </div>
     </section>
 
