@@ -17,6 +17,73 @@ const keywords = [
   "sejarah perusahaan pondasi",
   "keselamatan kerja proyek pondasi"
 ];
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": ["HomeAndConstructionBusiness", "Organization"],
+    "@id": "https://hadiwijayaborepile.co.id/#organization",
+    "name": "Hadiwijaya Bore Pile",
+    "url": "https://hadiwijayaborepile.co.id",
+    "sameAs": [
+      "https://www.facebook.com/hadiwijayaborepilejasaborepilejawatengahjogjakarta/",
+      "https://www.instagram.com/hadiwijaya_bore_pile/",
+      "https://www.pinterest.com/hadiwijayaborepile/",
+      "maps.app.goo.gl/MNy1REVADT8A2wzB6"
+    ],
+    "email": "info@hadiningratcorp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Manggihan RT 02 RW 03, Sambung",
+      "addressLocality": "Godong",
+      "addressRegion": "Grobogan",
+      "postalCode": "58162",
+      "addressCountry": "id"
+    },
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://hadiwijayaborepile.co.id/#logo",
+      "url": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "contentUrl": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "caption": "Hadiwijaya Bore Pile",
+      "inLanguage": "id",
+      "width": "192",
+      "height": "108"
+    },
+    "priceRange": "$",
+    "openingHours": ["Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Monday 24 hours"],
+    "description": "Hadiwijaya Bore Pile adalah partner konstruksi Jasa Bore Pile dan Jasa Strauss Pile untuk wilayah Pulau Jawa - Bali",
+    "legalName": "Hadiwijaya Bore Pile",
+    "location": {
+      "@id": "https://hadiwijayaborepile.co.id/#place"
+    },
+    "image": {
+      "@id": "https://hadiwijayaborepile.co.id/#logo"
+    },
+    "telephone": "+6281233624549"
+  }
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": "WebSite",
+    "@id": "https://hadiwijayaborepile.co.id/#website",
+    "url": "https://hadiwijayaborepile.co.id",
+    "name": "Hadiwijaya Bore Pile",
+    "alternateName": "Hadiwijaya Bore Pile",
+    "publisher": {
+      "@id": "https://hadiwijayaborepile.co.id/#organization"
+    },
+    "inLanguage": "id",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://hadiwijayaborepile.co.id/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+};
+
 const breadcrumb = {
     "@type": "BreadcrumbList",
     "itemListElement": [{
@@ -34,48 +101,43 @@ const breadcrumb = {
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     
     <PageHero 
         title="Tentang Hadiwijaya Bore Pile"
         subtitle="Membangun Masa Depan di Atas Fondasi Paling Kokoh"
     />
     
-    <div class="page-content" itemscope itemtype="https://schema.org/AboutPage">
-        <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Corporation">
-            <meta itemprop="name" content="Hadiwijaya Bore Pile" />
-            <link itemprop="url" href="https://hadiwijayaborepile.com/" />
-            <meta itemprop="logo" content="https://hadiwijayaborepile.com/assets/img/hbp-logo.png" />
-            <meta itemprop="description" content="Hadiwijaya Bore Pile adalah kontraktor spesialis jasa bore pile di Indonesia. Kami menawarkan solusi pondasi bore pile manual, mini crane, hingga hydraulic dengan harga kompetitif." />
-            
-            <!-- Founder Section with Microdata -->
-            <section class="founder-section" itemprop="founder" itemscope itemtype="https://schema.org/Person">
+    <div class="page-content">
+        <div>
+            <!-- Founder Section -->
+            <section class="founder-section">
                 <div class="container">
                     <div class="founder-box">
-                        <h2 itemprop="name">Achmad Fikri Ibnu Hadi</h2>
-                        <p class="founder-role" itemprop="jobTitle">Ahli Rekayasa Pondasi & Pendiri PT. Jowo Land Construction</p>
+                        <h2>Achmad Fikri Ibnu Hadi</h2>
+                        <p class="founder-role">Ahli Rekayasa Pondasi & Pendiri PT. Jowo Land Construction</p>
                         <div class="founder-quote-text">
-                            <p itemprop="description">Saya akrab disapa Mas Hadi, mengawali bekerja di sektor konstruksi sejak masih SMP. Pada tahun 2012 saya menginisiasi pendirian PT. Jowo Land Construction. Berbekal pengalaman dan latar belakang ilmu geoteknik rekayasa pondasi, saya bangga menjadi bagian dari pembangunan di Indonesia.</p>
+                            <p>Saya akrab disapa Mas Hadi, mengawali bekerja di sektor konstruksi sejak masih SMP. Pada tahun 2012 saya menginisiasi pendirian PT. Jowo Land Construction. Berbekal pengalaman dan latar belakang ilmu geoteknik rekayasa pondasi, saya bangga menjadi bagian dari pembangunan di Indonesia.</p>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
         
-        <!-- Breadcrumb using Microdata -->
-        <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" class="container" style="padding: 1.5rem 1rem 0;">
+        <!-- Breadcrumb -->
+        <nav class="container" style="padding: 1.5rem 1rem 0;">
             <ol style="list-style: none; display: flex; padding: 0;">
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
-                <a itemprop="item" href={breadcrumb.itemListElement[0].item}>
-                  <span itemprop="name">{breadcrumb.itemListElement[0].name}</span>
+              <li style="display: flex; align-items: center;">
+                <a href={breadcrumb.itemListElement[0].item}>
+                  <span>{breadcrumb.itemListElement[0].name}</span>
                 </a>
-                <meta itemprop="position" content="1" />
                 <span style="margin: 0 0.5rem;">/</span>
               </li>
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: flex; align-items: center;">
-                <a itemprop="item" href={breadcrumb.itemListElement[1].item}>
-                  <span itemprop="name">{breadcrumb.itemListElement[1].name}</span>
+              <li style="display: flex; align-items: center;">
+                <a href={breadcrumb.itemListElement[1].item}>
+                  <span>{breadcrumb.itemListElement[1].name}</span>
                 </a>
-                <meta itemprop="position" content="2" />
               </li>
             </ol>
           </nav>
@@ -87,9 +149,9 @@ const breadcrumb = {
                     <img src="/assets/img/hbp-logo.png" alt="Logo Hadiwijaya Bore Pile" class="story-logo" loading="lazy">
                 </div>
                 <div class="story-content">
-                    <h2 itemprop="headline">Cerita Kami: Dari Visi Menjadi Aksi</h2>
-                    <p itemprop="text">Hadiwijaya Bore Pile lahir dari sebuah visi sederhana: menjadi mitra konstruksi yang paling terpercaya di Indonesia dalam penyediaan pondasi bore pile. Berawal dari beberapa proyek skala kecil, kami tumbuh melalui dedikasi, kerja keras, dan komitmen yang tak pernah goyah untuk memberikan kualitas terbaik.</p>
-                    <p itemprop="text">Kami percaya bahwa setiap bangunan megah berdiri di atas fondasi yang kokoh. Fondasi bukan hanya tentang beton dan baja, tetapi tentang kepercayaan, ketepatan, dan janji untuk masa depan yang aman. Inilah yang mendorong kami setiap hari.</p>
+                    <h2>Cerita Kami: Dari Visi Menjadi Aksi</h2>
+                    <p>Hadiwijaya Bore Pile lahir dari sebuah visi sederhana: menjadi mitra konstruksi yang paling terpercaya di Indonesia dalam penyediaan pondasi bore pile. Berawal dari beberapa proyek skala kecil, kami tumbuh melalui dedikasi, kerja keras, dan komitmen yang tak pernah goyah untuk memberikan kualitas terbaik.</p>
+                    <p>Kami percaya bahwa setiap bangunan megah berdiri di atas fondasi yang kokoh. Fondasi bukan hanya tentang beton dan baja, tetapi tentang kepercayaan, ketepatan, dan janji untuk masa depan yang aman. Inilah yang mendorong kami setiap hari.</p>
                 </div>
             </div>
         </section>

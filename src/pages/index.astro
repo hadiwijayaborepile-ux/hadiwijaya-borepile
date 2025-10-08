@@ -37,43 +37,87 @@ const keywords = [
   "jasa bore pile Yogyakarta",
   "jasa bore pile Solo"
 ];
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": ["HomeAndConstructionBusiness", "Organization"],
+    "@id": "https://hadiwijayaborepile.co.id/#organization",
+    "name": "Hadiwijaya Bore Pile",
+    "url": "https://hadiwijayaborepile.co.id",
+    "sameAs": [
+      "https://www.facebook.com/hadiwijayaborepilejasaborepilejawatengahjogjakarta/",
+      "https://www.instagram.com/hadiwijaya_bore_pile/",
+      "https://www.pinterest.com/hadiwijayaborepile/",
+      "maps.app.goo.gl/MNy1REVADT8A2wzB6"
+    ],
+    "email": "info@hadiningratcorp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Manggihan RT 02 RW 03, Sambung",
+      "addressLocality": "Godong",
+      "addressRegion": "Grobogan",
+      "postalCode": "58162",
+      "addressCountry": "id"
+    },
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://hadiwijayaborepile.co.id/#logo",
+      "url": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "contentUrl": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "caption": "Hadiwijaya Bore Pile",
+      "inLanguage": "id",
+      "width": "192",
+      "height": "108"
+    },
+    "priceRange": "$",
+    "openingHours": ["Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Monday 24 hours"],
+    "description": "Hadiwijaya Bore Pile adalah partner konstruksi Jasa Bore Pile dan Jasa Strauss Pile untuk wilayah Pulau Jawa - Bali",
+    "legalName": "Hadiwijaya Bore Pile",
+    "location": {
+      "@id": "https://hadiwijayaborepile.co.id/#place"
+    },
+    "image": {
+      "@id": "https://hadiwijayaborepile.co.id/#logo"
+    },
+    "telephone": "+6281233624549"
+  }
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": "WebSite",
+    "@id": "https://hadiwijayaborepile.co.id/#website",
+    "url": "https://hadiwijayaborepile.co.id",
+    "name": "Hadiwijaya Bore Pile",
+    "alternateName": "Hadiwijaya Bore Pile",
+    "publisher": {
+      "@id": "https://hadiwijayaborepile.co.id/#organization"
+    },
+    "inLanguage": "id",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://hadiwijayaborepile.co.id/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+};
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <div itemscope itemtype="https://schema.org/ProfessionalService">
-    <meta itemprop="name" content="Hadiwijaya Bore Pile" />
-    <meta itemprop="image" content="https://hadiwijayaborepile.com/src/assets/img/hbp-logo.png" />
-    <meta itemprop="url" content="https://hadiwijayaborepile.com/" />
-    <meta itemprop="telephone" content="+628122532442" />
-    <meta itemprop="priceRange" content="Rp 500,000 - Rp 10,000,000" />
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-      <meta itemprop="streetAddress" content="Jl. Kyai Mukmin No.6" />
-      <meta itemprop="addressLocality" content="Semarang" />
-      <meta itemprop="postalCode" content="50249" />
-      <meta itemprop="addressCountry" content="ID" />
-    </div>
-    <div itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">
-      <meta itemprop="latitude" content="-7.0175" />
-      <meta itemprop="longitude" content="110.4198" />
-    </div>
-    <div itemprop="openingHoursSpecification" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
-      <meta itemprop="dayOfWeek" content="['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']" />
-      <meta itemprop="opens" content="00:00" />
-      <meta itemprop="closes" content="23:59" />
-    </div>
-    <link itemprop="sameAs" href="https://www.facebook.com/hadiwijayaborepile" />
-    <link itemprop="sameAs" href="https://www.instagram.com/hadiwijayaborepile" />
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
-    <Hero slot="hero" />
-    <VisualFeature />
-    <Projects />
-    <Process />
-    <Planning />
-    <PriceTable />
-    <WhyUs />
-    <Faq />
-    <GetInTouch />
-  </div>
+  <Hero slot="hero" />
+  <VisualFeature />
+  <Projects />
+  <Process />
+  <Planning />
+  <PriceTable />
+  <WhyUs />
+  <Faq />
+  <GetInTouch />
 </Layout>
 
 <style>
