@@ -11,7 +11,7 @@ if (!apiUrl) {
   console.error(error);
 } else {
   try {
-    const response = await fetch(`${apiUrl}/api/v2/pricing-tables`);
+    const response = await fetch(`${apiUrl}/api/v2/pricing-tables`, { cache: 'no-store' });
     if (response.ok) {
       pricingData = await response.json();
       console.log("Data tabel harga berhasil dimuat.");

@@ -21,7 +21,7 @@ export async function getStaticPaths() {
   while (true) {
     const url = `${POSTS_BASE}?per_page=${perPage}&page=${page}`;
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) {
         if (page === 1) console.error(`Failed to fetch initial post list from ${url}. Status: ${res.status}`);
         break;
@@ -49,8 +49,8 @@ try {
     const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
     const listUrl = `${POSTS_BASE}?per_page=20&_embed`;
 
-    const singleRes = await fetch(singleUrl);
-    const listRes = await fetch(listUrl);
+    const singleRes = await fetch(singleUrl, { cache: 'no-store' });
+    const listRes = await fetch(listUrl, { cache: 'no-store' });
 
     if (!singleRes.ok) throw new Error(`Single post fetch failed with status ${singleRes.status}`);
     

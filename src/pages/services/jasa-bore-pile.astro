@@ -4,7 +4,9 @@ import ServiceCard from '../../components/ServiceCard.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import PageHero from '../../components/PageHero.astro';
 import '../../styles/services-jasa-bore-pile.css';
-import productsData from '../../data/products.json';
+import { fetchProductsPage } from '../../lib/woocommerce';
+
+const products = await fetchProductsPage();
 
 const title = "Layanan Jasa Bore Pile: Manual, Mini Crane & Hydraulic | Hadiwijaya";
 const description = "Hadiwijaya Bore Pile menyediakan layanan jasa bore pile lengkap: manual untuk akses terbatas, mini crane untuk efisiensi, dan hydraulic untuk proyek besar. Temukan metode pondasi yang tepat untuk Anda.";
@@ -30,8 +32,6 @@ const services = [
     imgSrc: '/assets/img/gallery/4.png'
   }
 ];
-
-const products = Object.values(productsData);
 
 const serviceSchema = {
   "@context": "https://schema.org",

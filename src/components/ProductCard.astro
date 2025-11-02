@@ -10,7 +10,7 @@ const formatPrice = (val: any) => {
 
 // Safely get the image URL
 const imageUrl = (product.images && product.images.length > 0) 
-  ? product.images[0] 
+  ? product.images[0].src 
   : '/assets/img/default-product.png'; // Fallback image
 
 // Sanitize description: remove HTML and limit length

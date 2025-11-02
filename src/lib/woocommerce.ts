@@ -56,7 +56,7 @@ function buildBase(envArg?: EnvLike) {
 }
 
 async function fetchJson(url: string) {
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
     const txt = await res.text().catch(() => '');
     const err: any = new Error('WooCommerce fetch failed: ' + res.status);
