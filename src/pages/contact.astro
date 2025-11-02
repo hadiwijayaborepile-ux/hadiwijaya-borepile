@@ -5,9 +5,78 @@ import PageHero from '../components/PageHero.astro';
 const title = "Kontak & Penawaran Jasa Bore Pile | Hadiwijaya Bore Pile";
 const description = "Hubungi Hadiwijaya Bore Pile untuk konsultasi dan penawaran harga jasa bore pile. Dapatkan estimasi biaya untuk proyek Anda melalui telepon, WhatsApp, atau email. Kami siap melayani.";
 const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "alamat perusahaan bore pile", "nomor telepon kontraktor pondasi", "konsultasi proyek bore pile", "jasa bore pile grobogan", "kontak hadiwijaya"];
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": ["HomeAndConstructionBusiness", "Organization"],
+    "@id": "https://hadiwijayaborepile.co.id/#organization",
+    "name": "Hadiwijaya Bore Pile",
+    "url": "https://hadiwijayaborepile.co.id",
+    "sameAs": [
+      "https://www.facebook.com/hadiwijayaborepilejasaborepilejawatengahjogjakarta/",
+      "https://www.instagram.com/hadiwijaya_bore_pile/",
+      "https://www.pinterest.com/hadiwijayaborepile/",
+      "maps.app.goo.gl/MNy1REVADT8A2wzB6"
+    ],
+    "email": "info@hadiningratcorp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Manggihan, RT.02/RW.03, Sambung, Kec. Godong",
+      "addressLocality": "Grobogan",
+      "addressRegion": "Jawa Tengah",
+      "postalCode": "58162",
+      "addressCountry": "ID"
+    },
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://hadiwijayaborepile.co.id/#logo",
+      "url": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "contentUrl": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "caption": "Hadiwijaya Bore Pile",
+      "inLanguage": "id",
+      "width": "192",
+      "height": "108"
+    },
+    "priceRange": "$",
+    "openingHours": ["Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Monday 24 hours"],
+    "description": "Hadiwijaya Bore Pile adalah partner konstruksi Jasa Bore Pile dan Jasa Strauss Pile untuk wilayah Pulau Jawa - Bali",
+    "legalName": "Hadiwijaya Bore Pile",
+    "location": {
+      "@id": "https://hadiwijayaborepile.co.id/#place"
+    },
+    "image": {
+      "@id": "https://hadiwijayaborepile.co.id/#logo"
+    },
+    "telephone": "+6281233624549"
+  }
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": "WebSite",
+    "@id": "https://hadiwijayaborepile.co.id/#website",
+    "url": "https://hadiwijayaborepile.co.id",
+    "name": "Hadiwijaya Bore Pile",
+    "alternateName": "Hadiwijaya Bore Pile",
+    "publisher": {
+      "@id": "https://hadiwijayaborepile.co.id/#organization"
+    },
+    "inLanguage": "id",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://hadiwijayaborepile.co.id/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+};
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
   <PageHero 
     title="Hubungi Kami"
     subtitle="Kami siap mendengar dari Anda. Baik untuk pertanyaan, penawaran, maupun konsultasi proyek."
@@ -49,7 +118,7 @@ const keywords = ["kontak kontraktor bore pile", "penawaran harga bore pile", "a
         <ul class="contact-details">
           <li>
             <i class="fas fa-map-marker-alt"></i>
-            <span>Jalan Cempaka No. 34, Manggihan, RT.02/RW.03, Sambung, Kec. Godong, Kabupaten Grobogan, Jawa Tengah 58162, Indonesia</span>
+            <span>Manggihan, RT.02/RW.03, Sambung, Kec. Godong, Kabupaten Grobogan, Jawa Tengah 58162, Indonesia</span>
           </li>
           <li>
             <i class="fas fa-phone"></i>

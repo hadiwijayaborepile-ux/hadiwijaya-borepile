@@ -37,98 +37,78 @@ const keywords = [
   "jasa bore pile Yogyakarta",
   "jasa bore pile Solo"
 ];
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": ["HomeAndConstructionBusiness", "Organization"],
+    "@id": "https://hadiwijayaborepile.co.id/#organization",
+    "name": "Hadiwijaya Bore Pile",
+    "url": "https://hadiwijayaborepile.co.id",
+    "sameAs": [
+      "https://www.facebook.com/hadiwijayaborepilejasaborepilejawatengahjogjakarta/",
+      "https://www.instagram.com/hadiwijaya_bore_pile/",
+      "https://www.pinterest.com/hadiwijayaborepile/",
+      "maps.app.goo.gl/MNy1REVADT8A2wzB6"
+    ],
+    "email": "info@hadiningratcorp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Manggihan RT 02 RW 03, Sambung",
+      "addressLocality": "Godong",
+      "addressRegion": "Grobogan",
+      "postalCode": "58162",
+      "addressCountry": "id"
+    },
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://hadiwijayaborepile.co.id/#logo",
+      "url": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "contentUrl": "https://hadiwijayaborepile.co.id/src/assets/img/hbp-logo.png",
+      "caption": "Hadiwijaya Bore Pile",
+      "inLanguage": "id",
+      "width": "192",
+      "height": "108"
+    },
+    "priceRange": "$",
+    "openingHours": ["Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Monday 24 hours"],
+    "description": "Hadiwijaya Bore Pile adalah partner konstruksi Jasa Bore Pile dan Jasa Strauss Pile untuk wilayah Pulau Jawa - Bali",
+    "legalName": "Hadiwijaya Bore Pile",
+    "location": {
+      "@id": "https://hadiwijayaborepile.co.id/#place"
+    },
+    "image": {
+      "@id": "https://hadiwijayaborepile.co.id/#logo"
+    },
+    "telephone": "+6281233624549"
+  }
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": "WebSite",
+    "@id": "https://hadiwijayaborepile.co.id/#website",
+    "url": "https://hadiwijayaborepile.co.id",
+    "name": "Hadiwijaya Bore Pile",
+    "alternateName": "Hadiwijaya Bore Pile",
+    "publisher": {
+      "@id": "https://hadiwijayaborepile.co.id/#organization"
+    },
+    "inLanguage": "id",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://hadiwijayaborepile.co.id/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+};
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <script
-    type="application/ld+json"
-    slot="head"
-    set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "HomeAndConstructionBusiness",
-      "name": "Hadiwijaya Bore Pile",
-      "image": "/assets/img/hbp-logo.png",
-      "@id": "https://hadiwijaya-borepile.com", // Ganti dengan URL website Anda yang sebenarnya
-      "url": "https://hadiwijaya-borepile.com", // Ganti dengan URL website Anda yang sebenarnya
-      "telephone": "+6281234567890", // Ganti dengan nomor telepon Anda
-      "priceRange": "Rp50,000 - Rp1,000,000", // Estimasi rentang harga
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Jalan Placeholder No. 123",
-        "addressLocality": "Kota Placeholder",
-        "addressRegion": "Provinsi Placeholder",
-        "postalCode": "12345",
-        "addressCountry": "ID",
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -7.7956, // Placeholder (koordinat Yogyakarta)
-        "longitude": 110.3695,
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        "opens": "08:00",
-        "closes": "17:00",
-      },
-      "sameAs": [
-        // "https://www.facebook.com/your-business",
-        // "https://www.instagram.com/your-business"
-      ],
-      "potentialAction": {
-        "@type": "ReserveAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://hadiwijaya-borepile.com/contact", // Ganti dengan URL kontak Anda
-          "inLanguage": "id-ID",
-          "actionPlatform": [
-            "http://schema.org/DesktopWebPlatform",
-            "http://schema.org/IOSPlatform",
-            "http://schema.org/AndroidPlatform",
-          ],
-        },
-        "result": {
-          "@type": "Reservation",
-          "name": "Konsultasi Proyek Bore Pile",
-        },
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Layanan Bore Pile",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Jasa Bore Pile Strauss/Manual",
-            },
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Jasa Bore Pile Mini Crane",
-            },
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Jasa Bore Pile Hydraulic",
-            },
-          },
-        ],
-      },
-    })}
-  />
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
   <Hero slot="hero" />
   <VisualFeature />
   <Projects />

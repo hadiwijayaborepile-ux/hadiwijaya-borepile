@@ -35,9 +35,44 @@ try {
 
 const title = "Portofolio Proyek | Hadiwijaya Bore Pile";
 const description = "Jelajahi galeri proyek bore pile dan strauss pile yang telah kami kerjakan. Lihat kualitas dan skala pekerjaan kami di berbagai lokasi.";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://hadiwijayaborepile.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Portfolio"
+        }
+      ]
+    },
+    {
+      "@type": "ImageGallery",
+      "name": "Portofolio Proyek Hadiwijaya Bore Pile",
+      "description": "Galeri proyek bore pile dan strauss pile yang telah kami kerjakan.",
+      "image": projects.map(p => ({
+        "@type": "ImageObject",
+        "contentUrl": p.image,
+        "name": p.title,
+        "description": p.description
+      }))
+    }
+  ]
+};
 ---
 
 <Layout title={title} description={description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(schema)} />
+
   <PageHero 
     title="Portofolio Proyek"
     subtitle="Keahlian kami tercermin dalam setiap proyek yang kami selesaikan. Berikut adalah sebagian dari pekerjaan pondasi bore pile dan strauss pile yang telah kami tangani di berbagai lokasi."

@@ -1,14 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Use the WordPress REST endpoint from .env (variable name kept for backwards compatibility)
 const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
 
 let allBlogs = [];
 if (!POSTS_BASE) {
-  console.error('BLOG_ERROR: WORDPRESS REST endpoint not set (WORDPRESS_GRAPHQL_ENDPOINT).');
+  console.error('---------------------------------------------------');
+  console.error('FATAL: Blog posts could not be fetched for /blog page.');
+  console.error('REASON: The WORDPRESS_REST_ENDPOINT environment variable is not set.');
+  console.error('ACTION: Please set this variable in your deployment environment.');
+  console.error('Example: https://your-wordpress-site.com/wp-json/wp/v2/posts');
+  console.error('---------------------------------------------------');
+  allBlogs = [];
 } else {
-  // Paginate through WordPress REST API using page & per_page
   const perPage = 20;
   let page = 1;
   while (true) {
@@ -16,26 +20,19 @@ if (!POSTS_BASE) {
     try {
       const res = await fetch(url);
       if (!res.ok) {
-        // no more pages or error
+        if (page === 1) console.error(`Failed to fetch initial posts from ${url}. Status: ${res.status}`);
         break;
       }
       const posts = await res.json();
       if (!Array.isArray(posts) || posts.length === 0) break;
 
-      // Map to a friendly shape used by templates
       const mapped = posts.map(p => {
-        const headline_img = p._embedded && p._embedded['wp:featuredmedia'] && p._embedded['wp:featuredmedia'][0] && p._embedded['wp:featuredmedia'][0].source_url
-          ? p._embedded['wp:featuredmedia'][0].source_url
-          : null;
-        
+        const headline_img = p._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
         let imageFromContent = null;
         if (!headline_img) {
           const match = p.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
-          if (match) {
-            imageFromContent = match[1];
-          }
+          if (match) imageFromContent = match[1];
         }
-
         return {
           slug: p.slug,
           title: p.title?.rendered || '',
@@ -45,10 +42,10 @@ if (!POSTS_BASE) {
         };
       });
       allBlogs.push(...mapped);
-      if (posts.length < perPage) break; // last page
+      if (posts.length < perPage) break;
       page += 1;
     } catch (err) {
-      console.error('Error fetching posts from WordPress REST:', err);
+      console.error(`Error fetching posts from URL: ${url}`, err);
       break;
     }
   }

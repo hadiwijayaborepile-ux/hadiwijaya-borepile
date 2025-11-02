@@ -10,7 +10,7 @@ const formatPrice = (val: any) => {
 
 // Safely get the image URL
 const imageUrl = (product.images && product.images.length > 0) 
-  ? product.images[0].src 
+  ? product.images[0] 
   : '/assets/img/default-product.png'; // Fallback image
 
 // Sanitize description: remove HTML and limit length
@@ -18,7 +18,7 @@ let description = product.short_description || product.description || '';
 description = description.replace(/<[^>]*>?/gm, '').substring(0, 80) + '...';
 
 // Build the internal link using the product slug
-const productUrl = `/products/${product.slug}`;
+const productUrl = `/jasa/${product.slug}`;
 ---
 
 <div class="product-card">

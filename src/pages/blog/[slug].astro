@@ -4,26 +4,35 @@ import PageHero from '../../components/PageHero.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import BacaJuga from '../../components/BacaJuga.astro';
 
-// getStaticPaths remains the same as it correctly gathers all slugs
 export async function getStaticPaths() {
   const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
-  const API_URL = import.meta.env.API_URL || null;
-  if (!POSTS_BASE && !API_URL) return [];
+  if (!POSTS_BASE) {
+    console.error('---------------------------------------------------');
+    console.error('FATAL: Blog post paths could not be generated.');
+    console.error('REASON: The WORDPRESS_REST_ENDPOINT environment variable is not set.');
+    console.error('ACTION: Please set this variable in your deployment environment.');
+    console.error('---------------------------------------------------');
+    return [];
+  }
+
   const perPage = 50;
   let page = 1;
   const slugs: string[] = [];
   while (true) {
-    const url = POSTS_BASE ? `${POSTS_BASE}?per_page=${perPage}&page=${page}` : `${API_URL}/api/v2/blogs?limit=${perPage}&page=${page}`;
+    const url = `${POSTS_BASE}?per_page=${perPage}&page=${page}`;
     try {
       const res = await fetch(url);
-      if (!res.ok) break;
+      if (!res.ok) {
+        if (page === 1) console.error(`Failed to fetch initial post list from ${url}. Status: ${res.status}`);
+        break;
+      }
       const posts = await res.json();
-      const items = Array.isArray(posts) ? posts : (posts.data || posts);
-      if (!Array.isArray(items) || items.length === 0) break;
-      items.forEach((p: any) => { if(p.slug) slugs.push(p.slug) });
-      if (items.length < perPage) break;
+      if (!Array.isArray(posts) || posts.length === 0) break;
+      posts.forEach((p: any) => { if(p.slug) slugs.push(p.slug) });
+      if (posts.length < perPage) break;
       page += 1;
     } catch (err) {
+      console.error(`Error fetching post list from URL: ${url}`, err);
       break;
     }
   }
@@ -32,76 +41,71 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const POSTS_BASE = import.meta.env.WORDPRESS_GRAPHQL_ENDPOINT || import.meta.env.WORDPRESS_REST_ENDPOINT || null;
-if (!POSTS_BASE) return Astro.redirect('/404');
 
 let blogPost: any = null;
 let allPostsData: any[] = [];
 
 try {
-  const API_URL = import.meta.env.API_URL || null;
-  const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
-  const listUrl = `${POSTS_BASE}?per_page=20&_embed`; // Fetch fewer posts for efficiency
+    const singleUrl = `${POSTS_BASE}?slug=${slug}&_embed`;
+    const listUrl = `${POSTS_BASE}?per_page=20&_embed`;
 
-  let singleRes: Response | { ok: boolean } = await fetch(singleUrl).catch(() => ({ ok: false }));
-  let listRes: Response | { ok: boolean } = await fetch(listUrl).catch(() => ({ ok: false }));
+    const singleRes = await fetch(singleUrl);
+    const listRes = await fetch(listUrl);
 
-  if ((!singleRes || !singleRes.ok) && API_URL) {
-    singleRes = await fetch(`${API_URL}/api/v2/blogs/${slug}`).catch(() => ({ ok: false }));
-  }
-  if ((!listRes || !listRes.ok) && API_URL) {
-    listRes = await fetch(`${API_URL}/api/v2/blogs?limit=20`).catch(() => ({ ok: false }));
-  }
+    if (!singleRes.ok) throw new Error(`Single post fetch failed with status ${singleRes.status}`);
+    
+    const rawSingle = await singleRes.json();
+    const singleJson = Array.isArray(rawSingle) ? rawSingle[0] : rawSingle;
+    const listJson = listRes.ok ? await listRes.json() : [];
 
-  if (!('ok' in singleRes) || !singleRes.ok) throw new Error('Single post fetch failed');
-  const rawSingle = await (singleRes as Response).json();
-  const singleJson = Array.isArray(rawSingle) ? rawSingle[0] : rawSingle;
-  const listJson = ('ok' in listRes && listRes.ok) ? await (listRes as Response).json() : [];
+    const normalizePost = (p: any) => {
+        if (!p) return null;
+        const getRendered = (field: any) => (field && typeof field === 'object' && 'rendered' in field) ? field.rendered : field || '';
+        const getImage = (post: any) => {
+            const featured = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
+            if (featured) return featured;
+            const match = post.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
+            return match ? match[1] : null;
+        };
+        const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '') : '';
 
-  const normalizePost = (p: any) => {
-    if (!p) return null;
-    // Helper to safely extract rendered content
-    const getRendered = (field: any) => (field && typeof field === 'object' && 'rendered' in field) ? field.rendered : field || '';
-    // Helper to get featured image
-    const getImage = (post: any) => {
-      const featured = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
-      if (featured) return featured;
-      const match = post.content?.rendered.match(/<img[^>]+src="([^">]+)"/);
-      return match ? match[1] : null;
-    }
-    // Helper to strip HTML
-    const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '') : '';
-
-    return {
-      title: getRendered(p.title),
-      excerpt: stripHtml(getRendered(p.excerpt)),
-      body: getRendered(p.content),
-      date: p.date,
-      slug: p.slug,
-      url: `/blog/${p.slug}`,
-      image: getImage(p)
+        return {
+            title: getRendered(p.title),
+            excerpt: stripHtml(getRendered(p.excerpt)),
+            body: getRendered(p.content),
+            date: p.date,
+            slug: p.slug,
+            url: `/blog/${p.slug}`,
+            image: getImage(p)
+        };
     };
-  };
 
-  blogPost = normalizePost(singleJson);
-  allPostsData = Array.isArray(listJson) ? listJson.map(normalizePost).filter(Boolean) : [];
+    blogPost = normalizePost(singleJson);
+    allPostsData = Array.isArray(listJson) ? listJson.map(normalizePost).filter(Boolean) : [];
 
 } catch (error) {
-  console.error('[Astro Page Error] Failed to fetch blog data:', error);
+  console.error(`[Astro Page Error] Failed to fetch blog data for slug: ${slug}`, error);
   return Astro.redirect('/404');
 }
 
 if (!blogPost) {
-  console.error(`[Astro Page Error] No blog post found for slug: ${slug}`);
   return Astro.redirect('/404');
 }
 
-// --- Prepare Related Posts ---
 const otherPosts = allPostsData.filter(p => p.slug !== slug);
 const relatedPostsForSection = [...otherPosts].sort(() => 0.5 - Math.random()).slice(0, 4);
 
 const { title, date, image, body, excerpt } = blogPost;
 const pageTitle = `${title} | Blog Hadiwijaya`;
 const pageDescription = excerpt.substring(0, 160);
+
+const breadcrumb = {
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hadiwijayaborepile.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://hadiwijayaborepile.com/blog" },
+        { "@type": "ListItem", "position": 3, "name": title, "item": Astro.url.href }
+    ]
+};
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
@@ -113,19 +117,45 @@ const pageDescription = excerpt.substring(0, 160);
 
   <section class="page-body">
     <div class="container">
-      <article>
-        {image && <img class="featured-image" src={image} alt={title} />}
+      <article itemscope itemtype="https://schema.org/BlogPosting">
+        <meta itemprop="mainEntityOfPage" content={Astro.url.href} />
+        <meta itemprop="headline" content={title} />
+        <meta itemprop="description" content={pageDescription} />
+        <meta itemprop="datePublished" content={date} />
+        <div itemprop="author" itemscope itemtype="https://schema.org/Organization">
+            <meta itemprop="name" content="Hadiwijaya Bore Pile" />
+            <link itemprop="url" href="https://hadiwijayaborepile.com/" />
+        </div>
+        <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+            <meta itemprop="name" content="Hadiwijaya Bore Pile" />
+            <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                <link itemprop="url" href="https://hadiwijayaborepile.com/assets/img/hbp-logo.png" />
+            </div>
+        </div>
+
+        <nav itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb-nav">
+            <ol>
+              {breadcrumb.itemListElement.map((item, index) => (
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                  <a itemprop="item" href={item.item}>
+                    <span itemprop="name">{item.name}</span>
+                  </a>
+                  <meta itemprop="position" content={index + 1} />
+                </li>
+              ))}
+            </ol>
+        </nav>
+
+        {image && <img class="featured-image" src={image} alt={title} itemprop="image" />}
 
         <ShareButtons title={title} />
 
-        <!-- Display the full content without splitting -->
-        <div class="prose max-w-none" set:html={body} />
+        <div class="prose max-w-none" itemprop="articleBody" set:html={body} />
         
       </article>
     </div>
   </section>
 
-  <!-- "Baca Juga" Section -->
   {relatedPostsForSection.length > 0 && <BacaJuga relatedPosts={relatedPostsForSection} />}
 
 </Layout>
@@ -133,38 +163,42 @@ const pageDescription = excerpt.substring(0, 160);
 <style is:inline>
   .page-body { padding: 4rem 0; background-color: white; }
   .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+  .breadcrumb-nav { margin-bottom: 2rem; }
+  .breadcrumb-nav ol { display:flex; flex-wrap: wrap; gap:0.5rem; list-style:none; padding:0; margin:0; align-items:center; font-size: 0.95rem; }
+  .breadcrumb-nav li { color: #6b7280; }
+  .breadcrumb-nav li a { color: #374151; text-decoration: none; }
+  .breadcrumb-nav li + li:before { content: '/'; margin: 0 0.5rem; color: #9ca3af; }
   .featured-image { 
     width: 100%; 
     height: auto; 
     max-height: 450px; 
     object-fit: cover; 
     border-radius: 12px; 
-    /* Adjusted margin to give space after hero */
-    margin-top: -2rem;
     margin-bottom: 2.5rem; 
     box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     position: relative;
     z-index: 10;
   }
-  .prose {
-    font-size: 1.12rem;
-    line-height: 1.8;
-  }
-  .prose img { 
-    border-radius: 8px; 
-    max-width: 100%;
-    height: auto;
-    margin: 2rem 0;
-  }
-  .prose h2, .prose h3 {
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-  }
-  
+  .prose { font-size: 1.12rem; line-height: 1.8; }
+  .prose img { border-radius: 8px; max-width: 100%; height: auto; margin: 2rem 0; }
+  .prose h2, .prose h3 { margin-top: 3rem; margin-bottom: 1.5rem; }
+
   @media (max-width: 768px) {
+    .page-body {
+      padding: 2.5rem 0;
+    }
+    .container {
+      padding: 0 1rem;
+    }
     .featured-image {
-      margin-top: -1.5rem;
-      margin-bottom: 2rem;
+      border-radius: 0;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      width: calc(100% + 2rem);
+      max-width: calc(100% + 2rem);
+    }
+    .prose {
+      font-size: 1rem;
     }
   }
 </style>

@@ -4,6 +4,7 @@ import ServiceCard from '../../components/ServiceCard.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import PageHero from '../../components/PageHero.astro';
 import '../../styles/services-jasa-bore-pile.css';
+import productsData from '../../data/products.json';
 
 const title = "Layanan Jasa Bore Pile: Manual, Mini Crane & Hydraulic | Hadiwijaya";
 const description = "Hadiwijaya Bore Pile menyediakan layanan jasa bore pile lengkap: manual untuk akses terbatas, mini crane untuk efisiensi, dan hydraulic untuk proyek besar. Temukan metode pondasi yang tepat untuk Anda.";
@@ -30,101 +31,86 @@ const services = [
   }
 ];
 
-// --- WooCommerce / Ecommerce features (uses env vars from .env; do not modify .env) ---
-const WOOCOMMERCE_API_URL = import.meta.env.WOOCOMMERCE_API_URL;
-const WOOCOMMERCE_CONSUMER_KEY = import.meta.env.WOOCOMMERCE_CONSUMER_KEY;
-const WOOCOMMERCE_CONSUMER_SECRET = import.meta.env.WOOCOMMERCE_CONSUMER_SECRET;
+const products = Object.values(productsData);
 
-let wcProducts = [];
-if (WOOCOMMERCE_API_URL && WOOCOMMERCE_CONSUMER_KEY && WOOCOMMERCE_CONSUMER_SECRET) {
-  try {
-    try {
-      const proxyRes = await fetch('/api/woo.json?page=1&per_page=12');
-      if (proxyRes.ok) {
-        wcProducts = await proxyRes.json();
-      } else {
-        throw new Error('proxy_failed');
-      }
-    } catch (proxyErr) {
-      const base = WOOCOMMERCE_API_URL.replace(/\/+$/, '');
-      const endpoint = `${base}/products?per_page=12&consumer_key=${WOOCOMMERCE_CONSUMER_KEY}&consumer_secret=${WOOCOMMERCE_CONSUMER_SECRET}`;
-      const res = await fetch(endpoint);
-      if (res.ok) wcProducts = await res.json();
-      else console.error('WOO_ERROR: Failed to fetch products', res.status, await res.text());
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@graph": {
+    "@type": "Service",
+    "@id": "https://hadiwijayaborepile.co.id/#service",
+    "name": "Hadiwijaya Bore Pile - Jasa Bore Pile Dan Strauss Pile",
+    "description": "Hadiwijaya Bore Pile adalah kontraktor penyedia layanan jasa bore pile dan strauss pile manual dengan biaya murah namun tetap mengutamakan kualitas pekerjaan.",
+    "url": "https://hadiwijayaborepile.co.id/",
+    "serviceType": "Bore Pile",
+    "areaServed": [ { "@type": "City", "name": "Jakarta Pusat" } ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Metode Pengerjaan Bore Pile",
+      "itemListElement": [
+        {
+          "@type": "OfferCatalog",
+          "name": "Bore Pile Manual",
+          "description": "Layanan bore pile manual cocok untuk lokasi dengan akses terbatas atau proyek skala kecil di seluruh Jawa &amp; Bali. Metode ini mengandalkan tenaga ahli untuk penggalian lubang pondasi secara presisi.",
+          "url": "https://hadiwijayaborepile.co.id/services/manual",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Bore Pile Manual",
+                "description": "Pengerjaan bore pile manual untuk diameter kecil (20-40 cm) dengan kedalaman terbatas, ideal untuk rumah tinggal dan renovasi.",
+                "serviceType": "Bore Pile Manual"
+              },
+              "priceCurrency": "IDR",
+              "price": "80000"
+            }
+          ]
+        }
+      ]
     }
-  } catch (err) {
-    console.error('WOO_ERROR: Exception fetching products', err);
   }
-} else {
-  // environment missing; leave wcProducts empty
 }
 
-// helper: format price to Indonesian Rupiah
-const formatPrice = (val: any) => {
-  const n = Number(val);
-  if (!isFinite(n)) return 'Harga belum tersedia';
-  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+const breadcrumb = {
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://hadiwijayaborepile.com/"
+    },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Layanan",
+        "item": "https://hadiwijayaborepile.com/services/jasa-bore-pile"
+    }]
 }
-
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <script
-    type="application/ld+json"
-    slot="head"
-    set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Jasa Bore Pile",
-      "name": "Layanan Jasa Bore Pile Profesional",
-      "description": description,
-      "provider": {
-        "@type": "HomeAndConstructionBusiness",
-        "name": "Hadiwijaya Bore Pile",
-        "url": "https://hadiwijaya-borepile.com/", // Ganti dengan URL Anda
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Indonesia",
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Metode Jasa Bore Pile",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Jasa Bore Pile Manual (Strauss Pile)",
-              "url": "https://hadiwijaya-borepile.com/services/manual", // Ganti dengan URL Anda
-            },
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Jasa Bore Pile Mini Crane",
-              "url": "https://hadiwijaya-borepile.com/services/mini-crane", // Ganti dengan URL Anda
-            },
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Jasa Bore Pile Hydraulic",
-              "url": "https://hadiwijaya-borepile.com/services/hydraulic", // Ganti dengan URL Anda
-            },
-          },
-        ],
-      },
-    })}
-  />
+    <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
   <div class="services-hub-page">
-
+    
     <PageHero 
-      title="Solusi Pondasi untuk Setiap Skala"
+      title="Jasa Bore Pile untuk Setiap Skala"
       subtitle="Dari renovasi rumah di gang sempit hingga pembangunan gedung pencakar langit, kami memiliki metode bore pile yang tepat untuk menjamin kesuksesan proyek Anda."
     />
+
+    <nav class="container" style="padding: 1.5rem 1rem;">
+        <ol style="list-style: none; display: flex; padding: 0;">
+          <li style="display: flex; align-items: center;">
+            <a href={breadcrumb.itemListElement[0].item}>
+              <span>{breadcrumb.itemListElement[0].name}</span>
+            </a>
+            <span style="margin: 0 0.5rem;">/</span>
+          </li>
+          <li style="display: flex; align-items: center;">
+            <a href={breadcrumb.itemListElement[1].item}>
+              <span>{breadcrumb.itemListElement[1].name}</span>
+            </a>
+          </li>
+        </ol>
+    </nav>
 
     <!-- Services Showcase -->
     <section class="showcase">
@@ -182,23 +168,16 @@ const formatPrice = (val: any) => {
       </div>
     </section>
 
-    <!-- E-commerce Features -->
-    <section class="ecom-features">
-      <div class="container">
-        <h2>Fitur Ecommerce — Produk Terkait</h2>
-        <p class="lead">Berikut produk dan layanan yang tersedia melalui toko online kami. Data diambil dari WooCommerce.</p>
-
-        {wcProducts.length === 0 ? (
-          <p class="muted">Tidak ada produk yang tersedia atau koneksi ke API belum diatur.</p>
-        ) : (
-          <div class="products-grid">
-            {wcProducts.map((p: any) => (
-              <ProductCard product={p} />
-            ))}
-          </div>
-        )}
-
-      </div>
+    <!-- Related Products Section -->
+    <section class="related-products">
+        <div class="container">
+            <h2>Area Layanan Yang Kami Sediakan</h2>
+            <div class="product-grid">
+                {products.map((p) => (
+                    <ProductCard product={p} />
+                ))}
+            </div>
+        </div>
     </section>
 
     <!-- Final CTA -->
@@ -213,4 +192,22 @@ const formatPrice = (val: any) => {
   </div>
 </Layout>
 
-<!-- styles are in src/styles/services-jasa-bore-pile.css -->
+<style>
+  .related-products {
+    padding: 4rem 0;
+  }
+  .related-products h2 {
+      font-size: 2.2rem;
+      text-align: center;
+      color: var(--secondary-color);
+      margin-bottom: 2.5rem;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+</style>
