@@ -38,6 +38,24 @@ const keywords = [
   "jasa bore pile Solo"
 ];
 
+const homeProjects = [
+  {
+    title: 'Proyek Gudang PT Hardo Soloplast',
+    description: 'Lokasi: Karanganyar, Solo.',
+    image: '/assets/img/proyek/1.png'
+  },
+  {
+    title: 'Proyek Gedung Pusat Data “Cloud Core”',
+    description: 'Lokasi: Cikarang, Jawa Barat.',
+    image: '/assets/img/proyek/2.png'
+  },
+  {
+    title: 'Pembangunan Hotel Bintang 4 “Grand Paradise”',
+    description: 'Lokasi: Yogyakarta.',
+    image: '/assets/img/proyek/3.png'
+  }
+];
+
 const organizationSchema = {
   "@context": "https://schema.org",
   "@graph": {
@@ -111,7 +129,7 @@ const websiteSchema = {
 
   <Hero slot="hero" />
   <VisualFeature />
-  <Projects />
+  <Projects projects={homeProjects} showCta={true} />
   <Process />
   <Planning />
   <PriceTable />

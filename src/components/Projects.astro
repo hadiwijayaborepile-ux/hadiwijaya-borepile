@@ -5,41 +5,21 @@ interface Project {
   image: string;
 }
 
-const API_BASE_URL = import.meta.env.API_URL;
-let projects: Project[] = [];
-
-try {
-  if (API_BASE_URL) {
-    const apiUrl = `${API_BASE_URL}/api/v2/projects`;
-    const response = await fetch(apiUrl, { cache: 'no-store' });
-
-    if (response.ok) {
-      const apiProjects: any[] = await response.json();
-      if (Array.isArray(apiProjects)) {
-        projects = apiProjects.map((project: any): Project => ({
-          title: project.title,
-          description: `Lokasi: ${project.location}.`,
-          image: `${API_BASE_URL}/storage/${project.picture_upload}`
-        }));
-      }
-    } else {
-      console.error(`[Projects] API request failed: ${response.status}.`);
-    }
-  }
-} catch (error) {
-  console.error("[Projects] Gagal fetch data: ", error);
+interface Props {
+  projects: Project[];
+  showCta?: boolean;
 }
 
-const visibleProjects = projects.slice(0, 3);
+const { projects, showCta = false } = Astro.props;
 ---
 
 <section class="latest-projects">
   <div class="container">
     <h2>Proyek Terbaru Kami</h2>
 
-    {visibleProjects.length > 0 ? (
+    {projects.length > 0 ? (
       <div class="project-grid">
-        {visibleProjects.map((project) => (
+        {projects.map((project) => (
           <div class="project-card">
             <a
               href={project.image}
@@ -60,7 +40,7 @@ const visibleProjects = projects.slice(0, 3);
       <p class="empty-message">Proyek terbaru akan segera ditampilkan di sini.</p>
     )}
 
-    {projects.length > 3 && (
+    {showCta && (
       <div class="cta-container">
         <a href="/portfolio" class="cta-button">
           Lihat Semua Proyek
