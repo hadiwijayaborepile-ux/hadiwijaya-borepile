@@ -1,29 +1,18 @@
 ---
-const API_BASE_URL = import.meta.env.API_URL;
-
-let faqs = [];
-
-if (API_BASE_URL) {
-  try {
-    const apiUrl = `${API_BASE_URL}/api/v2/faqs`;
-    const response = await fetch(apiUrl, { cache: 'no-store' });
-
-    if (response.ok) {
-      const apiFaqs = await response.json();
-      if (Array.isArray(apiFaqs) && apiFaqs.length > 0) {
-        faqs = apiFaqs;
-      }
-    } else {
-      console.error(`[Faq Component] API request failed: ${response.status}. Section will be empty.`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("[Faq Component] Gagal fetch data FAQ: " + error.message + ". Section will be empty.");
-    } else {
-      console.error("[Faq Component] Terjadi error tidak diketahui. Section will be empty.", error);
-    }
+const faqs = [
+  {
+    question: "Apa perbedaan bore pile manual, mini crane, dan hydraulic?",
+    answer: "Perbedaan utamanya terletak pada alat, kedalaman, dan akses lokasi. Bore pile manual (strauss pile) menggunakan tenaga manusia, cocok untuk area sempit dan proyek kecil. Mini crane menggunakan mesin gawangan untuk kedalaman menengah (12-18 meter) di lokasi terbatas. Bore pile hydraulic menggunakan alat berat untuk proyek besar dengan kedalaman di atas 20 meter."
+  },
+  {
+    question: "Berapa lama waktu pengerjaan pondasi bore pile?",
+    answer: "Waktu pengerjaan sangat bervariasi tergantung pada jumlah titik, kedalaman, jenis metode yang digunakan, dan kondisi tanah di lokasi proyek. Setelah survei awal, kami akan memberikan estimasi jadwal yang lebih akurat."
+  },
+  {
+    question: "Apakah saya bisa mendapatkan penawaran harga gratis?",
+    answer: "Tentu saja. Kami menyediakan survei dan penawaran harga gratis untuk calon klien kami. Silakan hubungi kami melalui formulir kontak atau WhatsApp untuk menjadwalkan kunjungan survei ke lokasi proyek Anda."
   }
-}
+];
 ---
 
 <section id="faq" class="faq-section">
