@@ -18,7 +18,7 @@ if (!POSTS_BASE) {
   while (true) {
     const url = `${POSTS_BASE}?_embed&per_page=${perPage}&page=${page}`;
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) {
         if (page === 1) console.error(`Failed to fetch initial posts from ${url}. Status: ${res.status}`);
         break;
