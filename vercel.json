@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/_image_proxy/(.*)",
+      "destination": "https://cms.hadiwijayaborepile.co.id/$1"
+    }
+  ]
+}
