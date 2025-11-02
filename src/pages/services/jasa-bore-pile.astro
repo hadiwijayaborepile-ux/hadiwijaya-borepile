@@ -69,6 +69,56 @@ const formatPrice = (val: any) => {
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <script
+    type="application/ld+json"
+    slot="head"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Jasa Bore Pile",
+      "name": "Layanan Jasa Bore Pile Profesional",
+      "description": description,
+      "provider": {
+        "@type": "HomeAndConstructionBusiness",
+        "name": "Hadiwijaya Bore Pile",
+        "url": "https://hadiwijaya-borepile.com/", // Ganti dengan URL Anda
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Indonesia",
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Metode Jasa Bore Pile",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Jasa Bore Pile Manual (Strauss Pile)",
+              "url": "https://hadiwijaya-borepile.com/services/manual", // Ganti dengan URL Anda
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Jasa Bore Pile Mini Crane",
+              "url": "https://hadiwijaya-borepile.com/services/mini-crane", // Ganti dengan URL Anda
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Jasa Bore Pile Hydraulic",
+              "url": "https://hadiwijaya-borepile.com/services/hydraulic", // Ganti dengan URL Anda
+            },
+          },
+        ],
+      },
+    })}
+  />
   <div class="services-hub-page">
 
     <PageHero 
