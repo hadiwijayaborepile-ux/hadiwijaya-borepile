@@ -1,37 +1,40 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
+import Projects from '../components/Projects.astro';
 
-interface Project {
-  title: string;
-  description: string;
-  image: string;
-}
-
-const API_BASE_URL = import.meta.env.API_URL;
-let projects: Project[] = [];
-
-try {
-  if (API_BASE_URL) {
-    const apiUrl = `${API_BASE_URL}/api/v2/projects`;
-    const response = await fetch(apiUrl, { cache: 'no-store' });
-
-    if (response.ok) {
-      const apiProjects: any[] = await response.json();
-      if (Array.isArray(apiProjects)) {
-        projects = apiProjects.map((project: any): Project => ({
-          title: project.title,
-          description: `Lokasi: ${project.location}.`,
-          image: `${API_BASE_URL}/storage/${project.picture_upload}`
-        }));
-      }
-    } else {
-      console.error(`[Portfolio] API request failed: ${response.status}.`);
-    }
+const portfolioProjects = [
+  {
+    title: 'Proyek Gudang PT Hardo Soloplast',
+    description: 'Lokasi: Karanganyar, Solo.',
+    image: '/assets/img/proyek/1.png'
+  },
+  {
+    title: 'Proyek Gedung Pusat Data “Cloud Core”',
+    description: 'Lokasi: Cikarang, Jawa Barat.',
+    image: '/assets/img/hydraulic/hydraulic1.webp'
+  },
+  {
+    title: 'Pembangunan Hotel Bintang 4 “Grand Paradise”',
+    description: 'Lokasi: Yogyakarta.',
+    image: '/assets/img/hydraulic/hydraulic2.webp'
+  },
+  {
+    title: 'Proyek Perumahan Cluster “Puspita Asri”',
+    description: 'Lokasi: Semarang.',
+    image: '/assets/img/hydraulic/hydraulic3.webp'
+  },
+  {
+    title: 'Proyek Perkantoran “Tower Biznet”',
+    description: 'Lokasi: Semarang.',
+    image: '/assets/img/hydraulic/hydraulic4.webp'
+  },
+  {
+    title: 'Pembangunan Fasilitas Golf Semarang “BSB Golf”',
+    description: 'Lokasi: Semarang, Jawa Tengah.',
+    image: '/assets/img/hydraulic/hydraulic5.webp'
   }
-} catch (error) {
-  console.error("[Portfolio] Gagal fetch data: ", error);
-}
+];
 
 const title = "Portofolio Proyek | Hadiwijaya Bore Pile";
 const description = "Jelajahi galeri proyek bore pile dan strauss pile yang telah kami kerjakan. Lihat kualitas dan skala pekerjaan kami di berbagai lokasi.";
@@ -46,7 +49,7 @@ const schema = {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://hadiwijayaborepile.com/"
+          "item": "https://hadiwijayaborepile.co.id/"
         },
         {
           "@type": "ListItem",
@@ -59,7 +62,7 @@ const schema = {
       "@type": "ImageGallery",
       "name": "Portofolio Proyek Hadiwijaya Bore Pile",
       "description": "Galeri proyek bore pile dan strauss pile yang telah kami kerjakan.",
-      "image": projects.map(p => ({
+      "image": portfolioProjects.map(p => ({
         "@type": "ImageObject",
         "contentUrl": p.image,
         "name": p.title,
@@ -78,32 +81,8 @@ const schema = {
     subtitle="Keahlian kami tercermin dalam setiap proyek yang kami selesaikan. Berikut adalah sebagian dari pekerjaan pondasi bore pile dan strauss pile yang telah kami tangani di berbagai lokasi."
   />
 
-  <section class="portfolio-gallery">
-    <div class="container">
-      {projects.length > 0 ? (
-        <div class="project-grid">
-          {projects.map((project) => (
-            <div class="project-card">
-              <a
-                href={project.image}
-                class="card-image-wrapper"
-                data-fancybox="portfolio"
-                data-caption={`<h3>${project.title}</h3><p>${project.description}</p>`}
-              >
-                <img src={project.image} alt={project.title} loading="lazy" />
-              </a>
-              <div class="card-content">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p class="empty-message">Tidak dapat memuat proyek saat ini. Silakan coba lagi nanti.</p>
-      )}
-    </div>
-  </section>
+  <Projects projects={portfolioProjects} />
+
 </Layout>
 
 <style>
