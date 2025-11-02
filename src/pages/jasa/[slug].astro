@@ -185,6 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
   .product-full-description :global(em) { font-style: italic; }
   .product-full-description :global(u) { text-decoration: underline; }
   .product-full-description :global(a) { color: var(--primary-color); text-decoration: underline; }
+  .product-full-description :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
   
   /* DESKTOP Table Styling */
   .product-full-description :global(table) { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
