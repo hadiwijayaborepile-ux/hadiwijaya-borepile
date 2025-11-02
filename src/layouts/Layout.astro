@@ -255,5 +255,100 @@ const {
   #booking-form .cta-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; border-radius: 8px; font-weight: 700; background-color: var(--primary-color); color: white; }
   #booking-form .cta-button:hover { background-color: #e65200; }
   #booking-form .cta-button i { font-size: 1.2rem; }
-  .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25D366; color: #FFF; border-radius: 50px; text-align: center; font-size: 38px; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-</style>
+    .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25D366; color: #FFF; border-radius: 50px; text-align: center; font-size: 38px; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+  
+    .wysiwyg-content {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    overflow: hidden; /* Added to prevent overflow */
+  }
+  .wysiwyg-content h1, .wysiwyg-content h2, .wysiwyg-content h3 {
+      color: var(--secondary-color);
+      margin: 2.5rem 0 1rem;
+      line-height: 1.3;
+      font-weight: 600;
+    }
+    .wysiwyg-content h1 { font-size: 1.8em; }
+    .wysiwyg-content h2 { font-size: 1.6em; }
+    .wysiwyg-content h3 { font-size: 1.4em; }
+    .wysiwyg-content p { margin-bottom: 1rem; line-height: 1.8; }
+    .wysiwyg-content ul, .wysiwyg-content ol { margin: 1rem 0 1rem 1.5rem; }
+    .wysiwyg-content li { margin-bottom: 0.75rem; line-height: 1.8; }
+    .wysiwyg-content strong { font-weight: 700; }
+    .wysiwyg-content em { font-style: italic; }
+    .wysiwyg-content u { text-decoration: underline; }
+    .wysiwyg-content a { color: var(--primary-color); text-decoration: underline; }
+
+    /* Default (Desktop) styles for images within WYSIWYG content */
+    .wysiwyg-content img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.5rem auto; /* Center image */
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+      
+  .wysiwyg-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .wysiwyg-content th, .wysiwyg-content td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+  }
+  .wysiwyg-content thead tr { background-color: #f5f5f5; }
+  .wysiwyg-content th { font-weight: 600; color: var(--secondary-color); }
+  .wysiwyg-content tbody tr:nth-child(even) { background-color: #fafafa; }
+
+  @media (max-width: 768px) {
+    .wysiwyg-content img {
+      max-width: 100% !important; /* Match blog page approach */
+      height: auto !important;
+      display: block !important;
+      margin: 1.5rem auto !important; /* Center image on mobile */
+      min-width: 0 !important;
+      min-height: 0 !important;
+    }
+    .wysiwyg-content table,
+    .wysiwyg-content tbody,
+    .wysiwyg-content tr,
+    .wysiwyg-content td {
+      display: block;
+      width: 100%;
+    }
+    .wysiwyg-content thead { display: none; }
+    .wysiwyg-content table { box-shadow: none; border: none; }
+    .wysiwyg-content tr {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+    }
+    .wysiwyg-content tbody tr:nth-child(even) { background-color: #fff; }
+    .wysiwyg-content td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      text-align: right;
+      border-top: none;
+    }
+    .wysiwyg-content tr td:last-child { border-bottom: none; }
+    .wysiwyg-content td[data-label]::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: var(--secondary-color);
+      text-align: left;
+      padding-right: 1rem;
+    }
+  }
+
+  </style>
