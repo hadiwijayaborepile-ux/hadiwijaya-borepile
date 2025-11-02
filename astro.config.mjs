@@ -8,7 +8,7 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   site: 'https://hadiwijayaborepile.co.id/',
   integrations: [
-    sitemap(),
+    sitemap({ customPages: ['https://cms.hadiwijayaborepile.co.id/'] }),
     icon(),
     tailwind()
   ]
