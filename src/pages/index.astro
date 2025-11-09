@@ -5,7 +5,6 @@ import VisualFeature from "../components/VisualFeature.astro";
 import Projects from "../components/Projects.astro";
 import Process from "../components/sections/Process.astro";
 import Planning from "../components/sections/Planning.astro";
-import PriceTable from "../components/sections/PriceTable.astro";
 import WhyUs from "../components/sections/WhyUs.astro";
 import Faq from "../components/sections/Faq.astro";
 import GetInTouch from "../components/sections/GetInTouch.astro";
@@ -42,7 +41,7 @@ const homeProjects = [
   {
     title: 'Proyek Gudang PT Hardo Soloplast',
     description: 'Lokasi: Karanganyar, Solo.',
-    image: '/assets/img/proyek/1.png'
+    image: '/assets/img/proyek/1.webp'
   },
   {
     title: 'Proyek Gedung Pusat Data “Cloud Core”',
@@ -132,7 +131,6 @@ const websiteSchema = {
   <Projects projects={homeProjects} showCta={true} />
   <Process />
   <Planning />
-  <PriceTable />
   <WhyUs />
   <Faq />
   <GetInTouch />
